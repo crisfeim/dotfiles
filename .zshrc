@@ -129,6 +129,7 @@ list() {
 code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* ;}
 mock() { fastlane testbuddy type:$1 }
 killsims() { xcrun simctl shutdown all }
+flushCache() { sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder }
 #/*
 #|--------------------------------------------------------------------------
 #| Imports 
