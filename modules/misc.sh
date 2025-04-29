@@ -29,9 +29,7 @@ kills() {
 	if [ "$1" = "simulators" ]; then
 		xcrun simctl shutdown all
 	elif [ "$1" = "server" ]; then
-		#netstat -vanp tcp | grep $2;
-		lsof -i tcp:$2;
-		kill -9 $(lsof -ti:$2)
+		lsof -ti :8080 | xargs -r kill -9
 	elif [ "$1" = "hugo" ]; then
 		killall -9 hugo;
 		killall hugo;
