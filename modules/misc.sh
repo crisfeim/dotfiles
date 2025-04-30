@@ -15,6 +15,16 @@ hide() {
 	fi
 }
 
+showDotfiles() {
+	defaults write com.apple.Finder AppleShowAllFiles true;
+	killall Finder	
+}
+
+hideDotfiles() {
+	defaults write com.apple.Finder AppleShowAllFiles false;
+	killall Finder	
+}
+
 # Plural so it doesn't conflict with default "set" cmd
 sets() {
 	if [ "$1" = "screenshots" ]; then
@@ -50,14 +60,8 @@ serve() {
 query() { search $1 }
 search() { grep -rn $1 . }
 
-showDotfiles() {
-	defaults write com.apple.Finder AppleShowAllFiles true;
-	killall Finder	
-}
-
-hideDotfiles() {
-	defaults write com.apple.Finder AppleShowAllFiles false;
-	killall Finder	
+downloadYT() {
+	yt-dlp -f 'bestvideo[height<=720]+bestaudio' --merge-output-format mp4 -o '~/Downloads/%(title)s.%(ext)s' $1
 }
 
 decodeProvision() { security cms -D -i  $1 }
