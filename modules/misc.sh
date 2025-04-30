@@ -24,11 +24,11 @@ sets() {
 	fi
 }
 
-# Plural so it doesn't conflicts with default "kill" cmd
-kills() {
+
+k() {
 	if [ "$1" = "simulators" ]; then
 		xcrun simctl shutdown all
-	elif [ "$1" = "server" ]; then
+	elif [ "$1" = "port" ]; then
 		lsof -ti :8080 | xargs -r kill -9
 	elif [ "$1" = "hugo" ]; then
 		killall -9 hugo;
@@ -39,7 +39,7 @@ kills() {
 	fi
 }
 
-run() {
+serve() {
 	if [ "$1" = "php" ]; then
 		php -S localhost:$2
 	else
