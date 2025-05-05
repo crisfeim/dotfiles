@@ -58,7 +58,7 @@ squash () {
 	fi
 }
 
-make() { 
+makeRepo() { 
 	if [ "$1" = "repo" ]; then
 		gh repo create $2 $3;
 	else

@@ -1,5 +1,5 @@
-# Fig pre block. Keep at the top of this file.
-[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
+# Amazon Q pre block. Keep at the top of this file.
+[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
 source ~/dotfiles/config.sh
 
 # If you come from bash you might have to change your $PATH.
@@ -142,8 +142,6 @@ source ~/dotfiles/modules/misc.sh
 source ~/dotfiles/modules/bear.sh
 source ~/dotfiles/modules/emoji-mapper.sh
 
-# Fig post block. Keep at the bottom of this file.
-[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
 # source /Users/cpatinor/dev/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # bun completions
@@ -153,4 +151,11 @@ source ~/dotfiles/modules/emoji-mapper.sh
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-[[ "$TERM_PROGRAM" == "CodeEditApp_Terminal" ]] && . "/Applications/CodeEdit.app/Contents/Resources/codeedit_shell_integration.zsh"
+# hombrew
+export PATH="/opt/homebrew/bin:$PATH"
+
+#[[ "$TERM_PROGRAM" == "CodeEditApp_Terminal" ]] && . "/Applications/CodeEdit.app/Contents/Resources/codeedit_shell_integration.zsh"
+
+# Amazon Q post block. Keep at the bottom of this file.
+#[[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
+. "/Users/cristian/.deno/env"
