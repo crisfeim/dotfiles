@@ -1,5 +1,5 @@
 unhandledMsg="Unhandled command";
-show() { 
+show() {
 	if [ "$1" = "dotfiles" ]; then
 		showDotfiles
 	else
@@ -17,12 +17,12 @@ hide() {
 
 showDotfiles() {
 	defaults write com.apple.Finder AppleShowAllFiles true;
-	killall Finder	
+	killall Finder
 }
 
 hideDotfiles() {
 	defaults write com.apple.Finder AppleShowAllFiles false;
-	killall Finder	
+	killall Finder
 }
 
 # Plural so it doesn't conflict with default "set" cmd
@@ -65,3 +65,23 @@ downloadYT() {
 }
 
 decodeProvision() { security cms -D -i  $1 }
+
+@() {
+  local TARGET_NAME="$1"
+  local BASE_DIR="$HOME/icloud"
+
+  if [[ ! -d "$BASE_DIR" ]]; then
+    echo "❌ La carpeta base no existe: $BASE_DIR"
+    return 1
+  fi
+
+  local MATCH
+  MATCH=$(find -L "$BASE_DIR" -type d -iname "$TARGET_NAME" 2>/dev/null | head -n 1)
+
+  if [[ -z "$MATCH" ]]; then
+    echo "❌ No se encontró ninguna carpeta llamada '$TARGET_NAME' en '$BASE_DIR'"
+    return 1
+  fi
+
+  cd "$MATCH" || return 1
+}
