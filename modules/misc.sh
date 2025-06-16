@@ -39,7 +39,7 @@ k() {
 	if [ "$1" = "simulators" ]; then
 		xcrun simctl shutdown all
 	elif [ "$1" = "port" ]; then
-		lsof -ti :8080 | xargs -r kill -9
+		lsof -ti :$2 | xargs -r kill -9
 	elif [ "$1" = "hugo" ]; then
 		killall -9 hugo;
 		killall hugo;
@@ -67,7 +67,7 @@ downloadYT() {
 decodeProvision() { security cms -D -i  $1 }
 
 @() {
-  local TARGET_NAME="$1"
+  local TARGET_NAME="@$1"
   local BASE_DIR="$HOME/icloud"
 
   if [[ ! -d "$BASE_DIR" ]]; then
@@ -84,4 +84,10 @@ decodeProvision() { security cms -D -i  $1 }
   fi
 
   cd "$MATCH" || return 1
+}
+
+
+serve() {
+	cd ~/dev/@crisfe.im/src;
+	hugo server;
 }
