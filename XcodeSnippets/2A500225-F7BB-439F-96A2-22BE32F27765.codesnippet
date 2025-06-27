@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionPrefix</key>
+	<string>XCTAssertThrowsErrorAsync</string>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>import XCTest
+
+func XCTAssertThrowsErrorAsync&lt;T&gt;(
+    _ expression: @autoclosure () async throws -&gt; T,
+    _ message: @autoclosure () -&gt; String = "",
+    file: StaticString = #filePath,
+    line: UInt = #line,
+    _ errorHandler: (_ error: Error) -&gt; Void = { _ in }
+) async {
+    do {
+        _ = try await expression()
+        XCTFail("Expected error to be thrown, but no error was thrown. \(message())", file: file, line: line)
+    } catch {
+        errorHandler(error)
+    }
+}</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>2A500225-F7BB-439F-96A2-22BE32F27765</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Swift</string>
+	<key>IDECodeSnippetSummary</key>
+	<string></string>
+	<key>IDECodeSnippetTitle</key>
+	<string>XCTAssertThrowsErrorAsync</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>0</integer>
+</dict>
+</plist>
