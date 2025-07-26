@@ -37,7 +37,7 @@ source $ZSH/oh-my-zsh.sh
 
 #/*
 #|--------------------------------------------------------------------------
-#| Constants 
+#| Constants
 #|--------------------------------------------------------------------------
 #*/
 
@@ -47,7 +47,7 @@ notabilityPath="~/Library/Mobile\ Documents/ZP9ZJ4EF3S~com~gingerlabs~Notability
 
 #/*
 #|--------------------------------------------------------------------------
-#| Alises 
+#| Alises
 #|--------------------------------------------------------------------------
 #*/
 
@@ -59,7 +59,7 @@ timestamp=$(date +%Y-%m-%d-%H:%M:%S)
 
 #/*
 #|--------------------------------------------------------------------------
-#| Paths 
+#| Paths
 #|--------------------------------------------------------------------------
 #*/
 
@@ -88,24 +88,23 @@ export PATH="$PATH:$GOPATH/bin"
 
 
 # Initial config commands
-init() { 
+init() {
 	ln -s ~/dotfiles/XcodeSnippets ~/Library/Developer/Xcode/UserData/CodeSnippets
 }
 
 #/*
 #|--------------------------------------------------------------------------
-#| Quick Navigation 
+#| Quick Navigation
 #|--------------------------------------------------------------------------
 #*/
 
 # 1. Create symlinks folder: mkdir ~/.symlinks
 # 2. Put there some symlinks
-goto() { cd ~/.symlinks/$1 }
 finder() { open ~/.symlinks/$1 }
 # todo alias() up { $1 for each 0.in..$1 ../.. }
 alias up='cd ../..'
-edit() { 
-	if [[ -z "$*" ]]; then 
+edit() {
+	if [[ -z "$*" ]]; then
 		vi ~/.zshrc
 	else
 		vi ~/.symlinks/dotfiles/modules/$1.sh
@@ -122,7 +121,7 @@ list() {
 
 #/*
 #|--------------------------------------------------------------------------
-#| Misc 
+#| Misc
 #|--------------------------------------------------------------------------
 #*/
 
@@ -132,14 +131,13 @@ killsims() { xcrun simctl shutdown all }
 flushCache() { sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder }
 #/*
 #|--------------------------------------------------------------------------
-#| Imports 
+#| Imports
 #|--------------------------------------------------------------------------
 #*/
 
 source ~/dotfiles/modules/git.sh
 source ~/dotfiles/modules/brew-config.sh
 source ~/dotfiles/modules/misc.sh
-source ~/dotfiles/modules/bear.sh
 source ~/dotfiles/modules/emoji-mapper.sh
 
 # Fig post block. Keep at the bottom of this file.
