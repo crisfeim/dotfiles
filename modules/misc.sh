@@ -93,7 +93,7 @@ decodeProvision() { security cms -D -i  $1 }
   if [[ "$1" == "." ]]; then
     cd "$base_dir"
   elif [[ "$1" == "serve" ]]; then
-    hugo server -s "$base_dir"
+    hugo server -s "$base_dir" -d /tmp/hugo/@crisfe.im
   else
     echo "Uso:"
     echo "  @crisfe.im .       # Navegar a $base_dir"
