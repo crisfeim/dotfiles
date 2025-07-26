@@ -87,7 +87,16 @@ decodeProvision() { security cms -D -i  $1 }
 }
 
 
-serve() {
-	cd ~/dev/@crisfe.im/src;
-	hugo server;
+@crisfe.im() {
+  base_dir="$HOME/Documents/@crisfe.im"
+
+  if [[ "$1" == "." ]]; then
+    cd "$base_dir"
+  elif [[ "$1" == "serve" ]]; then
+    hugo server -s "$base_dir"
+  else
+    echo "Uso:"
+    echo "  @crisfe.im .       # Navegar a $base_dir"
+    echo "  @crisfe.im serve   # Servir con Hugo"
+  fi
 }
