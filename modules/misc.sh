@@ -49,14 +49,6 @@ k() {
 	fi
 }
 
-serve() {
-	if [ "$1" = "php" ]; then
-		php -S localhost:$2
-	else
-		echo $unhandledMsg
-	fi
-}
-
 query() { search $1 }
 search() { grep -rn $1 . }
 
@@ -84,19 +76,4 @@ decodeProvision() { security cms -D -i  $1 }
   fi
 
   cd "$MATCH" || return 1
-}
-
-
-@crisfe.im() {
-  base_dir="$HOME/Documents/@crisfe.im"
-
-  if [[ "$1" == "." ]]; then
-    cd "$base_dir"
-  elif [[ "$1" == "serve" ]]; then
-    hugo server -s "$base_dir" -d /tmp/hugo/@crisfe.im
-  else
-    echo "Uso:"
-    echo "  @crisfe.im .       # Navegar a $base_dir"
-    echo "  @crisfe.im serve   # Servir con Hugo"
-  fi
 }
