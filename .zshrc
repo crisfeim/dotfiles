@@ -129,6 +129,9 @@ mock() { fastlane testbuddy type:$1 }
 killsims() { xcrun simctl shutdown all }
 flushCache() { sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder }
 xcode() { open -a Xcode $1 }
+createRemote() {
+	gh repo create $1 --public --source=. --remote=origin --push
+}
 #/*
 #|--------------------------------------------------------------------------
 #| Imports
