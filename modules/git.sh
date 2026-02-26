@@ -44,6 +44,8 @@ aforce() { append ; force }
  # The --cached flag tells Git to remove the file from the index, but not from the working directory.
 remove() { git rm --cached $1 }
 
+createRemote() { gh repo create $1 --public --source=. --remote=origin --push }
+
 branch() { git for-each-ref --sort=-committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))' }
 
 squash () {
