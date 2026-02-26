@@ -85,6 +85,7 @@ export PATH="/opt/homebrew/bin:$PATH"
 # Add Go y GOPATH al final, ya que no son prioritarios
 export PATH="$PATH:/usr/local/go/bin"
 export PATH="$PATH:$GOPATH/bin"
+export PATH="/Applications/Apps/dev/Nova 9.6.app/Contents/MacOS:$PATH"
 
 
 # Initial config commands
