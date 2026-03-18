@@ -12,34 +12,34 @@ currentBranch() {
 	echo "$currentBranch"
 }
 
-prefix() { rename $1-$(currentBranch)  }
-suffix() { rename $(currentBranch)-$1 }
-add () { git add $1 }
-status () { git status }
-pull () { git pull origin $(currentBranch) }
-fetch () { git fetch -p ; pull }
-append () { git add . ; git commit --amend --no-edit }
-amend() { git commit --amend -m $1 }
-checkout() { git checkout $1 }
-squashFrom() { git rebase -i $1 }
-deleteRem() { git push origin --delete $1 }
-commit() { git commit -m $1 }
-clone () { git clone git@github.com:"$1".git }
-pick() { git cherry-pick $1 }
-stash() { git stash save }
-pop() { git stash pop }
-restore() { git restore $1 }
-rename() { git branch -M $1 }
-force() { git push -f origin $(currentBranch) }
-addcommit() { git add . ; git commit -m $1 }
-replace () { delete $1; rename $1 }
-override() { delete $1; rename $1 }
-tag() { git tag $1 }
-diffs() { git diff HEAD^1 }
-rebase() { git rebase --$1 }
-appendpush() { aforce }
+prefix     () { rename $1-$(currentBranch)  }
+suffix     () { rename $(currentBranch)-$1 }
+add        () { git add $1 }
+status     () { git status }
+pull       () { git pull origin $(currentBranch) }
+fetch      () { git fetch -p ; pull }
+append     () { git add . ; git commit --amend --no-edit }
+amend      () { git commit --amend -m $1 }
+checkout   () { git checkout $1 }
+squashFrom () { git rebase -i $1 }
+deleteRem  () { git push origin --delete $1 }
+commit     () { git commit -m $1 }
+clone      () { git clone git@github.com:"$1".git }
+pick       () { git cherry-pick $1 }
+stash      () { git stash save }
+pop        () { git stash pop }
+restore    () { git restore $1 }
+rename     () { git branch -M $1 }
+force      () { git push -f origin $(currentBranch) }
+addcommit  () { git add . ; git commit -m $1 }
+replace    () { delete $1; rename $1 }
+override   () { delete $1; rename $1 }
+tag        () { git tag $1 }
+diffs      () { git diff HEAD^1 }
+rebase     () { git rebase --$1 }
+appendpush () { aforce }
 appendforce() { aforce }
-aforce() { append ; force }
+aforce     () { append ; force }
  # Removes the specified file from Git's index, but leaves the file on disk.
  # The --cached flag tells Git to remove the file from the index, but not from the working directory.
 remove() { git rm --cached $1 }

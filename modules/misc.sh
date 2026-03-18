@@ -58,6 +58,26 @@ downloadYT() {
 
 decodeProvision() { security cms -D -i  $1 }
 
+fastRm() {
+		if [ -z "$1" ]; then
+				echo "Uso: fast-rm nombre_de_la_carpeta"
+				return 1
+		fi
+
+		local target="$1"
+		
+		if [ -d "$target" ]; then
+				echo "Borrando $target de forma rápida..."
+				mkdir -p /tmp/empty_dir_for_rsync
+				rsync -a --delete /tmp/empty_dir_for_rsync/ "$target/"
+				rm -rf "$target"
+				echo "Listo."
+		else
+				echo "Error: '$target' no es una carpeta válida."
+				return 1
+		fi
+}
+
 @() {
   local TARGET_NAME="@$1"
   local BASE_DIR="$HOME/icloud"
