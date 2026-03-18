@@ -137,7 +137,7 @@ nova() { open -a "/Applications/Apps/dev/Nova 9.6.app" "$@" }
 #|--------------------------------------------------------------------------
 #*/
 
-source ~/dotfiles/modules/git.sh
+source ~/dotfiles/modules/vcs.sh
 source ~/dotfiles/modules/brew-config.sh
 source ~/dotfiles/modules/misc.sh
 source ~/dotfiles/modules/emoji-mapper.sh
@@ -163,3 +163,17 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+
+
+function fossil_prompt_info() {
+	if [[ -f .fslckout || -f _FOSSIL_ ]]; then
+		local branch=$(fossil branch current 2>/dev/null)
+		# %F{62} -> Índigo equilibrado
+		# %F{209} -> Salmón
+		echo -n "%B%F{105}fossil:(%F{209}${branch}%F{105})%b%f "
+	fi
+}
+
+setopt prompt_subst
+PROMPT+='$(fossil_prompt_info)'
