@@ -1,2 +1,2 @@
 environment="personal macbook"
-zshtheme="agnoster""
+zshtheme="robbyrussell""

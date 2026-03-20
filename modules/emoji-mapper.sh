@@ -31,7 +31,6 @@ declare -A EMOJI_MAP=(
 	[pro]="💼"
 	[work]="💼"
 	[pray]="🙏"
-	[dios]="🙏"
 	[prayer]="🙏"
 	[prayers]="🙏"
 	[religion]="🙏"

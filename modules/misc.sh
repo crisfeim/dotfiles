@@ -8,12 +8,14 @@ show() {
 	fi
 }
 
-mk() {
-	if [ "$1" = "gitignore" ]; then
-		cp ~/dotfiles/misc/gitignore.md .gitignore
-	elif [ "$1" = "fossilignore" ]; then
+mki() {
+	if [ "$1" = "git" ]; then
+		cp ~/dotfiles/misc/ignore-template.txt .gitignore
+	elif [ "$1" = "fossil" ]; then
 		mkdir -p .fossil-settings
-		cp ~/dotfiles/misc/fossilignore.txt .fossil-settings/ignore-glob
+		cp ~/dotfiles/misc/ignore-template.txt .fossil-settings/ignore-glob
+	else
+		echo $unhandledMsg
 	fi
 }
 
