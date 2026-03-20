@@ -49,7 +49,7 @@ mkdir() {
 		command mkdir "$@"
 		[ $? -ne 0 ] && return
 		local last_arg="${@[-1]}"
-		
+
 		if [[ "$last_arg" == */ ]]; then
 				cd "$last_arg"
 		fi
@@ -73,12 +73,12 @@ folders() { lt $1 }
 
 lt() {
 		local target="${1:-.}"
-		
+
 		if [ ! -d "$target" ]; then
 				echo "Error: '$target' is not a valid directory."
 				return 1
 		fi
-		
+
 		ls -R "$target" | grep ":$" | sed \
 				-e 's/:$//' \
 				-e 's/[^-][^\/]*\//  /g' \
@@ -90,11 +90,11 @@ clean() {
 				 ~/Library/Developer/Xcode/DerivedData
 				 ~/Library/Caches/org.swift.swiftpm
 				 ~/Library/Caches/com.apple.dt.Xcode
-				
+
 				for pkg in ~/Library/Developer/Xcode/DerivedData/*/SourcePackages(/N); do
 						 "$pkg"
 				done
-				
+
 				xcrun simctl delete unavailable
 		else
 				echo $unhandledMsg
@@ -107,7 +107,7 @@ frm() {
 		if [[ -d "$target" ]]; then
 				local empty
 				empty=$(mktemp -d) || return 1
-			
+
 				# defers removal
 				trap 'command rm -rf "$empty"' EXIT INT TERM
 
@@ -119,4 +119,4 @@ frm() {
 		fi
 }
 
-() { frm $1 }
+zap() { frm $1 }
