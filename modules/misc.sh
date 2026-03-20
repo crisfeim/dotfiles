@@ -87,12 +87,12 @@ lt() {
 
 clean() {
 		if [[ "$1" == "xcode" ]]; then
-				zap ~/Library/Developer/Xcode/DerivedData
-				zap ~/Library/Caches/org.swift.swiftpm
-				zap ~/Library/Caches/com.apple.dt.Xcode
+				 ~/Library/Developer/Xcode/DerivedData
+				 ~/Library/Caches/org.swift.swiftpm
+				 ~/Library/Caches/com.apple.dt.Xcode
 				
 				for pkg in ~/Library/Developer/Xcode/DerivedData/*/SourcePackages(/N); do
-						zap "$pkg"
+						 "$pkg"
 				done
 				
 				xcrun simctl delete unavailable
@@ -119,4 +119,4 @@ frm() {
 		fi
 }
 
-zap() { frm $1 }
+() { frm $1 }
