@@ -1,1 +1,39 @@
+### --- macOS (Finder noise) ---
 .DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+
+#  Tmp files & shared folders
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+### --- Xcode ---
+xcuserdata/
+DerivedData/
+*.moved-aside
+*.xcuserstate
+*.xccheckout
+*.perspectivev3
+
+# SPM
+.build/
+.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+
+### Editors, Tools, etc
+.vscode/
+.history/
+*.swp
+*~
+*.bak
+.netrwhist
+
+### --- Lenguajes & Scripts ---
+node_modules/
+npm-debug.log*

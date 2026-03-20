@@ -1,2 +1,0 @@
-Crear commando "create gitignore"
-curl -L https://gist.githubusercontent.com/rderik/8550f34a93beaf62aacc9ac7d746b69c/raw/.gitignore > .gitignore

@@ -1,39 +1,30 @@
 unhandledMsg="Unhandled command";
 show() {
 	if [ "$1" = "dotfiles" ]; then
-		showDotfiles
+		defaults write com.apple.Finder AppleShowAllFiles true;
+		killall Finder
 	else
 		echo $unhandledMsg
+	fi
+}
+
+mk() {
+	if [ "$1" = "gitignore" ]; then
+		cp ~/dotfiles/misc/gitignore.md .gitignore
+	elif [ "$1" = "fossilignore" ]; then
+		mkdir -p .fossil-settings
+		cp ~/dotfiles/misc/fossilignore.txt .fossil-settings/ignore-glob
 	fi
 }
 
 hide() {
 	if [ "$1" = "dotfiles" ]; then
-		hideDotfiles
+		defaults write com.apple.Finder AppleShowAllFiles false;
+		killall Finder
 	else
 		echo $unhandledMsg
 	fi
 }
-
-showDotfiles() {
-	defaults write com.apple.Finder AppleShowAllFiles true;
-	killall Finder
-}
-
-hideDotfiles() {
-	defaults write com.apple.Finder AppleShowAllFiles false;
-	killall Finder
-}
-
-# Plural so it doesn't conflict with default "set" cmd
-sets() {
-	if [ "$1" = "screenshots" ]; then
-		defaults write com.apple.screencapture location $2
-	else
-		echo $unhandledMsg
-	fi
-}
-
 
 k() {
 	if [ "$1" = "simulators" ]; then
@@ -49,41 +40,40 @@ k() {
 	fi
 }
 
-query() { search $1 }
-search() { grep -rn $1 . }
-
-downloadYT() {
-	yt-dlp -f 'bestvideo[height<=720]+bestaudio' --merge-output-format mp4 -o '~/Downloads/%(title)s.%(ext)s' $1
+rm() {
+		for arg in "$@"; do
+				if [[ "$arg" == */ ]]; then
+						zap "$arg"
+				else
+						command rm "$arg"
+				fi
+		done
 }
 
-decodeProvision() { security cms -D -i  $1 }
+zap() {
+		local target="${1%/}"
+		if [[ -d "$target" ]]; then
+				local empty
+				empty=$(mktemp -d) || return 1
+			
+				# defers removal
+				trap 'command rm -rf "$empty"' EXIT INT TERM
 
-fastRm() {
-		if [ -z "$1" ]; then
-				echo "Uso: fast-rm nombre_de_la_carpeta"
-				return 1
-		fi
-
-		local target="$1"
-		
-		if [ -d "$target" ]; then
-				echo "Borrando $target de forma rápida..."
-				mkdir -p /tmp/empty_dir_for_rsync
-				rsync -a --delete /tmp/empty_dir_for_rsync/ "$target/"
-				rm -rf "$target"
-				echo "Listo."
+				rsync -a --delete "$empty/" "$target/"
+				command rm -rf "$target"
 		else
-				echo "Error: '$target' no es una carpeta válida."
+				echo "Error: '$target' is not a valid directory."
 				return 1
 		fi
 }
 
+# Quick navigation Navigation
 @() {
   local TARGET_NAME="@$1"
   local BASE_DIR="$HOME/icloud"
 
   if [[ ! -d "$BASE_DIR" ]]; then
-    echo "❌ La carpeta base no existe: $BASE_DIR"
+    echo "❌ Directory doesn't exists: $BASE_DIR"
     return 1
   fi
 
@@ -91,7 +81,7 @@ fastRm() {
   MATCH=$(find -L "$BASE_DIR" -type d -iname "$TARGET_NAME" 2>/dev/null | head -n 1)
 
   if [[ -z "$MATCH" ]]; then
-    echo "❌ No se encontró ninguna carpeta llamada '$TARGET_NAME' en '$BASE_DIR'"
+    echo "❌ Not found '$TARGET_NAME' inside '$BASE_DIR'"
     return 1
   fi
 

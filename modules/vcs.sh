@@ -61,8 +61,8 @@ fetch() {
 
 checkout() {
 	case $(_vcs_type) in
-		fossil) fossil update "$1" ;;
-		git)    git checkout "$1" ;;
+		fossil) fossil update "$@" ;;
+		git)    git checkout "$@" ;;
 	esac
 }
 
@@ -103,8 +103,11 @@ push() {
 
 log() {
 	case $(_vcs_type) in
-		fossil) fossil timeline ;;
-		git)    git log "$1" ;;
+		fossil) 
+			local target=${1:-$(_currentBranch)}
+			fossil timeline parents "$target" ;;
+		git)    
+			git log ;;
 	esac
 }
 
@@ -191,6 +194,20 @@ amend() {
 	esac
 }
 
+stash() {
+	case $(_vcs_type) in
+		fossil) fossil stash save "Stash $(date +%H:%M)" ;;
+		git)    git stash ;;
+	esac
+}
+
+pop() {
+	case $(_vcs_type) in
+		fossil) fossil stash pop ;;
+		git)    git stash pop ;;
+	esac
+}
+
 # --- Direct Compatibility Aliases ---
 deleteRem() { git push origin --delete "$1" }
 squashFrom() { git rebase -i "$1" }
@@ -203,6 +220,12 @@ override() { delete "$1"; rename "$1" }
 aforce() { append ; force }
 appendpush() { aforce }
 appendforce() { aforce }
+force() { 
+	case $(_vcs_type) in
+		fossil) echo "Fossil: Push force not supported." ;;
+		git) git push -f origin $(_currentBranch) ;;
+	esac
+}
 
 createRemote() {
 	case $(_vcs_type) in
