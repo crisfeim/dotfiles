@@ -33,7 +33,9 @@ k() {
 
 rm() {
 		for arg in "$@"; do
-				if [[ "$arg" == */ ]]; then
+				if [[ "$arg" == "." ]]; then
+						local dir=$PWD; cd .. && zap "$dir"
+				elif [[ "$arg" == */ ]]; then
 						zap "$arg"
 				else
 						command rm "$arg"
@@ -49,6 +51,36 @@ mkdir() {
 		if [[ "$last_arg" == */ ]]; then
 				cd "$last_arg"
 		fi
+}
+
+
+files() {
+		local target="${1:-.}"
+
+		if [ ! -d "$target" ]; then
+				echo "Error: '$target' no es un directorio válido."
+				return 1
+		fi
+
+		find "$target" | sed \
+				-e "s/[^-][^\/]*\//  |/g" \
+				-e "s/|\([^ ]\)/|-\1/"
+}
+
+folders() { lt $1 }
+
+lt() {
+		local target="${1:-.}"
+		
+		if [ ! -d "$target" ]; then
+				echo "Error: '$target' is not a valid directory."
+				return 1
+		fi
+		
+		ls -R "$target" | grep ":$" | sed \
+				-e 's/:$//' \
+				-e 's/[^-][^\/]*\//  /g' \
+				-e 's/^/   /'
 }
 
 zap() {

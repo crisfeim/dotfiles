@@ -28,7 +28,6 @@ mki() {
 		elif [ "$1" = "fossil" ]; then
 				mkdir -p .fossil-settings
 				cp ~/dotfiles/misc/ignore-template.txt .fossil-settings/ignore-glob
-				touch ignore-glob.no-warn
 		else
 				echo $unhandledMsg
 		fi
@@ -221,11 +220,12 @@ pop() {
 # --- Direct Compatibility Aliases ---
 deleteRem() { git push origin --delete "$1" }
 squashFrom() { git rebase -i "$1" }
+revert() { [[ $(_vcs_type) == "fossil" ]] && fossil revert "$@" || git restore "$@" }
 restore() { [[ $(_vcs_type) == "fossil" ]] && fossil revert "$@" || git restore "$@" }
 tag() { [[ $(_vcs_type) == "fossil" ]] && fossil tag add "$1" current || git tag "$1" }
 diffs() { [[ $(_vcs_type) == "fossil" ]] && fossil diff || git diff HEAD^1 }
 remove() { [[ $(_vcs_type) == "fossil" ]] && fossil forget "$@" || git rm --cached "$@" }
-replace() { delete "$1"; rename "$1" }
+replace()  { delete "$1"; rename "$1" }
 override() { delete "$1"; rename "$1" }
 aforce() { append ; force }
 appendpush() { aforce }
@@ -242,4 +242,35 @@ createRemote() {
 		fossil) echo "Fossil: Configure remote on your Mac Mini using 'fossil remote add'." ;;
 		git)    gh repo create "$1" --public --source=. --remote=origin --push ;;
 	esac
+}
+
+
+clone() {
+		if [ -z "$1" ]; then
+				echo "Usage: clone crisfeim/repo[/] or clone repo[/]"
+				return 1
+		fi
+
+		local input="$1"
+		local clean_path="${input%/}"
+		local repo_url=""
+		local target_dir=""
+
+		# if contains "/" at the midle, repo is from other user 
+		if [[ "$clean_path" == */* ]]; then
+				repo_url="git@github.com:${clean_path}.git"
+				target_dir="${clean_path##*/}"
+		else
+				repo_url="git@github.com:crisfeim/${clean_path}.git"
+				target_dir="$clean_path"
+		fi
+
+		if command git clone "$repo_url" "$target_dir"; then
+				# Si el input original termina en /, entramos
+				if [[ "$input" == */ ]]; then
+						cd "$target_dir"
+				fi
+		else
+				return 1
+		fi
 }
