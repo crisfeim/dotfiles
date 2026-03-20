@@ -292,6 +292,7 @@ clone() {
 }
 
 gencommit() {
+    add .
     local msg
     msg=$(commitgenerator)
     if [ -z "$msg" ]; then
