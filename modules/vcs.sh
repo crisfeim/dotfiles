@@ -21,20 +21,23 @@ _currentBranch() {
 prefix() { rename "$1-$(_currentBranch)" }
 suffix() { rename "$(_currentBranch)-$1" }
 
+
+mki() {
+		if [ "$1" = "git" ]; then
+				cp ~/dotfiles/misc/ignore-template.txt .gitignore
+		elif [ "$1" = "fossil" ]; then
+				mkdir -p .fossil-settings
+				cp ~/dotfiles/misc/ignore-template.txt .fossil-settings/ignore-glob
+				touch ignore-glob.no-warn
+		else
+				echo $unhandledMsg
+		fi
+}
+
 add() {
 	case $(_vcs_type) in
-		fossil) 
-			if [ "$1" = "." ]; then
-				fossil addremove --dotfiles
-			elif [ -n "$1" ]; then
-				fossil add "$@"
-			else
-				echo "Nothing specified, nothing added."
-			fi
-			;;
-		git)    
-			git add "$@"
-			;;
+		fossil) fossil add "$@";;
+		git)    git add "$@";;
 	esac
 }
 
@@ -198,6 +201,13 @@ stash() {
 	case $(_vcs_type) in
 		fossil) fossil stash save "Stash $(date +%H:%M)" ;;
 		git)    git stash ;;
+	esac
+}
+
+extras() {
+	case $(_vcs_type) in
+		fossil) fossil extras;;
+		git)    git ls-files --others --exclude-standard ;;
 	esac
 }
 
