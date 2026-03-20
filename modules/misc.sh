@@ -36,9 +36,9 @@ alias .='marta .'
 rm() {
 		for arg in "$@"; do
 				if [[ "$arg" == "." ]]; then
-						local dir=$PWD; cd .. && zap "$dir"
+						local dir=$PWD; cd .. && command rm -rf "$dir"
 				elif [[ "$arg" == */ ]]; then
-						zap "$arg"
+						command rm -rf "$arg"
 				else
 						command rm "$arg"
 				fi
@@ -101,7 +101,8 @@ clean() {
 		fi
 }
 
-zap() {
+# Fast rm
+frm() {
 		local target="${1%/}"
 		if [[ -d "$target" ]]; then
 				local empty
@@ -117,3 +118,5 @@ zap() {
 				return 1
 		fi
 }
+
+zap() { frm $1 }

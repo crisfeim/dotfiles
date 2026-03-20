@@ -92,6 +92,11 @@ addcommit() {
 	fi
 }
 
+pushcommit() {
+	addcommit $1;
+	push
+}
+
 push() {
 	if [[ "$*" == *dotfiles* ]]; then
 		cd ~/dotfiles
