@@ -68,24 +68,3 @@ zap() {
 				return 1
 		fi
 }
-
-# Quick navigation Navigation
-@() {
-  local TARGET_NAME="@$1"
-  local BASE_DIR="$HOME/icloud"
-
-  if [[ ! -d "$BASE_DIR" ]]; then
-    echo "❌ Directory doesn't exists: $BASE_DIR"
-    return 1
-  fi
-
-  local MATCH
-  MATCH=$(find -L "$BASE_DIR" -type d -iname "$TARGET_NAME" 2>/dev/null | head -n 1)
-
-  if [[ -z "$MATCH" ]]; then
-    echo "❌ Not found '$TARGET_NAME' inside '$BASE_DIR'"
-    return 1
-  fi
-
-  cd "$MATCH" || return 1
-}
