@@ -35,7 +35,7 @@ mki() {
 
 add() {
 	case $(_vcs_type) in
-		fossil) fossil add "$@";;
+		fossil) fossil addremove "$@";;
 		git)    git add "$@";;
 	esac
 }
@@ -56,7 +56,7 @@ pull() {
 
 fetch() {
 	case $(_vcs_type) in
-		fossil) fossil pull ;; 
+		fossil) fossil pull ;;
 		git)    git fetch -p ; pull ;;
 	esac
 }
@@ -105,9 +105,9 @@ push() {
 	else
 		case $(_vcs_type) in
 			fossil) fossil push ;;
-			git)    
+			git)
 				[[ "$*" == *new* ]] && addcommit "$updateMessage"
-				git push origin $(_currentBranch) 
+				git push origin $(_currentBranch)
 				;;
 		esac
 	fi
@@ -115,17 +115,17 @@ push() {
 
 log() {
 	case $(_vcs_type) in
-		fossil) 
+		fossil)
 			local target=${1:-$(_currentBranch)}
 			fossil timeline parents "$target" ;;
-		git)    
+		git)
 			git log ;;
 	esac
 }
 
 branch() {
 	case $(_vcs_type) in
-		fossil) 
+		fossil)
 			fossil branch list | while read -r line; do
 				local is_current="  "
 				local bname="$line"
@@ -140,8 +140,8 @@ branch() {
 				echo -e "${is_current}\033[38;5;209m${bname}\033[0m \033[38;5;242m(${last_date})\033[0m"
 			done
 			;;
-		git)    
-			git for-each-ref --sort=-committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))' 
+		git)
+			git for-each-ref --sort=-committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'
 			;;
 	esac
 }
@@ -163,7 +163,7 @@ delete() {
 
 rename() {
 	case $(_vcs_type) in
-		fossil) 
+		fossil)
 			local old=$(_currentBranch)
 			fossil branch new "$1" "$old" ; fossil update "$1"
 			fossil tag add closed "$old" --raw
@@ -186,22 +186,22 @@ squash() {
 
 append() {
 	case $(_vcs_type) in
-		fossil) 
-			echo "Fossil: 'append' not supported (history is immutable). Please make a new commit." 
+		fossil)
+			echo "Fossil: 'append' not supported (history is immutable). Please make a new commit."
 			;;
-		git)    
-			git add . ; git commit --amend --no-edit 
+		git)
+			git add . ; git commit --amend --no-edit
 			;;
 	esac
 }
 
 amend() {
 	case $(_vcs_type) in
-		fossil) 
-			echo "Fossil: 'amend' not supported. Use 'fossil commit' for a new check-in." 
+		fossil)
+			echo "Fossil: 'amend' not supported. Use 'fossil commit' for a new check-in."
 			;;
-		git)    
-			git commit --amend -m "$1" 
+		git)
+			git commit --amend -m "$1"
 			;;
 	esac
 }
@@ -240,7 +240,7 @@ override() { delete "$1"; rename "$1" }
 aforce() { append ; force }
 appendpush() { aforce }
 appendforce() { aforce }
-force() { 
+force() {
 	case $(_vcs_type) in
 		fossil) echo "Fossil: Push force not supported." ;;
 		git) git push -f origin $(_currentBranch) ;;
@@ -266,7 +266,7 @@ clone() {
 		local repo_url=""
 		local target_dir=""
 
-		# if contains "/" at the midle, repo is from other user 
+		# if contains "/" at the midle, repo is from other user
 		if [[ "$clean_path" == */* ]]; then
 				repo_url="git@github.com:${clean_path}.git"
 				target_dir="${clean_path##*/}"
@@ -283,4 +283,30 @@ clone() {
 		else
 				return 1
 		fi
+}
+
+gencommit() {
+    local msg
+    msg=$(commitgenerator)
+    if [ -z "$msg" ]; then
+        echo "No commit message generated."
+        return 1
+    fi
+
+    local tmpfile=$(mktemp)
+    echo "$msg" > "$tmpfile"
+    ${EDITOR:-vi} "$tmpfile"
+    msg=$(cat "$tmpfile")
+    rm "$tmpfile"
+
+    if [ -z "$msg" ]; then
+        echo "Empty message, aborting."
+        return 1
+    fi
+
+    if [ -d .git ]; then
+        git commit -m "$msg"
+    elif [ -f .fslckout ]; then
+        fossil commit -m "$msg"
+    fi
 }
