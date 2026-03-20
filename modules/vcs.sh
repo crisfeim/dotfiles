@@ -34,10 +34,16 @@ mki() {
 }
 
 add() {
-	case $(_vcs_type) in
-		fossil) fossil addremove "$@";;
-		git)    git add "$@";;
-	esac
+    case $(_vcs_type) in
+        fossil)
+            if [[ "$*" == "." ]]; then
+                fossil addremove
+            else
+                fossil add "$@"
+            fi
+            ;;
+        git) git add "$@";;
+    esac
 }
 
 status() {
