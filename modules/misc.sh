@@ -31,6 +31,8 @@ k() {
 	fi
 }
 
+alias .='marta .'
+
 rm() {
 		for arg in "$@"; do
 				if [[ "$arg" == "." ]]; then
@@ -81,6 +83,22 @@ lt() {
 				-e 's/:$//' \
 				-e 's/[^-][^\/]*\//  /g' \
 				-e 's/^/   /'
+}
+
+clean() {
+		if [[ "$1" == "xcode" ]]; then
+				zap ~/Library/Developer/Xcode/DerivedData
+				zap ~/Library/Caches/org.swift.swiftpm
+				zap ~/Library/Caches/com.apple.dt.Xcode
+				
+				for pkg in ~/Library/Developer/Xcode/DerivedData/*/SourcePackages(/N); do
+						zap "$pkg"
+				done
+				
+				xcrun simctl delete unavailable
+		else
+				echo $unhandledMsg
+		fi
 }
 
 zap() {

@@ -84,7 +84,12 @@ commit() {
 
 addcommit() {
 	add .
-	commit "$1"
+
+	if [ "$1" = "." ]; then
+		commit "$(date -u '+%Y-%m-%d %H:%M:%S')"
+	else
+		commit "$1"
+	fi
 }
 
 push() {

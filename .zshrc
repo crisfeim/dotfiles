@@ -128,6 +128,7 @@ code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* ;}
 mock() { fastlane testbuddy type:$1 }
 killsims() { xcrun simctl shutdown all }
 flushCache() { sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder }
+marta() { open -a Marta $1 } 
 xcode() { open -a Xcode $1 }
 nova() { open -a "/Applications/Apps/dev/Nova 9.6.app" "$@" }
 
