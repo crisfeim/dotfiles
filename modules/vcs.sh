@@ -239,7 +239,7 @@ squashFrom() { git rebase -i "$1" }
 revert() { [[ $(_vcs_type) == "fossil" ]] && fossil revert "$@" || git restore "$@" }
 restore() { [[ $(_vcs_type) == "fossil" ]] && fossil revert "$@" || git restore "$@" }
 tag() { [[ $(_vcs_type) == "fossil" ]] && fossil tag add "$1" current || git tag "$1" }
-diffs() { [[ $(_vcs_type) == "fossil" ]] && fossil diff || git diff HEAD^1 }
+diff() { [[ $(_vcs_type) == "fossil" ]] && fossil diff || git diff HEAD^1 }
 remove() { [[ $(_vcs_type) == "fossil" ]] && fossil forget "$@" || git rm --cached "$@" }
 replace()  { delete "$1"; rename "$1" }
 override() { delete "$1"; rename "$1" }
