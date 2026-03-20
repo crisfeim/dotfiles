@@ -8,17 +8,6 @@ show() {
 	fi
 }
 
-mki() {
-	if [ "$1" = "git" ]; then
-		cp ~/dotfiles/misc/ignore-template.txt .gitignore
-	elif [ "$1" = "fossil" ]; then
-		mkdir -p .fossil-settings
-		cp ~/dotfiles/misc/ignore-template.txt .fossil-settings/ignore-glob
-	else
-		echo $unhandledMsg
-	fi
-}
-
 hide() {
 	if [ "$1" = "dotfiles" ]; then
 		defaults write com.apple.Finder AppleShowAllFiles false;
@@ -50,6 +39,16 @@ rm() {
 						command rm "$arg"
 				fi
 		done
+}
+
+mkdir() {
+		command mkdir "$@"
+		[ $? -ne 0 ] && return
+		local last_arg="${@[-1]}"
+		
+		if [[ "$last_arg" == */ ]]; then
+				cd "$last_arg"
+		fi
 }
 
 zap() {
