@@ -120,3 +120,5 @@ frm() {
 }
 
 zap() { frm $1 }
+
+alias t='python3 /usr/local/bin/t/t.py --task-dir ~/tasks --list tasks'

@@ -131,6 +131,7 @@ flushCache() { sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder }
 marta() { open -a Marta $1 }
 coderunner() { open -a /Applications/Apps/dev/CodeRunner.app "$@" }
 xcode() { open -a Xcode $1 }
+iina() { open -a /Applications/Apps/misc/IINA.app "$@" }
 nova() { open -a "/Applications/Apps/dev/Nova 9.6.app" "$@" }
 
 #/*
