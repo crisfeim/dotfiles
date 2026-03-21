@@ -31,8 +31,6 @@ k() {
 	fi
 }
 
-alias .='marta .'
-
 mkdir() {
 		command mkdir "$@"
 		[ $? -ne 0 ] && return
