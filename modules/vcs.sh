@@ -22,13 +22,17 @@ prefix() { rename "$1-$(_currentBranch)" }
 suffix() { rename "$(_currentBranch)-$1" }
 
 init() {
-    case $(_vcs_type) in
+    case "$1" in
         fossil)
             local folder_name=$(basename "$PWD")
             fossil init "../${folder_name}.db"
-            fossil open "../${folder_name}.db"
+            fossil open "../${folder_name}.db" --keep
             ;;
         git) git init ;;
+        *)
+            echo "Usage: init <git|fossil>"
+            return 1
+            ;;
     esac
 }
 
