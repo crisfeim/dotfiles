@@ -147,6 +147,8 @@ source ~/dotfiles/modules/vcs.sh
 source ~/dotfiles/modules/brew-config.sh
 source ~/dotfiles/modules/misc.sh
 source ~/dotfiles/modules/emoji-mapper.sh
+source ~/dotfiles/modules/uninstall.sh
+source ~/dotfiles/modules/apppath.sh
 
 # Fig post block. Keep at the bottom of this file.
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
