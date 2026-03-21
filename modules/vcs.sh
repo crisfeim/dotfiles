@@ -21,6 +21,16 @@ _currentBranch() {
 prefix() { rename "$1-$(_currentBranch)" }
 suffix() { rename "$(_currentBranch)-$1" }
 
+init() {
+    case $(_vcs_type) in
+        fossil)
+            local folder_name=$(basename "$PWD")
+            fossil init "../${folder_name}.db"
+            fossil open "../${folder_name}.db"
+            ;;
+        git) git init ;;
+    esac
+}
 
 mki() {
 		if [ "$1" = "git" ]; then
