@@ -335,3 +335,18 @@ gencommit() {
         fossil commit -m "$msg"
     fi
 }
+
+# Fossil specific
+fopen() {
+    if [ -z "$1" ]; then
+        echo "Usage: fopen <database_file>"
+        return 1
+    fi
+
+    local db_file="$1"
+    local folder_name="${db_file%.*}"  # Remove extension(s)
+    
+    mkdir -p "$folder_name"
+    cd "$folder_name"
+    fossil open "../$db_file"
+}
