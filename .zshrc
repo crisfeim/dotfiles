@@ -134,7 +134,7 @@ xcode() { open -a Xcode $1 }
 iina() { open -a /Applications/Apps/misc/IINA.app "$@" }
 nova() { open -a "/Applications/Apps/dev/Nova 9.6.app" "$@" }
 anima() {
-    iina "/Users/cristian/Music/Music/Media.localized/Music/Marco Frisina/Unknown Album/🙏 Anima Christi_ Alma de Cristo.mp3"
+    afplay "/Users/cristian/Music/Music/Media.localized/Music/Marco Frisina/Unknown Album/🙏 Anima Christi_ Alma de Cristo.mp3"
 }
 
 #/*
