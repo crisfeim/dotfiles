@@ -33,18 +33,6 @@ k() {
 
 alias .='marta .'
 
-rm() {
-		for arg in "$@"; do
-				if [[ "$arg" == "." ]]; then
-						local dir=$PWD; cd .. && command rm -rf "$dir"
-				elif [[ "$arg" == */ ]]; then
-						command rm -rf "$arg"
-				else
-						command rm "$arg"
-				fi
-		done
-}
-
 mkdir() {
 		command mkdir "$@"
 		[ $? -ne 0 ] && return
