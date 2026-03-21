@@ -345,8 +345,12 @@ fopen() {
 
     local db_file="$1"
     local folder_name="${db_file%.*}"  # Remove extension(s)
-    
+
     mkdir -p "$folder_name"
     cd "$folder_name"
     fossil open "../$db_file"
+}
+
+fclose() {
+    fossil close;
 }
