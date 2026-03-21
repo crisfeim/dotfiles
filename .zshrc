@@ -149,6 +149,7 @@ source ~/dotfiles/modules/misc.sh
 source ~/dotfiles/modules/emoji-mapper.sh
 source ~/dotfiles/modules/uninstall.sh
 source ~/dotfiles/modules/apppath.sh
+source ~/dotfiles/modules/cat.sh
 
 # Fig post block. Keep at the bottom of this file.
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
