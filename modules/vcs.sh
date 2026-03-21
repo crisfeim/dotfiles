@@ -96,10 +96,14 @@ create() {
 }
 
 commit() {
-	case $(_vcs_type) in
-		fossil) fossil commit -m "$1" ;;
-		git)    git commit -m "$1" ;;
-	esac
+    if [ -z "$1" ]; then
+        gencommit
+    else
+        case $(_vcs_type) in
+            fossil) fossil commit -m "$1" ;;
+            git)    git commit -m "$1" ;;
+        esac
+    fi
 }
 
 addcommit() {
