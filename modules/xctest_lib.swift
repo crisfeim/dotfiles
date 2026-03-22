@@ -1,36 +1,8 @@
-// Playground Tests
-
-
 import Foundation
 
 public let defaultMessage = ""
 
-/// Emits a test failure if the general `Boolean` expression passed
-/// to it evaluates to `false`.
-///
-/// - Requires: This and all other XCTAssert* functions must be called from
-///   within a test method, as passed to `XCTMain`.
-///   Assertion failures that occur outside of a test method will *not* be
-///   reported as failures.
-///
-/// - Parameter expression: A boolean test. If it evaluates to `false`, the
-///   assertion fails and emits a test failure.
-/// - Parameter message: An optional message to use in the failure if the
-///   assertion fails. If no message is supplied a default message is used.
-///
-/// For example
-///
-/// ```swift
-/// class TestCase: XCTestCase {
-///     func testAssertions() {
-///         XCTAssertEqual(1, 2)
-///         XCTAssertEqual([1, 2], [2, 3])
-///         XCTAssertGreaterThanOrEqual(1, 2)
-///         XCTAssertTrue(true)
-///     }
-/// }
-/// ```
-///
+var currentTestName: String = ""
 
 @discardableResult public func XCTAssert(
     _ expression: @autoclosure () -> Bool,
@@ -46,7 +18,7 @@ public let defaultMessage = ""
     ) -> String {
     return returnTestResult(
         expression1() == expression2(),
-        message: "\(message) - expected: \(expression2() as Optional), actual: \(expression1() as Optional)")
+        message: "expected: \(expression2() as Optional), actual: \(expression1() as Optional)")
 }
 
 @discardableResult public func XCTAssertEqual<T : Equatable>(
@@ -56,7 +28,7 @@ public let defaultMessage = ""
     ) -> String {
     return returnTestResult(
         expression1() == expression2(),
-        message: "\(message) - expected: \(expression2()), actual: \(expression1())")
+        message: "expected: \(expression2()), actual: \(expression1())")
 }
 
 @discardableResult public func XCTAssertEqual<T : Equatable>(
@@ -66,7 +38,7 @@ public let defaultMessage = ""
     ) -> String {
     return returnTestResult(
         expression1() == expression2(),
-        message: "\(message) - expected: \(expression2()), actual: \(expression1())")
+        message: "expected: \(expression2()), actual: \(expression1())")
 }
 
 @discardableResult public func XCTAssertEqual<T : Equatable>(
@@ -76,7 +48,7 @@ public let defaultMessage = ""
     ) -> String {
     return returnTestResult(
         expression1() == expression2(),
-        message: "\(message) - expected: \(expression2()), actual: \(expression1())")
+        message: "expected: \(expression2()), actual: \(expression1())")
 }
 
 @discardableResult public func XCTAssertEqual<T, U : Equatable>(
@@ -86,7 +58,7 @@ public let defaultMessage = ""
     ) -> String {
     return returnTestResult(
         expression1() == expression2(),
-        message: "\(message) - expected: \(expression2()), actual: \(expression1())")
+        message: "expected: \(expression2()), actual: \(expression1())")
 }
 
 @discardableResult public func XCTAssertFalse(
@@ -103,7 +75,7 @@ public let defaultMessage = ""
     ) -> String {
     return returnTestResult(
         expression1() > expression2(),
-        message: "\(message) - actual: \(expression1()) > \(expression2())")
+        message: "\(expression1()) is not greater than \(expression2())")
 }
 
 @discardableResult public func XCTAssertGreaterThanOrEqual<T : Comparable>(
@@ -113,7 +85,7 @@ public let defaultMessage = ""
     ) -> String {
     return returnTestResult(
         expression1() >= expression2(),
-        message: "\(message) - actual: \(expression1()) >= \(expression2())")
+        message: "\(expression1()) is not greater than or equal to \(expression2())")
 }
 
 @discardableResult public func XCTAssertLessThan<T : Comparable>(
@@ -123,7 +95,7 @@ public let defaultMessage = ""
     ) -> String {
     return returnTestResult(
         expression1() < expression2(),
-        message: "\(message) - actual: \(expression1()) < \(expression2())")
+        message: "\(expression1()) is not less than \(expression2())")
 }
 
 @discardableResult public func XCTAssertLessThanOrEqual<T : Comparable>(
@@ -133,7 +105,7 @@ public let defaultMessage = ""
     ) -> String {
     return returnTestResult(
         expression1() <= expression2(),
-        message: "\(message) - actual: \(expression1()) <= \(expression2())")
+        message: "\(expression1()) is not less than or equal to \(expression2())")
 }
 
 @discardableResult public func XCTAssertNil(
@@ -144,7 +116,7 @@ public let defaultMessage = ""
     if let _ = expression() { result = false }
     return returnTestResult(
         result,
-        message: "\(message) - expected: nil, actual: \(expression() as Optional)")
+        message: "expected nil, actual: \(expression() as Optional)")
 }
 
 @discardableResult public func XCTAssertNotEqual<T : Equatable>(
@@ -154,7 +126,7 @@ public let defaultMessage = ""
     ) -> String {
     return returnTestResult(
         expression1() != expression2(),
-        message: "\(message) - expected: \(expression1() as Optional) =! \(expression2() as Optional)")
+        message: "\(expression1() as Optional) is equal to \(expression2() as Optional)")
 }
 
 @discardableResult public func XCTAssertNotEqual<T : Equatable>(
@@ -164,7 +136,7 @@ public let defaultMessage = ""
     ) -> String {
     return returnTestResult(
         expression1() != expression2(),
-        message: "\(message) - expected: \(expression1()) != \(expression2())")
+        message: "\(expression1()) is equal to \(expression2())")
 }
 
 @discardableResult public func XCTAssertNotEqual<T : Equatable>(
@@ -174,7 +146,7 @@ public let defaultMessage = ""
     ) -> String {
     return returnTestResult(
         expression1() != expression2(),
-        message: "\(message) - expected: \(expression1()) != \(expression2())")
+        message: "\(expression1()) is equal to \(expression2())")
 }
 
 @discardableResult public func XCTAssertNotEqual<T : Equatable>(
@@ -184,7 +156,7 @@ public let defaultMessage = ""
     ) -> String {
     return returnTestResult(
         expression1() != expression2(),
-        message: "\(message) - expected: \(expression1()) != \(expression2())")
+        message: "\(expression1()) is equal to \(expression2())")
 }
 
 @discardableResult public func XCTAssertNotEqual<T, U : Equatable>(
@@ -194,7 +166,7 @@ public let defaultMessage = ""
     ) -> String {
     return returnTestResult(
         expression1() != expression2(),
-        message: "\(message) - expected: \(expression1()) != \(expression2())")
+        message: "\(expression1()) is equal to \(expression2())")
 }
 
 @discardableResult public func XCTAssertNotNil(
@@ -203,7 +175,7 @@ public let defaultMessage = ""
     ) -> String {
     var result = false
     if let _ = expression() { result = true }
-    return returnTestResult(result, message: message)
+    return returnTestResult(result, message: "expected non-nil, actual: nil")
 }
 
 @discardableResult public func XCTAssertTrue(
@@ -214,56 +186,48 @@ public let defaultMessage = ""
 }
 
 @discardableResult public func XCTFail(_ message: String = "") -> String {
-    return failMessage(message)
+    return returnTestResult(false, message: message)
 }
 
 func returnTestResult(_ result: Bool, message: String) -> String {
-    let r = result ? okMessage() : failMessage(message)
+    let r: String
+    if result {
+        
+        r = "\(ok())  \(currentTestName)()"
+    } else {
+        r = "\(fail())  \(currentTestName)(): \(message)"
+    }
     print(r)
     return r
 }
 
-func okMessage() -> String { return "✅" }
-
-func failMessage(_ message: String) -> String { return "❌" + message }
-
-// This class was based on GitHub gist:
-// https://gist.github.com/croath/a9358dac0530d91e9e2b
-
 open class XCTestCase: NSObject {
-    
+
     @discardableResult
-    public override init(){
+    public override init() {
         super.init()
         self.runTestMethods()
     }
 
     open class func setUp() {}
     open func setUp() {}
-
     open class func tearDown() {}
     open func tearDown() {}
-    
+
     override open var description: String { return "" }
-    
+
     private func runTestMethods() {
-        type(of:self).setUp()
-        defer {
-            type(of:self).tearDown()
-        }
+        type(of: self).setUp()
+        defer { type(of: self).tearDown() }
         var mc: CUnsignedInt = 0
-        
-        guard var mlist = class_copyMethodList(type(of:self).classForCoder(), &mc) else {
-            return
-        }
+        guard var mlist = class_copyMethodList(type(of: self).classForCoder(), &mc) else { return }
         (0 ..< mc).forEach { _ in
             let m = method_getName(mlist.pointee)
-            if String(describing: m).hasPrefix("test") {
+            let name = String(describing: m)
+            if name.hasPrefix("test") {
+                currentTestName = name
                 self.setUp()
-                self.performSelector(
-                    onMainThread: m,
-                    with: nil,
-                    waitUntilDone: true)
+                self.performSelector(onMainThread: m, with: nil, waitUntilDone: true)
                 self.tearDown()
             }
             mlist = mlist.successor()
@@ -271,4 +235,10 @@ open class XCTestCase: NSObject {
     }
 }
 
+func ok() -> String {
+    return "\u{001B}[32m􁁛\u{001B}[0m"
+}
 
+func fail() -> String {
+    return "\u{001B}[31m􀢄\u{001B}[0m"
+}
