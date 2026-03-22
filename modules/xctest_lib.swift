@@ -235,10 +235,5 @@ open class XCTestCase: NSObject {
     }
 }
 
-func ok() -> String {
-    return "\u{001B}[32m􁁛\u{001B}[0m"
-}
-
-func fail() -> String {
-    return "\u{001B}[31m􀢄\u{001B}[0m"
-}
+func ok() -> String { "\u{001B}[92m􁁛\u{001B}[0m" }  
+func fail() -> String { "\u{001B}[91m􀢄\u{001B}[0m" }
