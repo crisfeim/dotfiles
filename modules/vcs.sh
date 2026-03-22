@@ -42,6 +42,7 @@ mki() {
 		elif [ "$1" = "fossil" ]; then
 				mkdir -p .fossil-settings
 				cp ~/dotfiles/misc/ignore-template.txt .fossil-settings/ignore-glob
+				add .fossil-settings/ignore-glob
 		else
 				echo $unhandledMsg
 		fi
