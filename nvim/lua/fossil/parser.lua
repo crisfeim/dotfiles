@@ -23,7 +23,7 @@ T.parse_diff = function(diff_output)
       if pending_delete then
         table.insert(changes, { line = pending_delete, type = ChangeType.deleted })
       end
-      pending_delete = current_line
+      pending_delete = current_line + 1
     elseif line:match("^%+%+%+ ") then
       -- cabecera, ignorar
     elseif line:match("^%+") then
