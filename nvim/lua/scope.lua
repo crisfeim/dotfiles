@@ -89,4 +89,29 @@ end
 M.in_scope = function()
   return #stack > 0
 end
+M.original_path = function()
+  if #stack == 0 then return nil end
+  local path = vim.api.nvim_buf_get_name(stack[1].original_buf)
+  print("original_path:", path)
+  return path
+end
+M.save = function()
+  if #stack == 0 then return end
+  local prev = stack[#stack]
+  local tmp_buf = vim.api.nvim_get_current_buf()
+  local modified_lines = vim.api.nvim_buf_get_lines(tmp_buf, 0, -1, false)
+
+  local indent_str = string.rep(" ", prev.min_indent)
+  local reindented = {}
+  for _, line in ipairs(modified_lines) do
+    table.insert(reindented, line ~= "" and indent_str .. line or line)
+  end
+
+  vim.api.nvim_buf_set_lines(prev.original_buf, prev.start_row, prev.end_row + 1, false, reindented)
+  if vim.bo[prev.original_buf].buftype == "" then
+    vim.api.nvim_buf_call(prev.original_buf, function()
+      vim.cmd('silent write')
+    end)
+  end
+end
 return M

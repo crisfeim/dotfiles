@@ -136,12 +136,16 @@ end)
 -- Runner de tests ,t
 local test_win = nil
 vim.keymap.set('n', '<leader>t', function()
-  vim.cmd('silent write')
+	if scope.in_scope() then
+		scope.save()
+	else
+		vim.cmd('silent write')
+	end
+  local filepath = scope.in_scope() and scope.original_path() or vim.fn.expand('%')
   if test_win and vim.api.nvim_win_is_valid(test_win) then
     vim.api.nvim_win_close(test_win, true)
   end
-
-  local output = vim.fn.system("zsh -i -c 'xctest " .. vim.fn.expand('%') .. "' 2>&1")
+  local output = vim.fn.system("zsh -i -c 'xctest " .. filepath .. "' 2>&1")
   local clean_output = output:gsub("\u{001B}%[%d+m", "")
   local lines = vim.split(clean_output, "\n")
 
