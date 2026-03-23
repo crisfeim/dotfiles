@@ -17,7 +17,7 @@ hide() {
 	fi
 }
 
-v() { nvim $1 }
+vi() { nvim $1 }
 
 k() {
 	if [ "$1" = "simulators" ]; then
