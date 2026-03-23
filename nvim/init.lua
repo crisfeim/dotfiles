@@ -212,11 +212,16 @@ end)
 -- Runner genérico ,r
 local run_win = nil
 vim.keymap.set('n', '<leader>r', function()
-  vim.cmd('silent write')
+  if scope.in_scope() then
+    scope.save()
+  else
+    vim.cmd('silent write')
+  end
   if run_win and vim.api.nvim_win_is_valid(run_win) then
     vim.api.nvim_win_close(run_win, true)
   end
-  local ext = vim.fn.expand('%:e')
+  local filepath = scope.in_scope() and scope.original_path() or vim.fn.expand('%')
+  local ext = vim.fn.fnamemodify(filepath, ':e')
   local cmd = ({
     lua   = 'lua',
     swift = 'xctest',
@@ -225,7 +230,7 @@ vim.keymap.set('n', '<leader>r', function()
     sh    = 'bash',
     zsh   = 'zsh',
   })[ext] or 'echo "no runner for ' .. ext .. '"'
-  vim.cmd('botright 4split | terminal zsh -i -c "' .. cmd .. ' ' .. vim.fn.expand('%') .. '"')
+  vim.cmd('botright 4split | terminal zsh -i -c "' .. cmd .. ' ' .. filepath .. '"')
   run_win = vim.api.nvim_get_current_win()
   vim.cmd('wincmd p')
 end)
