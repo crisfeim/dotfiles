@@ -29,7 +29,6 @@ vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
 
-  -- Colorschema
   {
     'folke/tokyonight.nvim',
     priority = 1000,
@@ -38,13 +37,11 @@ require('lazy').setup({
     end,
   },
 
-  -- Navegador de ficheros
   {
     'stevearc/oil.nvim',
     opts = {},
   },
 
-  -- Búsqueda
   {
     'nvim-telescope/telescope.nvim',
     branch = '0.1.x',
@@ -57,7 +54,6 @@ require('lazy').setup({
     end,
   },
 
-  -- Treesitter
   {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
@@ -69,7 +65,6 @@ require('lazy').setup({
     end,
   },
 
-  -- Autocompletado
   {
     'hrsh7th/nvim-cmp',
     dependencies = {
@@ -111,20 +106,13 @@ vim.g.mapleader = ","
 vim.lsp.config('sourcekit', {
   cmd = { 'xcrun', 'sourcekit-lsp' },
   filetypes = { 'swift' },
-  root_dir = function(bufnr)
-    local fname = vim.api.nvim_buf_get_name(bufnr)
-    return vim.fs.dirname(
-      vim.fs.find('compile_commands.json', { upward = true, path = fname })[1]
-    )
-  end,
-  on_attach = function(client, _)
-    client.server_capabilities.semanticTokensProvider = nil
-  end
 })
 vim.lsp.enable('sourcekit')
 
 vim.diagnostic.config({
-  signs = false
+  signs = false,
+  underline = true,
+  virtual_text = false,
 })
 
 -- Fossil gutter
@@ -161,6 +149,11 @@ vim.keymap.set('n', '<leader>t', function()
     if line:match("􀢄") then
       table.insert(filtered, line)
     end
+  end
+
+  -- mostrar output completo si hay errores de compilación
+  if #filtered == 0 and clean_output:match("%S") then
+    filtered = vim.split(clean_output, "\n")
   end
 
   if #filtered > 0 then
