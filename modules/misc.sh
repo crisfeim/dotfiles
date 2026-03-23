@@ -17,6 +17,8 @@ hide() {
 	fi
 }
 
+v() { nvim $1 }
+
 k() {
 	if [ "$1" = "simulators" ]; then
 		xcrun simctl shutdown all

@@ -187,3 +187,4 @@ function fossil_prompt_info() {
 setopt prompt_subst
 PROMPT+='$(fossil_prompt_info)'
 source ~/dotfiles/modules/xctest.sh
+export PATH="$HOME/.config/emacs/bin:$PATH"

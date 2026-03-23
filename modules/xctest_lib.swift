@@ -192,7 +192,6 @@ var currentTestName: String = ""
 func returnTestResult(_ result: Bool, message: String) -> String {
     let r: String
     if result {
-        
         r = "\(ok())  \(currentTestName)()"
     } else {
         r = "\(fail())  \(currentTestName)(): \(message)"
