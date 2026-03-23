@@ -143,27 +143,38 @@ vim.keymap.set('n', '<leader>t', function()
 
   local output = vim.fn.system("zsh -i -c 'xctest " .. vim.fn.expand('%') .. "' 2>&1")
   local clean_output = output:gsub("\u{001B}%[%d+m", "")
+  local lines = vim.split(clean_output, "\n")
 
-  local filtered = {}
-  for _, line in ipairs(vim.split(clean_output, "\n")) do
-    if line:match("􀢄") then
-      table.insert(filtered, line)
+  local passes = {}
+  local failures = {}
+  for _, line in ipairs(lines) do
+    if line:match("􁁛") then
+      table.insert(passes, line)
+    elseif line:match("􀢄") then
+      table.insert(failures, line)
     end
   end
 
-  -- mostrar output completo si hay errores de compilación
-  if #filtered == 0 and clean_output:match("%S") then
-    filtered = vim.split(clean_output, "\n")
+  local to_show = {}
+  local is_compile_error = #passes == 0 and #failures == 0
+  if is_compile_error then
+    to_show = lines
+  elseif #failures > 0 then
+    to_show = failures
+  else
+    to_show = passes
   end
 
-  if #filtered > 0 then
+  if #to_show > 0 then
     vim.cmd('botright 4split | enew')
     test_win = vim.api.nvim_get_current_win()
     local buf = vim.api.nvim_get_current_buf()
     vim.bo[buf].buftype = 'nofile'
-    vim.api.nvim_buf_set_lines(buf, 0, -1, false, filtered)
-    for i, line in ipairs(filtered) do
-      if line:match("􀢄") then
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, to_show)
+    for i, line in ipairs(to_show) do
+      if line:match("􁁛") then
+        vim.api.nvim_buf_add_highlight(buf, -1, "XCTestPassHL", i - 1, 0, 1)
+      elseif line:match("􀢄") then
         vim.api.nvim_buf_add_highlight(buf, -1, "XCTestFailHL", i - 1, 0, 1)
       end
     end
@@ -178,13 +189,13 @@ vim.keymap.set('n', '<leader>t', function()
   vim.api.nvim_set_hl(0, "XCTestFailHL", { fg = "#ff6b6b" })
   vim.fn.sign_unplace(sign_group, { buffer = curbuf })
 
-  for _, line in ipairs(vim.split(clean_output, "\n")) do
+  for _, line in ipairs(lines) do
     local name = line:match("test_%S+%(%)") 
     if name then
       name = name:gsub("%(%)$", "")
       local is_pass = line:match("􁁛") ~= nil
-      local lines = vim.api.nvim_buf_get_lines(curbuf, 0, -1, false)
-      for i, bufline in ipairs(lines) do
+      local buflines = vim.api.nvim_buf_get_lines(curbuf, 0, -1, false)
+      for i, bufline in ipairs(buflines) do
         if bufline:match("func " .. name) then
           local sign = is_pass and "XCTestPass" or "XCTestFail"
           vim.fn.sign_place(0, sign_group, sign, curbuf, { lnum = i, priority = 6 })
@@ -194,7 +205,6 @@ vim.keymap.set('n', '<leader>t', function()
     end
   end
 end)
-
 -- Runner genérico ,r
 local run_win = nil
 vim.keymap.set('n', '<leader>r', function()
