@@ -1,4 +1,4 @@
-add_to_path() {
+path() {
     if [ -d "$1" ]; then
         case ":$PATH:" in
             *":$1:"*) ;;
@@ -7,7 +7,7 @@ add_to_path() {
     fi
 }
 
-add_to_path_end() {
+path_end() {
     if [ -d "$1" ]; then
         case ":$PATH:" in
             *":$1:"*) ;;
