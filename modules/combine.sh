@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-merge() {
+combine() {
   local ext="$1"
   local root=$(basename "$PWD")
   local output="${root}.${ext}"
