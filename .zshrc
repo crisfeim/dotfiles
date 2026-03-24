@@ -142,14 +142,7 @@ anima() {
 #|--------------------------------------------------------------------------
 #*/
 
-source ~/dotfiles/modules/vcs.sh
-source ~/dotfiles/modules/brew-config.sh
-source ~/dotfiles/modules/misc.sh
-source ~/dotfiles/modules/emoji-mapper.sh
-source ~/dotfiles/modules/uninstall.sh
-source ~/dotfiles/modules/apppath.sh
-source ~/dotfiles/modules/cat.sh
-source ~/dotfiles/modules/rm.sh
+source ~/dotfiles/imports.sh
 
 # Fig post block. Keep at the bottom of this file.
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
@@ -188,3 +181,4 @@ setopt prompt_subst
 PROMPT+='$(fossil_prompt_info)'
 source ~/dotfiles/modules/xctest.sh
 export PATH="$HOME/.config/emacs/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
