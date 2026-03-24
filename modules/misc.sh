@@ -110,3 +110,11 @@ frm() {
 zap() { frm $1 }
 
 alias t='python3 /usr/local/bin/t/t.py --task-dir ~/tasks --list tasks'
+
+flushcache() { sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder }
+coderunner() { open -a /Applications/Apps/dev/CodeRunner.app "$@" }
+xcode() { open -a Xcode $1 }
+nova() { open -a "/Applications/Apps/dev/Nova 9.6.app" "$@" }
+anima() {
+    afplay "~/Music/Music/Media.localized/Music/Marco Frisina/Unknown Album/🙏 Anima Christi_ Alma de Cristo.mp3"
+}

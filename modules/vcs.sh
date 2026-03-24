@@ -1,5 +1,5 @@
 # --- Internal Support Functions ---
-_vcs_type() {
+vcs() {
 	if [[ -f .fslckout || -f _FOSSIL_ ]]; then
 		echo "fossil"
 	elif git rev-parse --is-inside-work-tree &>/dev/null; then
@@ -9,8 +9,8 @@ _vcs_type() {
 	fi
 }
 
-_currentBranch() {
-	case $(_vcs_type) in
+currentbranch() {
+	case $(vcs) in
 		fossil) fossil branch current 2>/dev/null ;;
 		git)    git branch --show-current 2>/dev/null ;;
 	esac
@@ -18,8 +18,8 @@ _currentBranch() {
 
 # --- Unified VCS Functions ---
 
-prefix() { rename "$1-$(_currentBranch)" }
-suffix() { rename "$(_currentBranch)-$1" }
+prefix() { rename "$1-$(currentbranch)" }
+suffix() { rename "$(currentbranch)-$1" }
 
 init() {
     case "$1" in
@@ -36,20 +36,20 @@ init() {
     esac
 }
 
-mki() {
-		if [ "$1" = "git" ]; then
-				cp ~/dotfiles/misc/ignore-template.txt .gitignore
-		elif [ "$1" = "fossil" ]; then
-				mkdir -p .fossil-settings
-				cp ~/dotfiles/misc/ignore-template.txt .fossil-settings/ignore-glob
-				add .fossil-settings/ignore-glob
-		else
-				echo $unhandledMsg
-		fi
+ignore() {
+	if [ "$1" = "git" ]; then
+		cp ~/dotfiles/misc/ignore-template.txt .gitignore
+	elif [ "$1" = "fossil" ]; then
+		mkdir -p .fossil-settings
+		cp ~/dotfiles/misc/ignore-template.txt .fossil-settings/ignore-glob
+		add .fossil-settings/ignore-glob
+	else
+		echo $unhandledMsg
+	fi
 }
 
 add() {
-    case $(_vcs_type) in
+    case $(vcs) in
         fossil)
             if [[ "$*" == "." ]]; then
                 fossil addremove
@@ -62,36 +62,36 @@ add() {
 }
 
 status() {
-	case $(_vcs_type) in
-		fossil) fossil status ;;
+	case $(vcs) in
+		fossil) fossil status ; fossil extras;;
 		git)    git status ;;
 	esac
 }
 
 pull() {
-	case $(_vcs_type) in
+	case $(vcs) in
 		fossil) fossil pull ;;
-		git)    git pull origin $(_currentBranch) ;;
+		git)    git pull origin $(currentbranch) ;;
 	esac
 }
 
 fetch() {
-	case $(_vcs_type) in
+	case $(vcs) in
 		fossil) fossil pull ;;
 		git)    git fetch -p ; pull ;;
 	esac
 }
 
 checkout() {
-	case $(_vcs_type) in
+	case $(vcs) in
 		fossil) fossil update "$@" ;;
 		git)    git checkout "$@" ;;
 	esac
 }
 
 create() {
-	case $(_vcs_type) in
-		fossil) fossil branch new "$1" $(_currentBranch) ; fossil update "$1" ;;
+	case $(vcs) in
+		fossil) fossil branch new "$1" $(currentbranch) ; fossil update "$1" ;;
 		git)    git checkout -b "$1" ;;
 	esac
 }
@@ -100,7 +100,7 @@ commit() {
     if [ -z "$1" ]; then
         gencommit
     else
-        case $(_vcs_type) in
+        case $(vcs) in
             fossil) fossil commit -m "$1" ;;
             git)    git commit -m "$1" ;;
         esac
@@ -109,7 +109,6 @@ commit() {
 
 addcommit() {
 	add .
-
 	if [ "$1" = "." ]; then
 		commit "$(date -u '+%Y-%m-%d %H:%M:%S')"
 	else
@@ -118,30 +117,23 @@ addcommit() {
 }
 
 pushcommit() {
-	addcommit $1;
-	push
+	addcommit $1; push
 }
 
 push() {
-	if [[ "$*" == *dotfiles* ]]; then
-		cd ~/dotfiles
-		addcommit "$updateMessage"
-		git push origin $(_currentBranch)
-	else
-		case $(_vcs_type) in
-			fossil) fossil push ;;
-			git)
-				[[ "$*" == *new* ]] && addcommit "$updateMessage"
-				git push origin $(_currentBranch)
-				;;
-		esac
-	fi
+	case $(vcs) in
+		fossil) fossil push ;;
+		git)
+			[[ "$*" == *new* ]] && addcommit "$updateMessage"
+			git push origin $(currentbranch)
+			;;
+	esac
 }
 
 log() {
-	case $(_vcs_type) in
+	case $(vcs) in
 		fossil)
-			local target=${1:-$(_currentBranch)}
+			local target=${1:-$(currentbranch)}
 			fossil timeline parents "$target" ;;
 		git)
 			git log ;;
@@ -149,7 +141,7 @@ log() {
 }
 
 branch() {
-	case $(_vcs_type) in
+	case $(vcs) in
 		fossil)
 			fossil branch list | while read -r line; do
 				local is_current="  "
@@ -179,7 +171,7 @@ delete() {
 	elif [[ "$1" == "deriveddata" ]]; then
 		rm -rf ~/Library/Developer/Xcode/DerivedData
 	else
-		case $(_vcs_type) in
+		case $(vcs) in
 			fossil) fossil tag add closed "$1" --raw ; echo "Branch $1 closed in Fossil." ;;
 			git)    git branch -D "$1" ;;
 		esac
@@ -187,9 +179,9 @@ delete() {
 }
 
 rename() {
-	case $(_vcs_type) in
+	case $(vcs) in
 		fossil)
-			local old=$(_currentBranch)
+			local old=$(currentbranch)
 			fossil branch new "$1" "$old" ; fossil update "$1"
 			fossil tag add closed "$old" --raw
 			echo "Renamed: $old -> $1 (previous branch closed)"
@@ -202,7 +194,7 @@ squash() {
 	if [[ "$1" == "from" ]]; then
 		[[ -z "$2" ]] && echo "Missing squash commit name" || squashFrom "$2"
 	else
-		case $(_vcs_type) in
+		case $(vcs) in
 			fossil) echo "Fossil: Squash not supported (immutable history)." ;;
 			git)    git rebase -i HEAD~"$1" ;;
 		esac
@@ -210,7 +202,7 @@ squash() {
 }
 
 append() {
-	case $(_vcs_type) in
+	case $(vcs) in
 		fossil)
 			echo "Fossil: 'append' not supported (history is immutable). Please make a new commit."
 			;;
@@ -221,7 +213,7 @@ append() {
 }
 
 amend() {
-	case $(_vcs_type) in
+	case $(vcs) in
 		fossil)
 			echo "Fossil: 'amend' not supported. Use 'fossil commit' for a new check-in."
 			;;
@@ -232,82 +224,78 @@ amend() {
 }
 
 stash() {
-	case $(_vcs_type) in
+	case $(vcs) in
 		fossil) fossil stash save "Stash $(date +%H:%M)" ;;
 		git)    git stash ;;
 	esac
 }
 
 extras() {
-	case $(_vcs_type) in
+	case $(vcs) in
 		fossil) fossil extras;;
 		git)    git ls-files --others --exclude-standard ;;
 	esac
 }
 
 pop() {
-	case $(_vcs_type) in
+	case $(vcs) in
 		fossil) fossil stash pop ;;
 		git)    git stash pop ;;
 	esac
 }
 
-# --- Direct Compatibility Aliases ---
-deleteRem() { git push origin --delete "$1" }
 squashFrom() { git rebase -i "$1" }
-revert() { [[ $(_vcs_type) == "fossil" ]] && fossil revert "$@" || git restore "$@" }
-restore() { [[ $(_vcs_type) == "fossil" ]] && fossil revert "$@" || git restore "$@" }
-tag() { [[ $(_vcs_type) == "fossil" ]] && fossil tag add "$1" current || git tag "$1" }
-vdiff() { [[ $(_vcs_type) == "fossil" ]] && fossil diff || git diff HEAD^1 }
-remove() { [[ $(_vcs_type) == "fossil" ]] && fossil forget "$@" || git rm --cached "$@" }
+revert() { [[ $(vcs) == "fossil" ]] && fossil revert "$@" || git restore "$@" }
+restore() { [[ $(vcs) == "fossil" ]] && fossil revert "$@" || git restore "$@" }
+tag() { [[ $(vcs) == "fossil" ]] && fossil tag add "$1" current || git tag "$1" }
+diffs() { [[ $(vcs) == "fossil" ]] && fossil diff || git diff HEAD^1 }
+remove() { [[ $(vcs) == "fossil" ]] && fossil forget "$@" || git rm --cached "$@" }
 replace()  { delete "$1"; rename "$1" }
 override() { delete "$1"; rename "$1" }
 aforce() { append ; force }
-appendpush() { aforce }
-appendforce() { aforce }
+
 force() {
-	case $(_vcs_type) in
+	case $(vcs) in
 		fossil) echo "Fossil: Push force not supported." ;;
-		git) git push -f origin $(_currentBranch) ;;
+		git) git push -f origin $(currentbranch) ;;
 	esac
 }
 
 createRemote() {
-	case $(_vcs_type) in
-		fossil) echo "Fossil: Configure remote on your Mac Mini using 'fossil remote add'." ;;
+	case $(vcs) in
+		fossil) echo "Fossil: Configure remote on your computer using 'fossil remote add'." ;;
 		git)    gh repo create "$1" --public --source=. --remote=origin --push ;;
 	esac
 }
 
-
 clone() {
-		if [ -z "$1" ]; then
-				echo "Usage: clone crisfeim/repo[/] or clone repo[/]"
-				return 1
-		fi
+	if [ -z "$1" ]; then
+		echo "Usage: clone user/repo[/] or clone repo[/]"
+		return 1
+	fi
 
-		local input="$1"
-		local clean_path="${input%/}"
-		local repo_url=""
-		local target_dir=""
+	local input="$1"
+	local clean_path="${input%/}"
+	local repo_url=""
+	local target_dir=""
 
-		# if contains "/" at the midle, repo is from other user
-		if [[ "$clean_path" == */* ]]; then
-				repo_url="git@github.com:${clean_path}.git"
-				target_dir="${clean_path##*/}"
-		else
-				repo_url="git@github.com:crisfeim/${clean_path}.git"
-				target_dir="$clean_path"
-		fi
+	# if contains "/" at the midle, repo is from other user
+	if [[ "$clean_path" == */* ]]; then
+		repo_url="git@github.com:${clean_path}.git"
+		target_dir="${clean_path##*/}"
+	else
+		repo_url="git@github.com:crisfeim/${clean_path}.git"
+		target_dir="$clean_path"
+	fi
 
-		if command git clone "$repo_url" "$target_dir"; then
-				# Si el input original termina en /, entramos
-				if [[ "$input" == */ ]]; then
-						cd "$target_dir"
-				fi
-		else
-				return 1
+	if command git clone "$repo_url" "$target_dir"; then
+		# Si el input original termina en /, entramos
+		if [[ "$input" == */ ]]; then
+			cd "$target_dir"
 		fi
+	else
+		return 1
+	fi
 }
 
 gencommit() {
@@ -337,7 +325,6 @@ gencommit() {
     fi
 }
 
-# Fossil specific
 fopen() {
     if [ -z "$1" ]; then
         echo "Usage: fopen <database_file>"
@@ -350,8 +337,4 @@ fopen() {
     mkdir -p "$folder_name"
     cd "$folder_name"
     fossil open "../$db_file"
-}
-
-fclose() {
-    fossil close;
 }
