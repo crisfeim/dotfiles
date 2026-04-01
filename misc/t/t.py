@@ -4,7 +4,7 @@
 
 from __future__ import with_statement, print_function
 
-import os, re, sys, hashlib
+import os, re, sys, hashlib, time
 from operator import itemgetter
 from optparse import OptionParser, OptionGroup
 
@@ -173,7 +173,7 @@ class TaskDict(object):
     def add_task(self, text, verbose, quiet):
         """Add a new, unfinished task with the given summary text."""
         task_id = _hash(text)
-        self.tasks[task_id] = {'id': task_id, 'text': text}
+        self.tasks[task_id] = {'id': task_id, 'text': text, 'created': str(int(time.time()))}
 
         if not quiet:
             if verbose:
@@ -232,7 +232,7 @@ class TaskDict(object):
                 tasks[task_id]['prefix'] = prefix
 
         plen = max(map(lambda t: len(t[label]), tasks.values())) if tasks else 0
-        for _, task in sorted(tasks.items()):
+        for _, task in sorted(tasks.items(), key=lambda x: x[1].get('created', '0')):
             if grep.lower() in task['text'].lower():
                 p = '%s - ' % task[label].ljust(plen) if not quiet else ''
                 print(p + task['text'])

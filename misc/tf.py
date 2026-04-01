@@ -89,6 +89,7 @@ def main():
         title   = task['text']
 
         td.finish_task(prefix)
+        print(task)
         td.write()
 
         print(f'commiteando: {title}')
@@ -99,7 +100,7 @@ def main():
 
     else:
         os.execv(sys.executable, [
-            sys.executable, '/usr/local/bin/t/t.py',
+            sys.executable, os.path.expanduser('~/dotfiles/misc/t/t.py'),
             '--task-dir', task_dir,
             '--list', 'tasks',
         ] + args)
