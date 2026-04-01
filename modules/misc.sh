@@ -76,7 +76,7 @@ zap() {
 	fi
 }
 
-alias t='python3 /usr/local/bin/t/t.py --task-dir ~/tasks --list tasks'
+alias t='python3 ~/dotfiles/misc/t/t.py --task-dir ~/tasks --list tasks'
 alias tf='python3 ~/dotfiles/misc/tf.py'
 
 flushcache() { sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder }

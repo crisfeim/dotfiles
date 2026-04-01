@@ -4,7 +4,7 @@ import os
 import sys
 import subprocess
 
-sys.path.insert(0, '/usr/local/bin/t')
+sys.path.insert(0, os.path.expanduser('~/dotfiles/misc/t'))
 from t import TaskDict, AmbiguousPrefix, UnknownPrefix
 
 
