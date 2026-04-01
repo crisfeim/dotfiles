@@ -1,12 +1,19 @@
 # --- Internal Support Functions ---
 vcs() {
-	if [[ -f .fslckout || -f _FOSSIL_ ]]; then
-		echo "fossil"
-	elif git rev-parse --is-inside-work-tree &>/dev/null; then
-		echo "git"
-	else
-		echo "none"
-	fi
+    local dir="$PWD"
+    while [[ "$dir" != "/" ]]; do
+        if [[ -f "$dir/.fslckout" || -f "$dir/_FOSSIL_" ]]; then
+            echo "fossil"
+            return
+        fi
+        dir="${dir:h}"
+    done
+
+    if git rev-parse --is-inside-work-tree &>/dev/null; then
+        echo "git"
+    else
+        echo "none"
+    fi
 }
 
 currentbranch() {
