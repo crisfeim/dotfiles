@@ -1,0 +1,7 @@
+{
+    "name": "swift2md",
+    "type": "module",
+    "bin": {
+        "swift2md": "./swift2md.js"
+    }
+}
