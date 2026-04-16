@@ -4,7 +4,7 @@ test() {
     local file="${base}.test.swift"
 
     if [[ -f "$file" ]]; then
-        swift -I "$HOME/.swift_libs" -L "$HOME/.swift_libs" -lMiniTests "$file"
+        swift -I "$HOME/dotfiles/libs/swift/MiniTests" -L "$HOME/dotfiles/libs/swift/MiniTests" -lMiniTests "$file"
     else
         echo "File not found: $file"
     fi

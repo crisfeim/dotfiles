@@ -31,3 +31,9 @@ fastlane/test_output
 !default.perspectivev3
 node_modules/
 tasks
+__pycache__
+*.dylib
+*.swiftdoc
+*.swiftmodule
+*.swiftsourceinfo
+*.abi.json

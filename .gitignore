@@ -3,3 +3,8 @@ config.sh
 .DS_Store
 **/.DS_Store
 __pycache__
+*.dylib
+*.swiftdoc
+*.swiftmodule
+*.swiftsourceinfo
+*.abi.json
