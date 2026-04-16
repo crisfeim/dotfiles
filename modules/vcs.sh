@@ -222,7 +222,7 @@ append() {
 amend() {
 	case $(vcs) in
 		fossil)
-			echo "Fossil: 'amend' not supported. Use 'fossil commit' for a new check-in."
+		    fossil amend tip --comment $1
 			;;
 		git)
 			git commit --amend -m "$1"
