@@ -14,6 +14,7 @@ path "/opt/homebrew/opt/openjdk/bin"
 path "$PNPM_HOME"
 path "$HOME/.config/emacs/bin"
 path "$HOME/.local/bin"
+path "$HOME/.nimble/bin"
 
 path_end "$HOME/.composer/vendor/bin"
 path_end "/usr/local/go/bin"
