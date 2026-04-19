@@ -33,9 +33,5 @@ folders() {
 alias t='python3 ~/dotfiles/misc/t/t.py --task-dir ~/tasks --list tasks'
 alias tf='python3 ~/dotfiles/misc/tf.py'
 
-coderunner() { open -a /Applications/Apps/dev/CodeRunner.app "$@" }
-xcode() { open -a Xcode $1 }
-nova() { open -a "/Applications/Apps/dev/Nova 9.6.app" "$@" }
-iina() { open -a "/Applications/Apps/misc/IINA.app" "$@" }
 anima() { iina ~/"Music/Music/Media.localized/Music/Marco Frisina/Unknown Album/Anima Christi.mp3" }
 gregorian() { iina ~/"Music/Music/Media.localized/Music/Benedictine Monks/Unknown Album/Gregorian Chants of the Benedictine Monks.mp3" }
