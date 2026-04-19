@@ -1,3 +1,5 @@
+# Lazyfica cat
+# Mostrará el primer fichero que haga match con el filename independientemente de la extensión.
 cat() {
   local args=()
   for arg in "$@"; do
