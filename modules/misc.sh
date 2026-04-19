@@ -4,16 +4,16 @@ k() { lsof -ti :$1 | xargs -r kill -9 }
 
 
 files() {
-	local target="${1:-.}"
+    local target="${1:-.}"
 
-	if [ ! -d "$target" ]; then
-		echo "Error: '$target' no es un directorio válido."
-		return 1
-	fi
+    if [ ! -d "$target" ]; then
+        echo "Error: '$target' no es un directorio válido."
+        return 1
+    fi
 
-	find "$target" | sed \
-		-e "s/[^-][^\/]*\//  |/g" \
-		-e "s/|\([^ ]\)/|-\1/"
+    find "$target" -not -path '*/.*' | sed \
+        -e "s/[^-][^\/]*\//│  /g" \
+        -e "s/│  \([^│]\)/├── \1/" \
 }
 
 folders() {
