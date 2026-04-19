@@ -8,3 +8,5 @@ __pycache__
 *.swiftmodule
 *.swiftsourceinfo
 *.abi.json
+tasks
+.tasks.done
