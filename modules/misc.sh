@@ -1,19 +1,6 @@
 
-vi() { nvim $1 }
-
-k() {
-	if [ "$1" = "simulators" ]; then
-		xcrun simctl shutdown all
-	elif [ "$1" = "port" ]; then
-		lsof -ti :$2 | xargs -r kill -9
-	elif [ "$1" = "hugo" ]; then
-		killall -9 hugo;
-		killall hugo;
-		pkill hugo
-	else
-		echo "Unhandled"
-	fi
-}
+e() { nvim $1 }
+k() { lsof -ti :$1 | xargs -r kill -9 }
 
 
 files() {
@@ -43,43 +30,9 @@ folders() {
 		-e 's/^/   /'
 }
 
-clean() {
-    if [[ "$1" == "xcode" ]]; then
-		 ~/Library/Developer/Xcode/DerivedData
-		 ~/Library/Caches/org.swift.swiftpm
-		 ~/Library/Caches/com.apple.dt.Xcode
-
-        for pkg in ~/Library/Developer/Xcode/DerivedData/*/SourcePackages(/N); do
-     		 "$pkg"
-        done
-
-        xcrun simctl delete unavailable
-    else
-        echo "Unhandle"
-    fi
-}
-
-zap() {
-	local target="${1%/}"
-	if [[ -d "$target" ]]; then
-		local empty
-		empty=$(mktemp -d) || return 1
-
-		# defers removal
-		trap 'command rm -rf "$empty"' EXIT INT TERM
-
-		rsync -a --delete "$empty/" "$target/"
-		command rm -rf "$target"
-	else
-		echo "Error: '$target' is not a valid directory."
-		return 1
-	fi
-}
-
 alias t='python3 ~/dotfiles/misc/t/t.py --task-dir ~/tasks --list tasks'
 alias tf='python3 ~/dotfiles/misc/tf.py'
 
-flushcache() { sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder }
 coderunner() { open -a /Applications/Apps/dev/CodeRunner.app "$@" }
 xcode() { open -a Xcode $1 }
 nova() { open -a "/Applications/Apps/dev/Nova 9.6.app" "$@" }
