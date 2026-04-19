@@ -11,16 +11,10 @@
 	<key>IDECodeSnippetContents</key>
 	<string>import XCTest
 
-final class &lt;#TestCaseName#&gt;Tests: XCTestCase {
-
-    override func setUp() {
-    }
-
-    override func tearDown() {
-    }
-
-    func test() throws {
-    }
+final class &lt;#Name#&gt;Tests: XCTestCase {
+    override func setUp() {}
+    override func tearDown() {}
+    func test() throws {}
 }</string>
 	<key>IDECodeSnippetIdentifier</key>
 	<string>3487EAA2-3FB0-4602-BFD1-DC5F8551D1EA</string>
