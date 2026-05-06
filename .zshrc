@@ -2,6 +2,7 @@ source ~/dotfiles/setup.sh
 
 export BUN_INSTALL="$HOME/.bun"
 export PNPM_HOME="$HOME/Library/pnpm"
+export EDITOR="nvim"
 path "/bin"
 path "/usr/bin"
 path "/usr/local/bin"
