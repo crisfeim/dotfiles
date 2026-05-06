@@ -72,18 +72,11 @@ def fossil_commit(root, title):
 def git_commit(root, title):
     """
     Commitea en Git.
-    Si no hay nada en el index, hace 'git add -A' primero.
+    Siempre hace 'git add .' antes de commitear.
     """
-    staged = subprocess.run(
-        ['git', 'diff', '--cached', '--quiet'],
-        cwd=root
-    )
-    has_staged = staged.returncode != 0   # returncode != 0 → hay cambios staged
-
-    if not has_staged:
-        result = subprocess.run(['git', 'add', '-A'], cwd=root)
-        if result.returncode != 0:
-            return False
+    result = subprocess.run(['git', 'add', '.'], cwd=root)
+    if result.returncode != 0:
+        return False
 
     result = subprocess.run(
         ['git', 'commit', '-m', title],
