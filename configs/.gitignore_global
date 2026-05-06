@@ -37,3 +37,7 @@ DerivedData/
 ### --- Lenguajes & Scripts ---
 node_modules/
 npm-debug.log*
+
+### ——— Tasks (from tf utility) ——
+tasks
+.tasks.done
