@@ -1,3 +1,1 @@
-db() {
-    sqlite3 ~/db/db.db
-}
+db() { sqlite3 ~/db/db.db }
