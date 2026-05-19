@@ -4,6 +4,6 @@ focus() {
     open -a "IINA" /Users/cristian/Music/Music/Media.localized/Music/Focus/Youtube/Chimenea.m4a
 }
 
-chimenea() {
-    open -a "IINA" /Users/cristian/Music/Music/Media.localized/Music/Focus/Youtube/Chimenea.m4a
-}
+chimenea() { iina ~/Music/Music/Media.localized/Music/Focus/Youtube/Chimenea.m4a }
+anima() { iina ~/"Music/Music/Media.localized/Music/Marco Frisina/Unknown Album/Anima Christi.mp3" }
+gregorian() { iina ~/"Music/Music/Media.localized/Music/Benedictine Monks/Unknown Album/Gregorian Chants of the Benedictine Monks.mp3" }

@@ -32,6 +32,3 @@ folders() {
 
 alias t='python3 ~/dotfiles/misc/t/t.py --task-dir ~/tasks --list tasks'
 alias tf='python3 ~/dotfiles/misc/tf.py'
-
-anima() { iina ~/"Music/Music/Media.localized/Music/Marco Frisina/Unknown Album/Anima Christi.mp3" }
-gregorian() { iina ~/"Music/Music/Media.localized/Music/Benedictine Monks/Unknown Album/Gregorian Chants of the Benedictine Monks.mp3" }
