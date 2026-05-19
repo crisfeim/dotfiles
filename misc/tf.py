@@ -2,6 +2,7 @@
 import os
 import sys
 import subprocess
+import tempfile
 sys.path.insert(0, os.path.expanduser('~/dotfiles/misc/t'))
 from t import TaskDict, AmbiguousPrefix, UnknownPrefix
 
@@ -94,6 +95,28 @@ def vcs_commit(root, vcs, title):
     return False
 
 
+# ── Editor helper ──────────────────────────────────────────────────────────────
+
+def edit_message_with_vi(initial_text):
+    """Abre vi con el texto inicial y devuelve el texto modificado."""
+    with tempfile.NamedTemporaryFile(suffix=".txt", delete=False) as tf:
+        tf.write(initial_text.encode('utf-8'))
+        temp_path = tf.name
+
+    try:
+        # Abre vi interactivo heredando stdin/stdout
+        result = subprocess.run(['vi', temp_path])
+        if result.returncode != 0:
+            return None
+
+        with open(temp_path, 'r', encoding='utf-8') as f:
+            content = f.read().strip()
+        return content if content else None
+    finally:
+        if os.path.exists(temp_path):
+            os.remove(temp_path)
+
+
 # ── Rollback ───────────────────────────────────────────────────────────────────
 
 def rollback(root, task_id, task):
@@ -115,6 +138,13 @@ def rollback(root, task_id, task):
 
 def main():
     args = sys.argv[1:]
+
+    # Detectar y extraer el flag -e si existe en los argumentos
+    edit_mode = False
+    if '-e' in args:
+        edit_mode = True
+        args.remove('-e')
+
     vcs_root, vcs = find_vcs_root()
 
     if vcs_root:
@@ -140,6 +170,14 @@ def main():
 
         task_id = task['id']
         title   = task['text']
+
+        if edit_mode:
+            edited_title = edit_message_with_vi(title)
+            if not edited_title:
+                print('error: mensaje de commit vacío o vi cancelado', file=sys.stderr)
+                sys.exit(1)
+            title = edited_title
+
         td.finish_task(prefix)
         td.write()
         print(f'commiteando ({vcs}): {title}')
@@ -148,6 +186,9 @@ def main():
             rollback(vcs_root, task_id, task)
             sys.exit(1)
     else:
+        # Si se pasa -e pero no se cumple la condición de finish, reinyectamos -e para el script base si aplica
+        if edit_mode:
+            args.append('-e')
         os.execv(sys.executable, [
             sys.executable, os.path.expanduser('~/dotfiles/misc/t/t.py'),
             '--task-dir', task_dir,
