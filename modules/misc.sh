@@ -28,6 +28,3 @@ folders() {
 		-e 's/[^-][^\/]*\//  /g' \
 		-e 's/^/   /'
 }
-
-alias t='python3 ~/dotfiles/misc/t/t.py --task-dir ~/tasks --list tasks'
-alias tf='python3 ~/dotfiles/misc/tf.py'
