@@ -257,6 +257,7 @@ restore() { [[ $(vcs) == "fossil" ]] && fossil revert "$@" || git restore "$@" }
 tag() { [[ $(vcs) == "fossil" ]] && fossil tag add "$1" current || git tag "$1" }
 diffs() { [[ $(vcs) == "fossil" ]] && fossil diff || git diff HEAD^1 }
 remove() { [[ $(vcs) == "fossil" ]] && fossil forget "$@" || git rm --cached "$@" }
+close() { [[ $(vcs) == "fossil" ]] && fossil amend "$1" --close || git branch -d "$1" }
 replace()  { delete "$1"; rename "$1" }
 override() { delete "$1"; rename "$1" }
 aforce() { append ; force }
