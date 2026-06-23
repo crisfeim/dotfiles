@@ -38,6 +38,7 @@ DerivedData/
 node_modules/
 npm-debug.log*
 
-### ——— Tasks (from tf utility) ——
-tasks
-.tasks.done
+.todo
+.done
+.todo.txt
+.done.txt
