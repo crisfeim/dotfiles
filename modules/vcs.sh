@@ -227,14 +227,24 @@ append() {
 }
 
 amend() {
-	case $(vcs) in
-		fossil)
-		    fossil amend tip --comment $1
-			;;
-		git)
-			git commit --amend -m "$1"
-			;;
-	esac
+    local msg
+    if [ -n "$1" ]; then
+        msg="$1"
+    else
+        local tmp=$(mktemp)
+        case $(vcs) in
+            fossil) fossil info tip | grep -E "^comment:" | sed 's/^comment: *//' > "$tmp" ;;
+            git)    git log -1 --pretty=%B > "$tmp" ;;
+        esac
+        ${EDITOR:-vi} "$tmp"
+        msg=$(cat "$tmp")
+        rm "$tmp"
+    fi
+
+    case $(vcs) in
+        fossil) fossil amend tip --comment "$msg" ;;
+        git)    git commit --amend -m "$msg" ;;
+    esac
 }
 
 stash() {
