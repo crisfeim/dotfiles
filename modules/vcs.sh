@@ -103,6 +103,13 @@ create() {
 	esac
 }
 
+merge() {
+	case $(vcs) in
+		fossil) fossil merge "$1" && fossil commit -m "Merge branch $1" ; fossil amend $1 --close ;;
+		git) git merge "$1" ;;
+	esac
+}
+
 commit() {
     if [ -z "$1" ]; then
         gencommit
