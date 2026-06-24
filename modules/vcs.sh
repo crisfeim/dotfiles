@@ -136,7 +136,9 @@ pushcommit() {
 
 push() {
 	case $(vcs) in
-		fossil) fossil push ;;
+		fossil)
+			fossil push
+			fossil git status 2>/dev/null | grep -q "none" || fossil git export ;;
 		git)
 			[[ "$*" == *new* ]] && addcommit "$updateMessage"
 			git push origin $(currentbranch)
