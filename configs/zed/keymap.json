@@ -1,0 +1,65 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+    	"cmd-u": [
+        "task::Spawn",
+        {
+          "task_name": "Test"
+        }
+      ],
+      "cmd-alt-c": "git_panel::ToggleFocus"
+    }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+    	"cmd-u": [
+        "task::Spawn",
+        {
+          "task_name": "Test"
+        }
+      ]
+    }
+  },
+  {
+    "context": "Workspace && !Terminal",
+    "bindings": {
+      "cmd-b": [
+        "task::Spawn",
+        {
+          "task_name": "Build"
+        }
+      ]
+    }
+  },
+  {
+    "context": "Workspace && !Terminal",
+    "bindings": {
+      "cmd-shift-r": [
+        "task::Spawn",
+        {
+          "task_name": "Build"
+        }
+      ]
+    }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "cmd-b": [
+        "task::Spawn",
+        {
+          "task_name": "Build"
+        }
+      ]
+    }
+  }
+]
