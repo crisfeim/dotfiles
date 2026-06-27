@@ -111,7 +111,26 @@ merge() {
 }
 
 commit() {
-    if [ -z "$1" ]; then
+    if [ "$1" = "-e" ]; then
+        local tmp=$(mktemp)
+
+        # Abre el editor vacío para escribir desde cero
+        ${EDITOR:-vi} "$tmp"
+        local msg=$(cat "$tmp")
+        rm "$tmp"
+
+        # Aborta si el mensaje está vacío (solo espacios o vacío real)
+        if [ -z "${msg##[[:space:]]}" ]; then
+            echo "Commit aborted due to empty message" >&2
+            return 1
+        fi
+
+        # Ejecuta el commit con el mensaje del editor
+        case $(vcs) in
+            fossil) fossil commit -m "$msg" ;;
+            git)    git commit -m "$msg" ;;
+        esac
+    elif [ -z "$1" ]; then
         gencommit
     else
         case $(vcs) in
