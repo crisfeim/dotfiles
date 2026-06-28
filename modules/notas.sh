@@ -36,13 +36,26 @@ notas() {
       "${SQ[@]}" "$DB" \
         "SELECT categoría || '  (' || COUNT(*) || ')' FROM notas GROUP BY categoría ORDER BY categoría;" 2>/dev/null
       ;;
-
+    add)
+      # notas add <categoría> <título> <contenido>
+      "${SQ[@]}" "$DB" \
+        "INSERT INTO notas (categoría, título, contenido) VALUES ('$2', '$3', '$4');" 2>/dev/null
+      echo "Created note."
+      ;;
+    rm)
+      # notas rm <id>
+      "${SQ[@]}" "$DB" \
+        "DELETE FROM notas WHERE id = $2;" 2>/dev/null
+      echo "Removed note with id $2."
+      ;;
     *)
       echo "Uso:"
       echo "  notas search 'término' [-c categoría]"
       echo "  notas cat <id>"
       echo "  notas ls [categoría]"
       echo "  notas cats"
+      echo "  notas rm <id>"
+      echo "	notas add <categoría> <título> <contenido>"
       ;;
   esac
 }
