@@ -139,3 +139,5 @@ peliculas()  { _db_dispatch "$HOME/db/db.db" películas    "género"    "título
 principios() { _db_dispatch "$HOME/db/db.db" principios   "categoría" "valor"    ""           "$@"; }
 reflexiones(){ _db_dispatch "$HOME/db/db.db" reflexiones  "categoría" "título"   "contenido"  "$@"; }
 versiculos() { _db_dispatch "$HOME/db/db.db" versículos   "categoría" "ref"      "contenido"  "$@"; }
+
+tables() { _sq "$HOME/db/db.db" "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;" 2>/dev/null; }
