@@ -141,7 +141,7 @@ _db_dispatch() {
       ;;
     move)       _db_move   "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" ;;
     help)       _db_help   "$table" "$c1" "$c2" "$c3" ;;
-    "")         _db_all    "$db" "$table" "$c1" "$c2" "$c3" ;;
+    "") _db_cats "$db" "$table" "$c1" ;;
     *)
       if [[ "$1" =~ ^[0-9]+$ ]]; then
         _db_cat "$db" "$table" "$c1" "$c2" "$c3" "$1"
@@ -170,3 +170,28 @@ db() {
   local c1="${cols[1]}" c2="${cols[2]}" c3="${cols[3]}"
   _db_dispatch "$HOME/db/db.db" "$table" "$c1" "$c2" "$c3" "$@"
 }
+
+_db_complete() {
+  local cur="${COMP_WORDS[COMP_CWORD]}"
+  local prev="${COMP_WORDS[COMP_CWORD-1]}"
+
+  if [[ "$prev" == "db" ]]; then
+    # completar nombres de tablas
+    local tables
+    tables=$(sqlite3 -init /dev/null -list "$HOME/db/db.db" \
+      "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;" 2>/dev/null)
+    COMPREPLY=($(compgen -W "$tables" -- "$cur"))
+  elif [[ COMP_CWORD -eq 2 ]]; then
+    # completar comandos o categorías
+    local table="${COMP_WORDS[1]}"
+    local cats
+    cats=$(sqlite3 -init /dev/null -list "$HOME/db/db.db" \
+      "SELECT DISTINCT $(sqlite3 -init /dev/null "$HOME/db/db.db" \
+        "PRAGMA table_info($table);" 2>/dev/null | awk -F'|' 'NR==2{print $2}') \
+       FROM $table ORDER BY 1;" 2>/dev/null)
+    local cmds="search cats add new rm remove update move help"
+    COMPREPLY=($(compgen -W "$cats $cmds" -- "$cur"))
+  fi
+}
+
+complete -F _db_complete db
