@@ -131,7 +131,7 @@ _db_dispatch() {
   esac
 }
 
-citas()      { _db_dispatch "$HOME/db/db.db" citas        "categoría" "autor"    "contenido"  "$@"; }
+citas()      { _db_dispatch "$HOME/db/db.db" citas        "categoría" "contenido" "autor"  "$@"; }
 diccionario(){ _db_dispatch "$HOME/db/db.db" diccionario  "categoría" "término"  "definición" "$@"; }
 ideas()      { _db_dispatch "$HOME/db/db.db" ideas        "categoría" "título"   "contenido"  "$@"; }
 notas()      { _db_dispatch "$HOME/db/db.db" notas        "categoría" "título"   "contenido"  "$@"; }
@@ -139,5 +139,6 @@ peliculas()  { _db_dispatch "$HOME/db/db.db" películas    "género"    "título
 principios() { _db_dispatch "$HOME/db/db.db" principios   "categoría" "valor"    ""           "$@"; }
 reflexiones(){ _db_dispatch "$HOME/db/db.db" reflexiones  "categoría" "título"   "contenido"  "$@"; }
 versiculos() { _db_dispatch "$HOME/db/db.db" versículos   "categoría" "ref"      "contenido"  "$@"; }
+articulos()  { _db_dispatch "$HOME/db/db.db" artículos "categoría" "título" "descripción" "$@"; }
 
 tables() { _sq "$HOME/db/db.db" "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;" 2>/dev/null; }
