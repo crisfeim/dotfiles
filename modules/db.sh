@@ -140,18 +140,21 @@ _db_dispatch() {
   esac
 }
 
-citas()      { _db_dispatch "$HOME/db/db.db" citas        "categoría" "contenido" "autor"  "$@"; }
-diccionario(){ _db_dispatch "$HOME/db/db.db" diccionario  "categoría" "término"  "definición" "$@"; }
-dict()       { _db_dispatch "$HOME/db/db.db" diccionario  "categoría" "término"  "definición" "$@"; }
-ideas()      { _db_dispatch "$HOME/db/db.db" ideas        "categoría" "título"   "contenido"  "$@"; }
-notas()      { _db_dispatch "$HOME/db/db.db" notas        "categoría" "título"   "contenido"  "$@"; }
-notes()      { _db_dispatch "$HOME/db/db.db" notas        "categoría" "título"   "contenido"  "$@"; }
-peliculas()  { _db_dispatch "$HOME/db/db.db" películas    "género"    "título"   "year"        "$@"; }
-movies()     { _db_dispatch "$HOME/db/db.db" películas    "género"    "título"   "year"        "$@"; }
-principios() { _db_dispatch "$HOME/db/db.db" principios   "categoría" "valor"    ""           "$@"; }
-reflexiones(){ _db_dispatch "$HOME/db/db.db" reflexiones  "categoría" "título"   "contenido"  "$@"; }
-versiculos() { _db_dispatch "$HOME/db/db.db" versículos   "categoría" "ref"      "contenido"  "$@"; }
-articulos()  { _db_dispatch "$HOME/db/db.db" artículos "categoría" "título" "descripción" "$@"; }
-articles()   { _db_dispatch "$HOME/db/db.db" artículos "categoría" "título" "descripción" "$@"; }
-
-tables() { _sq "$HOME/db/db.db" "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;" 2>/dev/null; }
+db() {
+  if [[ -z "$1" ]]; then
+    _sq "$HOME/db/db.db" "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;" 2>/dev/null
+    return
+  fi
+  local table="$1"
+  shift
+  local info
+  info=$(_sq "$HOME/db/db.db" "PRAGMA table_info($table);" 2>/dev/null)
+  if [[ -z "$info" ]]; then
+    echo "Tabla '$table' no existe."
+    return 1
+  fi
+  local cols
+  cols=($(echo "$info" | awk -F'|' '{print $2}' | grep -v '^id$'))
+  local c1="${cols[1]}" c2="${cols[2]}" c3="${cols[3]}"
+  _db_dispatch "$HOME/db/db.db" "$table" "$c1" "$c2" "$c3" "$@"
+}
