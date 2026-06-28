@@ -97,20 +97,22 @@ _db_move() {
 
 _db_help() {
   local table="$1" c1="$2" c2="$3" c3="$4"
-  echo "Uso: $table <comando> [args]"
-  echo ""
-  echo "  $table [all]                        listar todo"
-  echo "  $table search <término> [-c <$c1>]  buscar"
-  echo "  $table cat <id>                     mostrar $c3"
-  echo "  $table ls [<$c1>]                   listar por $c1"
-  echo "  $table cats                         listar $c1 con total"
-  [[ -n "$c1" ]] && \
-  echo "  $table add <$c1> <$c2> [<$c3>]" || \
-  echo "  $table add <$c2> [<$c3>]"
-  echo "  $table rm <id>"
-  echo "  $table update <campo> <id>"
-  [[ -n "$c1" ]] && \
-  echo "  $table move <vieja> <nueva>"
+  {
+    echo "Uso: $table <comando> [args]"
+    echo ""
+    echo "  $table|all|listar todo"
+    echo "  $table|search <término> [-c <$c1>]|buscar"
+    echo "  $table|cat <id>|mostrar $c3"
+    echo "  $table|ls [<$c1>]|listar por $c1"
+    echo "  $table|cats|listar $c1 con total"
+    [[ -n "$c1" ]] && \
+    echo "  $table|add <$c1> <$c2> [<$c3>]|crear" || \
+    echo "  $table|add <$c2> [<$c3>]|crear"
+    echo "  $table|rm <id>|eliminar"
+    echo "  $table|update <campo> <id>|editar campo"
+    [[ -n "$c1" ]] && \
+    echo "  $table|move <vieja> <nueva>|mover categoría"
+  } | column -t -s "|"
 }
 
 _db_dispatch() {
@@ -119,17 +121,22 @@ _db_dispatch() {
   case "$1" in
     search) _db_search "$db" "$table" "$c1" "$c2" "$c3" "$2" "$([[ "$3" == -c ]] && echo "$4")" ;;
     cat)    _db_cat    "$db" "$table" "$c1" "$c2" "$c3" "$2" ;;
+    show)   _db_cat    "$db" "$table" "$c1" "$c2" "$c3" "$2" ;;
     ls)     _db_ls     "$db" "$table" "$c1" "$c2" "$c3" "$2" ;;
     cats)   _db_cats   "$db" "$table" "$c1" ;;
+    categories)   _db_cats   "$db" "$table" "$c1" ;;
+    categorías)   _db_cats   "$db" "$table" "$c1" ;;
     all)    _db_all    "$db" "$table" "$c1" "$c2" "$c3" ;;
     add)    _db_add    "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" "$4" ;;
     new)    _db_add    "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" "$4" ;;
     create) _db_add    "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" "$4" ;;
     rm)     _db_rm     "$db" "$table" "$c1" "$c2" "$c3" "$2" ;;
+    remove) _db_rm     "$db" "$table" "$c1" "$c2" "$c3" "$2" ;;
+    delete) _db_rm     "$db" "$table" "$c1" "$c2" "$c3" "$2" ;;
     update) _db_update "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" ;;
     move)   _db_move   "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" ;;
-    help)   _db_help   "$table" "$c1" "$c2" "$c3" ;;
-    *)      _db_all    "$db" "$table" "$c1" "$c2" "$c3" ;;
+    list)   _db_all    "$db" "$table" "$c1" "$c2" "$c3" ;;
+    *)      _db_help   "$table" "$c1" "$c2" "$c3" ;;
   esac
 }
 
