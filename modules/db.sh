@@ -131,10 +131,11 @@ _db_dispatch() {
   esac
 }
 
-citas()      { _db_dispatch "$HOME/db/db.db" citas       "categoría" "autor"     "contenido"  "$@"; }
+citas()      { _db_dispatch "$HOME/db/db.db" citas       "categoría" "contenido" "autor"  "$@"; }
 diccionario(){ _db_dispatch "$HOME/db/db.db" diccionario "categoría" "término"   "definición" "$@"; }
 ideas()      { _db_dispatch "$HOME/db/db.db" ideas       "categoría" "título"    "contenido"  "$@"; }
 notas()      { _db_dispatch "$HOME/db/db.db" notas       "categoría" "título"    "contenido"  "$@"; }
 peliculas()  { _db_dispatch "$HOME/db/db.db" películas   "género"    "título"    "year"       "$@"; }
 principios() { _db_dispatch "$HOME/db/db.db" principios  "categoría" "valor"     ""           "$@"; }
+reflexiones(){ _db_dispatch "$HOME/db/db.db" reflexiones "categoría" "título"    "contenido"  "$@"; }
 versiculos() { _db_dispatch "$HOME/db/db.db" versículos  "categoría" "ref"       "contenido"  "$@"; }
