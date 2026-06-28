@@ -53,7 +53,7 @@ _db_add() {
   local db="$1" table="$2" c1="$3" c2="$4" c3="$5"
   shift 5
   local v1="$1" v2="$2" v3="$3"
-  if [[ -z "$v3" && -n "$c3" ]]; then
+  if [[ $# -lt 3 && -n "$c3" ]]; then
     local tmp=$(mktemp)
     ${EDITOR:-vi} "$tmp"
     v3=$(cat "$tmp")
