@@ -190,21 +190,37 @@ _db_complete() {
     cats=$(sqlite3 -init /dev/null -list "$HOME/db/db.db" \
       "SELECT DISTINCT $c1 FROM $table ORDER BY 1;" 2>/dev/null)
     COMPREPLY=($(compgen -W "$cats" -- "$cur"))
-
-  elif [[ COMP_CWORD -eq 3 ]]; then
-    local cat="${COMP_WORDS[2]}"
-    local c1 c2
-    c1=$(sqlite3 -init /dev/null "$HOME/db/db.db" \
-      "PRAGMA table_info($table);" 2>/dev/null | awk -F'|' 'NR==2{print $2}')
-    c2=$(sqlite3 -init /dev/null "$HOME/db/db.db" \
-      "PRAGMA table_info($table);" 2>/dev/null | awk -F'|' 'NR==3{print $2}')
-    local selected
-    selected=$(sqlite3 -init /dev/null -list "$HOME/db/db.db" \
-      "SELECT id || '  ' || $c2 FROM $table WHERE $c1 = '$cat';" 2>/dev/null \
-      | fzf --height 40% --reverse --bind 'tab:down,btab:up' 2>/dev/tty)
-    local id="${selected%%  *}"
-    COMPREPLY=("$id")
   fi
 }
+
+_db_fzf_complete() {
+  local table="${LBUFFER##* }"
+  # detectar si estamos en posición de id
+  local words=("${(z)LBUFFER}")
+  [[ ${#words} -ne 3 ]] && return
+
+  local table="${words[2]}"
+  local cat="${words[3]}"
+  local c1 c2
+  c1=$(sqlite3 -init /dev/null "$HOME/db/db.db" \
+    "PRAGMA table_info($table);" 2>/dev/null | awk -F'|' 'NR==2{print $2}')
+  c2=$(sqlite3 -init /dev/null "$HOME/db/db.db" \
+    "PRAGMA table_info($table);" 2>/dev/null | awk -F'|' 'NR==3{print $2}')
+
+  local selected
+  selected=$(sqlite3 -init /dev/null -list "$HOME/db/db.db" \
+    "SELECT id || '  ' || $c2 FROM $table WHERE $c1 = '$cat';" 2>/dev/null \
+    | fzf --height 40% --reverse --bind 'tab:down,btab:up' 2>/dev/tty)
+  [[ -z "$selected" ]] && return
+
+  local id="${selected%%  *}"
+  LBUFFER="${words[1]} ${words[2]} ${words[3]} $id"
+
+  zle reset-prompt # removes ghost id from prompt after hitting enter
+  zle accept-line
+}
+
+zle -N _db_fzf_complete
+bindkey '^I' _db_fzf_complete  # tab
 
 complete -F _db_complete db
