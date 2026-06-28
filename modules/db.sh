@@ -189,14 +189,15 @@ _db_complete() {
     local cats
     cats=$(sqlite3 -init /dev/null -list "$HOME/db/db.db" \
       "SELECT DISTINCT $c1 FROM $table ORDER BY 1;" 2>/dev/null)
-    local cmds="search cats add new rm remove update move help"
-    COMPREPLY=($(compgen -W "$cats $cmds" -- "$cur"))
+    COMPREPLY=($(compgen -W "$cats" -- "$cur"))
 
   elif [[ COMP_CWORD -eq 3 ]]; then
     local cat="${COMP_WORDS[2]}"
-    local c1
+    local c1 c2
     c1=$(sqlite3 -init /dev/null "$HOME/db/db.db" \
       "PRAGMA table_info($table);" 2>/dev/null | awk -F'|' 'NR==2{print $2}')
+    c2=$(sqlite3 -init /dev/null "$HOME/db/db.db" \
+      "PRAGMA table_info($table);" 2>/dev/null | awk -F'|' 'NR==3{print $2}')
     local ids
     ids=$(sqlite3 -init /dev/null -list "$HOME/db/db.db" \
       "SELECT id FROM $table WHERE $c1 = '$cat';" 2>/dev/null)
