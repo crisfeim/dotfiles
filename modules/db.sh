@@ -143,7 +143,7 @@ _db_dispatch() {
         # db notas cli 4 → 4º registro de la categoría cli
         local id
         id=$(_sq "$db" \
-          "SELECT id FROM $table WHERE $c1 = '$1' ORDER BY id LIMIT 1 OFFSET $(($2 - 1));" 2>/dev/null)
+            "SELECT id FROM $table WHERE $c1 = '$1' AND id = $2;" 2>/dev/null)
         _db_cat "$db" "$table" "$c1" "$c2" "$c3" "$id"
       else
         _db_ls "$db" "$table" "$c1" "$c2" "$c3" "$1"
@@ -174,23 +174,33 @@ db() {
 _db_complete() {
   local cur="${COMP_WORDS[COMP_CWORD]}"
   local prev="${COMP_WORDS[COMP_CWORD-1]}"
+  local table="${COMP_WORDS[1]}"
 
   if [[ "$prev" == "db" ]]; then
-    # completar nombres de tablas
     local tables
     tables=$(sqlite3 -init /dev/null -list "$HOME/db/db.db" \
       "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;" 2>/dev/null)
     COMPREPLY=($(compgen -W "$tables" -- "$cur"))
+
   elif [[ COMP_CWORD -eq 2 ]]; then
-    # completar comandos o categorías
-    local table="${COMP_WORDS[1]}"
+    local c1
+    c1=$(sqlite3 -init /dev/null "$HOME/db/db.db" \
+      "PRAGMA table_info($table);" 2>/dev/null | awk -F'|' 'NR==2{print $2}')
     local cats
     cats=$(sqlite3 -init /dev/null -list "$HOME/db/db.db" \
-      "SELECT DISTINCT $(sqlite3 -init /dev/null "$HOME/db/db.db" \
-        "PRAGMA table_info($table);" 2>/dev/null | awk -F'|' 'NR==2{print $2}') \
-       FROM $table ORDER BY 1;" 2>/dev/null)
-    local cmds="search add rm edit rename help"
+      "SELECT DISTINCT $c1 FROM $table ORDER BY 1;" 2>/dev/null)
+    local cmds="search cats add new rm remove update move help"
     COMPREPLY=($(compgen -W "$cats $cmds" -- "$cur"))
+
+  elif [[ COMP_CWORD -eq 3 ]]; then
+    local cat="${COMP_WORDS[2]}"
+    local c1
+    c1=$(sqlite3 -init /dev/null "$HOME/db/db.db" \
+      "PRAGMA table_info($table);" 2>/dev/null | awk -F'|' 'NR==2{print $2}')
+    local ids
+    ids=$(sqlite3 -init /dev/null -list "$HOME/db/db.db" \
+      "SELECT id FROM $table WHERE $c1 = '$cat';" 2>/dev/null)
+    COMPREPLY=($(compgen -W "$ids" -- "$cur"))
   fi
 }
 
