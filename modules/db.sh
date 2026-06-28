@@ -194,6 +194,13 @@ _db_complete() {
 }
 
 _db_fzf_complete() {
+	local words=("${(z)LBUFFER}")
+
+  if [[ "${words[1]}" != "db" || ${#words} -ne 3 ]]; then
+    zle expand-or-complete
+    return
+  fi
+
   local table="${LBUFFER##* }"
   # detectar si estamos en posición de id
   local words=("${(z)LBUFFER}")
