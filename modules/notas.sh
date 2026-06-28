@@ -42,6 +42,12 @@ notas() {
         "INSERT INTO notas (categoría, título, contenido) VALUES ('$2', '$3', '$4');" 2>/dev/null
       echo "Created note."
       ;;
+    all)
+      "${SQ[@]}" -separator "  " "$DB" \
+        "SELECT id, categoría, título
+         FROM notas
+         ORDER BY categoría, título;" 2>/dev/null
+      ;;
     rm)
       # notas rm <id>
       "${SQ[@]}" "$DB" \
@@ -56,6 +62,7 @@ notas() {
       echo "  notas cats"
       echo "  notas rm <id>"
       echo "	notas add <categoría> <título> <contenido>"
+      echo "	notas all"
       ;;
   esac
 }
