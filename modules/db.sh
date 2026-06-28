@@ -201,7 +201,7 @@ _db_complete() {
     local selected
     selected=$(sqlite3 -init /dev/null -list "$HOME/db/db.db" \
       "SELECT id || '  ' || $c2 FROM $table WHERE $c1 = '$cat';" 2>/dev/null \
-      | fzf --height 40% --reverse 2>/dev/tty)
+      | fzf --height 40% --reverse --bind 'tab:down,btab:up' 2>/dev/tty)
     local id="${selected%%  *}"
     COMPREPLY=("$id")
   fi
