@@ -145,8 +145,14 @@ _db_dispatch() {
     *)
       if [[ "$1" =~ ^[0-9]+$ ]]; then
         _db_cat "$db" "$table" "$c1" "$c2" "$c3" "$1"
+      elif [[ "$2" =~ ^[0-9]+$ ]]; then
+        # db notas cli 4 → 4º registro de la categoría cli
+        local id
+        id=$(_sq "$db" \
+          "SELECT id FROM $table WHERE $c1 = '$1' ORDER BY id LIMIT 1 OFFSET $(($2 - 1));" 2>/dev/null)
+        _db_cat "$db" "$table" "$c1" "$c2" "$c3" "$id"
       else
-        _db_ls  "$db" "$table" "$c1" "$c2" "$c3" "$1"
+        _db_ls "$db" "$table" "$c1" "$c2" "$c3" "$1"
       fi
       ;;
   esac
