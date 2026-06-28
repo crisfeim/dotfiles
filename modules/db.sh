@@ -90,7 +90,7 @@ _db_update() {
   echo "Updated."
 }
 
-_db_move() {
+_db_rename() {
   local db="$1" table="$2" c1="$3" c2="$4" c3="$5" old="$6" new="$7"
   if [[ -z "$c1" ]]; then echo "Esta tabla no tiene categoría."; return; fi
   _sq "$db" "UPDATE $table SET $c1 = '$new' WHERE $c1 = '$old';" 2>/dev/null
@@ -102,19 +102,20 @@ _db_help() {
   {
     echo "Uso: $table <comando> [args]"
     echo ""
-    echo "  $table||listar todo"
+    echo "  $table||listar categorías con total"
     echo "  $table|<id>|mostrar $c3"
     [[ -n "$c1" ]] && \
     echo "  $table|<$c1>|listar por categoría"
+    [[ -n "$c1" ]] && \
+    echo "  $table|<$c1> <n>|mostrar $c3 del n-ésimo registro de esa categoría"
     echo "  $table|search <término> [-c <$c1>]|buscar"
-    echo "  $table|cats|listar $c1 con total"
     [[ -n "$c1" ]] && \
     echo "  $table|add <$c1> <$c2> [<$c3>]|crear" || \
-    echo "  $table|add <$c2> [<$c3>]|crear"
+    echo "  $table|add <$c2> [<$c3>]|crear editando campo $c3"
     echo "  $table|rm <id>|eliminar"
-    echo "  $table|update <campo> <id>|editar campo"
+    echo "  $table|update [<campo>] <id>|editar campo (por defecto $c3)"
     [[ -n "$c1" ]] && \
-    echo "  $table|move <vieja> <nueva>|mover categoría"
+    echo "  $table|rename <vieja> <nueva>|mover $c1"
   } | column -t -s "|"
 }
 
@@ -123,23 +124,16 @@ _db_dispatch() {
   shift 5
   case "$1" in
     search)     _db_search "$db" "$table" "$c1" "$c2" "$c3" "$2" "$([[ "$3" == -c ]] && echo "$4")" ;;
-    cats)       _db_cats   "$db" "$table" "$c1" ;;
-    categories) _db_cats   "$db" "$table" "$c1" ;;
-    categorías) _db_cats   "$db" "$table" "$c1" ;;
     add)        _db_add    "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" "$4" ;;
-    new)        _db_add    "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" "$4" ;;
-    create)     _db_add    "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" "$4" ;;
     rm)         _db_rm     "$db" "$table" "$c1" "$c2" "$c3" "$2" ;;
-    remove)     _db_rm     "$db" "$table" "$c1" "$c2" "$c3" "$2" ;;
-    delete)     _db_rm     "$db" "$table" "$c1" "$c2" "$c3" "$2" ;;
-    update)
+    edit)
       if [[ "$2" =~ ^[0-9]+$ ]]; then
         _db_update "$db" "$table" "$c1" "$c2" "$c3" "$c3" "$2"
       else
         _db_update "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3"
       fi
       ;;
-    move)       _db_move   "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" ;;
+    rename)     _db_rename   "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" ;;
     help)       _db_help   "$table" "$c1" "$c2" "$c3" ;;
     "") _db_cats "$db" "$table" "$c1" ;;
     *)
@@ -195,7 +189,7 @@ _db_complete() {
       "SELECT DISTINCT $(sqlite3 -init /dev/null "$HOME/db/db.db" \
         "PRAGMA table_info($table);" 2>/dev/null | awk -F'|' 'NR==2{print $2}') \
        FROM $table ORDER BY 1;" 2>/dev/null)
-    local cmds="search cats add new rm remove update move help"
+    local cmds="search add rm edit rename help"
     COMPREPLY=($(compgen -W "$cats $cmds" -- "$cur"))
   fi
 }
