@@ -198,10 +198,12 @@ _db_complete() {
       "PRAGMA table_info($table);" 2>/dev/null | awk -F'|' 'NR==2{print $2}')
     c2=$(sqlite3 -init /dev/null "$HOME/db/db.db" \
       "PRAGMA table_info($table);" 2>/dev/null | awk -F'|' 'NR==3{print $2}')
-    local ids
-    ids=$(sqlite3 -init /dev/null -list "$HOME/db/db.db" \
-      "SELECT id FROM $table WHERE $c1 = '$cat';" 2>/dev/null)
-    COMPREPLY=($(compgen -W "$ids" -- "$cur"))
+    local selected
+    selected=$(sqlite3 -init /dev/null -list "$HOME/db/db.db" \
+      "SELECT id || '  ' || $c2 FROM $table WHERE $c1 = '$cat';" 2>/dev/null \
+      | fzf --height 40% --reverse 2>/dev/tty)
+    local id="${selected%%  *}"
+    COMPREPLY=("$id")
   fi
 }
 
