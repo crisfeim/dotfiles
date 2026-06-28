@@ -110,14 +110,14 @@ _db_dispatch() {
     ls)         _db_ls         "$db" "$table" "$2" ;;
     cats)       _db_cats       "$db" "$table" ;;
     all)        _db_all        "$db" "$table" ;;
+    new)        _db_all        "$db" "$table" ;;
+    create)     _db_all        "$db" "$table" ;;
     add)        _db_add        "$db" "$table" "$2" "$3" "$4" ;;
     rm)         _db_rm         "$db" "$table" "$2" ;;
+    remove)     _db_rm         "$db" "$table" "$2" ;;
     update)     _db_update     "$db" "$table" "$2" "$3" ;;
     rename-cat) _db_rename_cat "$db" "$table" "$2" "$3" ;;
     help)       _db_help       "$table" ;;
     *)          _db_all        "$db" "$table" ;;
   esac
 }
-
-notas() { _db_dispatch "$HOME/db/db.db" notas "$@"; }
-ideas() { _db_dispatch "$HOME/db/db.db" ideas "$@"; }
