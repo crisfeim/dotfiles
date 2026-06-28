@@ -53,15 +53,17 @@ _db_add() {
   local db="$1" table="$2" c1="$3" c2="$4" c3="$5"
   shift 5
   local v1="$1" v2="$2" v3="$3"
-  if [[ $# -lt 3 && -n "$c3" ]]; then
+
+  if [[ -n "$c3" && -z "$v3" ]]; then
     local tmp=$(mktemp)
     ${EDITOR:-vi} "$tmp"
     v3=$(cat "$tmp")
     rm "$tmp"
   fi
+
   local cols="$c2" vals="'$v2'"
   [[ -n "$c1" ]] && cols="$c1, $cols" && vals="'$v1', $vals"
-  [[ -n "$c3" ]] && cols="$cols, $c3" && vals="$vals, '$v3'"
+  [[ -n "$c3" ]] && cols="$cols, $c3" && vals="$vals, '$(echo "$v3" | sed "s/'/''/g")'"
   _sq "$db" "INSERT INTO $table ($cols) VALUES ($vals);" 2>/dev/null
   echo "Created."
 }
@@ -100,10 +102,11 @@ _db_help() {
   {
     echo "Uso: $table <comando> [args]"
     echo ""
-    echo "  $table|all|listar todo"
+    echo "  $table||listar todo"
+    echo "  $table|<id>|mostrar $c3"
+    [[ -n "$c1" ]] && \
+    echo "  $table|<$c1>|listar por categoría"
     echo "  $table|search <término> [-c <$c1>]|buscar"
-    echo "  $table|cat <id>|mostrar $c3"
-    echo "  $table|ls [<$c1>]|listar por $c1"
     echo "  $table|cats|listar $c1 con total"
     [[ -n "$c1" ]] && \
     echo "  $table|add <$c1> <$c2> [<$c3>]|crear" || \
@@ -119,24 +122,33 @@ _db_dispatch() {
   local db="$1" table="$2" c1="$3" c2="$4" c3="$5"
   shift 5
   case "$1" in
-    search) _db_search "$db" "$table" "$c1" "$c2" "$c3" "$2" "$([[ "$3" == -c ]] && echo "$4")" ;;
-    cat)    _db_cat    "$db" "$table" "$c1" "$c2" "$c3" "$2" ;;
-    show)   _db_cat    "$db" "$table" "$c1" "$c2" "$c3" "$2" ;;
-    ls)     _db_ls     "$db" "$table" "$c1" "$c2" "$c3" "$2" ;;
-    cats)   _db_cats   "$db" "$table" "$c1" ;;
-    categories)   _db_cats   "$db" "$table" "$c1" ;;
-    categorías)   _db_cats   "$db" "$table" "$c1" ;;
-    all)    _db_all    "$db" "$table" "$c1" "$c2" "$c3" ;;
-    add)    _db_add    "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" "$4" ;;
-    new)    _db_add    "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" "$4" ;;
-    create) _db_add    "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" "$4" ;;
-    rm)     _db_rm     "$db" "$table" "$c1" "$c2" "$c3" "$2" ;;
-    remove) _db_rm     "$db" "$table" "$c1" "$c2" "$c3" "$2" ;;
-    delete) _db_rm     "$db" "$table" "$c1" "$c2" "$c3" "$2" ;;
-    update) _db_update "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" ;;
-    move)   _db_move   "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" ;;
-    list)   _db_all    "$db" "$table" "$c1" "$c2" "$c3" ;;
-    *)      _db_help   "$table" "$c1" "$c2" "$c3" ;;
+    search)     _db_search "$db" "$table" "$c1" "$c2" "$c3" "$2" "$([[ "$3" == -c ]] && echo "$4")" ;;
+    cats)       _db_cats   "$db" "$table" "$c1" ;;
+    categories) _db_cats   "$db" "$table" "$c1" ;;
+    categorías) _db_cats   "$db" "$table" "$c1" ;;
+    add)        _db_add    "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" "$4" ;;
+    new)        _db_add    "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" "$4" ;;
+    create)     _db_add    "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" "$4" ;;
+    rm)         _db_rm     "$db" "$table" "$c1" "$c2" "$c3" "$2" ;;
+    remove)     _db_rm     "$db" "$table" "$c1" "$c2" "$c3" "$2" ;;
+    delete)     _db_rm     "$db" "$table" "$c1" "$c2" "$c3" "$2" ;;
+    update)
+      if [[ "$2" =~ ^[0-9]+$ ]]; then
+        _db_update "$db" "$table" "$c1" "$c2" "$c3" "$c3" "$2"
+      else
+        _db_update "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3"
+      fi
+      ;;
+    move)       _db_move   "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" ;;
+    help)       _db_help   "$table" "$c1" "$c2" "$c3" ;;
+    "")         _db_all    "$db" "$table" "$c1" "$c2" "$c3" ;;
+    *)
+      if [[ "$1" =~ ^[0-9]+$ ]]; then
+        _db_cat "$db" "$table" "$c1" "$c2" "$c3" "$1"
+      else
+        _db_ls  "$db" "$table" "$c1" "$c2" "$c3" "$1"
+      fi
+      ;;
   esac
 }
 
