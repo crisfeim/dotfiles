@@ -12,7 +12,7 @@ notas() {
       "${SQ[@]}" -separator "  " "$DB" \
         "SELECT id, categoría, título
          FROM notas
-         WHERE (título LIKE '%$term%' OR contenido LIKE '%$term%')
+         WHERE (título LIKE '%$term%' OR contenido LIKE '%$term%' OR categoría LIKE '%$term%')
          $cat_filter
          ORDER BY categoría, id;" 2>/dev/null
       ;;
