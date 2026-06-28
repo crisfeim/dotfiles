@@ -92,9 +92,9 @@ _db_update() {
 
 _db_rename() {
   local db="$1" table="$2" c1="$3" c2="$4" c3="$5" old="$6" new="$7"
-  if [[ -z "$c1" ]]; then echo "Esta tabla no tiene categoría."; return; fi
+  if [[ -z "$c1" ]]; then echo "Esta tabla no tiene $c1."; return; fi
   _sq "$db" "UPDATE $table SET $c1 = '$new' WHERE $c1 = '$old';" 2>/dev/null
-  echo "Moved '$old' → '$new'."
+  echo "Renamed '$old' → '$new'."
 }
 
 _db_help() {
@@ -102,20 +102,20 @@ _db_help() {
   {
     echo "Uso: $table <comando> [args]"
     echo ""
-    echo "  $table||listar categorías con total"
-    echo "  $table|<id>|mostrar $c3"
+    echo "  sin argumentos|listar categorías con total"
+    echo "  <id>|mostrar $c3"
     [[ -n "$c1" ]] && \
-    echo "  $table|<$c1>|listar por categoría"
+    echo "  <$c1>|listar por categoría"
     [[ -n "$c1" ]] && \
-    echo "  $table|<$c1> <n>|mostrar $c3 del n-ésimo registro de esa categoría"
-    echo "  $table|search <término> [-c <$c1>]|buscar"
+    echo "  <$c1> <n>|mostrar $c3 del n-ésimo registro de esa categoría"
+    echo "  search <término> [-c <$c1>]|buscar"
     [[ -n "$c1" ]] && \
-    echo "  $table|add <$c1> <$c2> [<$c3>]|crear" || \
-    echo "  $table|add <$c2> [<$c3>]|crear editando campo $c3"
-    echo "  $table|rm <id>|eliminar"
-    echo "  $table|update [<campo>] <id>|editar campo (por defecto $c3)"
+    echo "  add <$c1> <$c2> [<$c3>]|crear" || \
+    echo "  add <$c2> [<$c3>]|crear editando campo $c3"
+    echo "  rm <id>|eliminar"
+    echo "  update [<campo>] <id>|editar campo (por defecto $c3)"
     [[ -n "$c1" ]] && \
-    echo "  $table|rename <vieja> <nueva>|mover $c1"
+    echo "  rename <vieja> <nueva>|rename $c1"
   } | column -t -s "|"
 }
 
