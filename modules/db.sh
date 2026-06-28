@@ -41,6 +41,12 @@ _db_all() {
 
 _db_add() {
   local db="$1" table="$2" cat="$3" title="$4" content="$5"
+  if [[ -z "$content" ]]; then
+    local tmp=$(mktemp)
+    ${EDITOR:-vi} "$tmp"
+    content=$(cat "$tmp")
+    rm "$tmp"
+  fi
   _sq "$db" \
     "INSERT INTO $table (categoría, título, contenido)
      VALUES ('$cat', '$title', '$content');" 2>/dev/null
@@ -53,23 +59,31 @@ _db_rm() {
   echo "Removed $id."
 }
 
+_db_update() {
+  local db="$1" table="$2" field="$3" id="$4"
+  local tmp=$(mktemp)
+  case "$field" in
+    título|categoría|contenido)
+      _sq "$db" "SELECT $field FROM $table WHERE id = $id;" 2>/dev/null > "$tmp"
+      ;;
+    *)
+      echo "Campo no válido: $field (título, categoría, contenido)"
+      rm "$tmp"
+      return 1
+      ;;
+  esac
+  ${EDITOR:-vi} "$tmp"
+  local new=$(cat "$tmp")
+  rm "$tmp"
+  _sq "$db" "UPDATE $table SET $field = '$new' WHERE id = $id;" 2>/dev/null
+  echo "Updated."
+}
+
 _db_rename_cat() {
   local db="$1" table="$2" old="$3" new="$4"
   _sq "$db" \
     "UPDATE $table SET categoría = '$new' WHERE categoría = '$old';" 2>/dev/null
   echo "Renamed '$old' → '$new'."
-}
-
-_db_rename_title() {
-  local db="$1" table="$2" id="$3" new="$4"
-  _sq "$db" "UPDATE $table SET título = '$new' WHERE id = $id;" 2>/dev/null
-  echo "Renamed."
-}
-
-_db_edit() {
-  local db="$1" table="$2" id="$3" new="$4"
-  _sq "$db" "UPDATE $table SET contenido = '$new' WHERE id = $id;" 2>/dev/null
-  echo "Updated."
 }
 
 _db_help() {
@@ -81,10 +95,9 @@ _db_help() {
   echo "  $t cat <id>                      mostrar contenido"
   echo "  $t ls [categoría]                listar por categoría"
   echo "  $t cats                          listar categorías con total"
-  echo "  $t add <cat> <título> <contenido>"
+  echo "  $t add <cat> <título> [contenido]"
   echo "  $t rm <id>"
-  echo "  $t edit <id> <nuevo contenido>"
-  echo "  $t rename-title <id> <nuevo título>"
+  echo "  $t update <título|categoría|contenido> <id>"
   echo "  $t rename-cat <vieja> <nueva>"
 }
 
@@ -92,18 +105,17 @@ _db_dispatch() {
   local db="$1" table="$2"
   shift 2
   case "$1" in
-    search)       _db_search      "$db" "$table" "$2" "$([[ "$3" == -c ]] && echo "$4")" ;;
-    cat)          _db_cat         "$db" "$table" "$2" ;;
-    ls)           _db_ls          "$db" "$table" "$2" ;;
-    cats)         _db_cats        "$db" "$table" ;;
-    all)          _db_all         "$db" "$table" ;;
-    add)          _db_add         "$db" "$table" "$2" "$3" "$4" ;;
-    rm)           _db_rm          "$db" "$table" "$2" ;;
-    edit)         _db_edit        "$db" "$table" "$2" "$3" ;;
-    rename-title) _db_rename_title "$db" "$table" "$2" "$3" ;;
-    rename-cat)   _db_rename_cat  "$db" "$table" "$2" "$3" ;;
-    help)         _db_help        "$table" ;;
-    *)            _db_all         "$db" "$table" ;;
+    search)     _db_search     "$db" "$table" "$2" "$([[ "$3" == -c ]] && echo "$4")" ;;
+    cat)        _db_cat        "$db" "$table" "$2" ;;
+    ls)         _db_ls         "$db" "$table" "$2" ;;
+    cats)       _db_cats       "$db" "$table" ;;
+    all)        _db_all        "$db" "$table" ;;
+    add)        _db_add        "$db" "$table" "$2" "$3" "$4" ;;
+    rm)         _db_rm         "$db" "$table" "$2" ;;
+    update)     _db_update     "$db" "$table" "$2" "$3" ;;
+    rename-cat) _db_rename_cat "$db" "$table" "$2" "$3" ;;
+    help)       _db_help       "$table" ;;
+    *)          _db_all        "$db" "$table" ;;
   esac
 }
 
