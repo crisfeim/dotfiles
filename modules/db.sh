@@ -123,6 +123,8 @@ _db_dispatch() {
     cats)   _db_cats   "$db" "$table" "$c1" ;;
     all)    _db_all    "$db" "$table" "$c1" "$c2" "$c3" ;;
     add)    _db_add    "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" "$4" ;;
+    new)    _db_add    "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" "$4" ;;
+    create) _db_add    "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" "$4" ;;
     rm)     _db_rm     "$db" "$table" "$c1" "$c2" "$c3" "$2" ;;
     update) _db_update "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" ;;
     move)   _db_move   "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" ;;
@@ -133,12 +135,16 @@ _db_dispatch() {
 
 citas()      { _db_dispatch "$HOME/db/db.db" citas        "categoría" "contenido" "autor"  "$@"; }
 diccionario(){ _db_dispatch "$HOME/db/db.db" diccionario  "categoría" "término"  "definición" "$@"; }
+dict()       { _db_dispatch "$HOME/db/db.db" diccionario  "categoría" "término"  "definición" "$@"; }
 ideas()      { _db_dispatch "$HOME/db/db.db" ideas        "categoría" "título"   "contenido"  "$@"; }
 notas()      { _db_dispatch "$HOME/db/db.db" notas        "categoría" "título"   "contenido"  "$@"; }
+notes()      { _db_dispatch "$HOME/db/db.db" notas        "categoría" "título"   "contenido"  "$@"; }
 peliculas()  { _db_dispatch "$HOME/db/db.db" películas    "género"    "título"   "year"        "$@"; }
+movies()     { _db_dispatch "$HOME/db/db.db" películas    "género"    "título"   "year"        "$@"; }
 principios() { _db_dispatch "$HOME/db/db.db" principios   "categoría" "valor"    ""           "$@"; }
 reflexiones(){ _db_dispatch "$HOME/db/db.db" reflexiones  "categoría" "título"   "contenido"  "$@"; }
 versiculos() { _db_dispatch "$HOME/db/db.db" versículos   "categoría" "ref"      "contenido"  "$@"; }
 articulos()  { _db_dispatch "$HOME/db/db.db" artículos "categoría" "título" "descripción" "$@"; }
+articles()   { _db_dispatch "$HOME/db/db.db" artículos "categoría" "título" "descripción" "$@"; }
 
 tables() { _sq "$HOME/db/db.db" "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;" 2>/dev/null; }
