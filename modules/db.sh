@@ -7,10 +7,10 @@ _db_search() {
   local cols="id"
   [[ -n "$c1" ]] && cols="$cols, $c1"
   [[ -n "$c2" ]] && cols="$cols, $c2"
-  _sq "$db" -separator "  " \
+  _sq "$db" -separator "|" \
     "SELECT $cols FROM $table
      WHERE ($c2 LIKE '%$term%' OR $c3 LIKE '%$term%' OR $c1 LIKE '%$term%')
-     $filter ORDER BY $c2;" 2>/dev/null
+     $filter ORDER BY $c1, $c2;" 2>/dev/null | column -t -s "|"
 }
 
 _db_cat() {
@@ -21,14 +21,14 @@ _db_cat() {
 _db_ls() {
   local db="$1" table="$2" c1="$3" c2="$4" c3="$5" cat="$6"
   if [[ -n "$cat" && -n "$c1" ]]; then
-    _sq "$db" -separator "  " \
-      "SELECT id, $c2 FROM $table WHERE $c1 = '$cat' ORDER BY id;" 2>/dev/null
+    _sq "$db" -separator "|" \
+      "SELECT id, $c2 FROM $table WHERE $c1 = '$cat' ORDER BY id;" 2>/dev/null | column -t -s "|"
   else
     local cols="id"
     [[ -n "$c1" ]] && cols="$cols, $c1"
     cols="$cols, $c2"
-    _sq "$db" -separator "  " \
-      "SELECT $cols FROM $table ORDER BY $c2;" 2>/dev/null
+    _sq "$db" -separator "|" \
+      "SELECT $cols FROM $table ORDER BY $c2;" 2>/dev/null | column -t -s "|"
   fi
 }
 
@@ -45,8 +45,8 @@ _db_all() {
   local cols="id"
   [[ -n "$c1" ]] && cols="$cols, $c1"
   [[ -n "$c2" ]] && cols="$cols, $c2"
-  _sq "$db" -separator "  " \
-    "SELECT $cols FROM $table ORDER BY $c2;" 2>/dev/null
+  _sq "$db" -separator "|" \
+    "SELECT $cols FROM $table ORDER BY $c1, $c2;" 2>/dev/null | column -t -s "|"
 }
 
 _db_add() {
@@ -88,11 +88,11 @@ _db_update() {
   echo "Updated."
 }
 
-_db_rename_c1() {
+_db_move() {
   local db="$1" table="$2" c1="$3" c2="$4" c3="$5" old="$6" new="$7"
-  if [[ -z "$c1" ]]; then echo "Esta tabla no tiene c1."; return; fi
+  if [[ -z "$c1" ]]; then echo "Esta tabla no tiene categoría."; return; fi
   _sq "$db" "UPDATE $table SET $c1 = '$new' WHERE $c1 = '$old';" 2>/dev/null
-  echo "Renamed '$old' → '$new'."
+  echo "Moved '$old' → '$new'."
 }
 
 _db_help() {
@@ -110,32 +110,32 @@ _db_help() {
   echo "  $table rm <id>"
   echo "  $table update <campo> <id>"
   [[ -n "$c1" ]] && \
-  echo "  $table move <categoría vieja> <categoía nueva>"
+  echo "  $table move <vieja> <nueva>"
 }
 
 _db_dispatch() {
   local db="$1" table="$2" c1="$3" c2="$4" c3="$5"
   shift 5
   case "$1" in
-    search)    _db_search    "$db" "$table" "$c1" "$c2" "$c3" "$2" "$([[ "$3" == -c ]] && echo "$4")" ;;
-    cat)       _db_cat       "$db" "$table" "$c1" "$c2" "$c3" "$2" ;;
-    ls)        _db_ls        "$db" "$table" "$c1" "$c2" "$c3" "$2" ;;
-    cats)      _db_cats      "$db" "$table" "$c1" ;;
-    all)       _db_all       "$db" "$table" "$c1" "$c2" "$c3" ;;
-    add)       _db_add       "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" "$4" ;;
-    rm)        _db_rm        "$db" "$table" "$c1" "$c2" "$c3" "$2" ;;
-    update)    _db_update    "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" ;;
-    move)      _db_rename_c1 "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" ;;
-    help)      _db_help      "$table" "$c1" "$c2" "$c3" ;;
-    *)         _db_all       "$db" "$table" "$c1" "$c2" "$c3" ;;
+    search) _db_search "$db" "$table" "$c1" "$c2" "$c3" "$2" "$([[ "$3" == -c ]] && echo "$4")" ;;
+    cat)    _db_cat    "$db" "$table" "$c1" "$c2" "$c3" "$2" ;;
+    ls)     _db_ls     "$db" "$table" "$c1" "$c2" "$c3" "$2" ;;
+    cats)   _db_cats   "$db" "$table" "$c1" ;;
+    all)    _db_all    "$db" "$table" "$c1" "$c2" "$c3" ;;
+    add)    _db_add    "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" "$4" ;;
+    rm)     _db_rm     "$db" "$table" "$c1" "$c2" "$c3" "$2" ;;
+    update) _db_update "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" ;;
+    move)   _db_move   "$db" "$table" "$c1" "$c2" "$c3" "$2" "$3" ;;
+    help)   _db_help   "$table" "$c1" "$c2" "$c3" ;;
+    *)      _db_all    "$db" "$table" "$c1" "$c2" "$c3" ;;
   esac
 }
 
-citas()      { _db_dispatch "$HOME/db/db.db" citas       "categoría" "contenido" "autor"  "$@"; }
-diccionario(){ _db_dispatch "$HOME/db/db.db" diccionario "categoría" "término"   "definición" "$@"; }
-ideas()      { _db_dispatch "$HOME/db/db.db" ideas       "categoría" "título"    "contenido"  "$@"; }
-notas()      { _db_dispatch "$HOME/db/db.db" notas       "categoría" "título"    "contenido"  "$@"; }
-peliculas()  { _db_dispatch "$HOME/db/db.db" películas   "género"    "título"    "year"       "$@"; }
-principios() { _db_dispatch "$HOME/db/db.db" principios  "categoría" "valor"     ""           "$@"; }
-reflexiones(){ _db_dispatch "$HOME/db/db.db" reflexiones "categoría" "título"    "contenido"  "$@"; }
-versiculos() { _db_dispatch "$HOME/db/db.db" versículos  "categoría" "ref"       "contenido"  "$@"; }
+citas()      { _db_dispatch "$HOME/db/db.db" citas        "categoría" "autor"    "contenido"  "$@"; }
+diccionario(){ _db_dispatch "$HOME/db/db.db" diccionario  "categoría" "término"  "definición" "$@"; }
+ideas()      { _db_dispatch "$HOME/db/db.db" ideas        "categoría" "título"   "contenido"  "$@"; }
+notas()      { _db_dispatch "$HOME/db/db.db" notas        "categoría" "título"   "contenido"  "$@"; }
+peliculas()  { _db_dispatch "$HOME/db/db.db" películas    "género"    "título"   "year"        "$@"; }
+principios() { _db_dispatch "$HOME/db/db.db" principios   "categoría" "valor"    ""           "$@"; }
+reflexiones(){ _db_dispatch "$HOME/db/db.db" reflexiones  "categoría" "título"   "contenido"  "$@"; }
+versiculos() { _db_dispatch "$HOME/db/db.db" versículos   "categoría" "ref"      "contenido"  "$@"; }
