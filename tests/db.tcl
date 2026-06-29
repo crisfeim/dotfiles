@@ -140,7 +140,28 @@ proc db {dbfile args} {
       }
       conn close
       return $schema_list
-  } elseif {[lindex $args 1] eq "of"} {
+  } elseif {$cmd1 eq "copy" && [lindex $args 2] eq "of"} {
+      set col [lindex $args 1]
+      set id [lindex $args 3]
+      set table [lindex $args 5]
+
+      sqlite3 conn $dbfile
+      set value [conn onecolumn "SELECT $col FROM $table WHERE id = $id;"]
+      conn close
+
+      if {$::tcl_platform(os) eq "Darwin"} {
+          set clip_cmd "pbcopy"
+      } else {
+          set clip_cmd "xclip -selection clipboard"
+      }
+
+      # Ejecutar la copia
+      set f [open "|$clip_cmd" w]
+      puts -nonewline $f $value
+      close $f
+
+      return $value
+    } elseif {[lindex $args 1] eq "of"} {
       set col [lindex $args 0]
       set id [lindex $args 2]
       set table [lindex $args 4]
@@ -291,5 +312,15 @@ test get-table-schema {Get the schema of a table} -setup {
 } -cleanup {
     if {[file exists $db_path]} { file delete -force $db_path }
 } -result {id:INTEGER title:TEXT views:INTEGER}
+
+test copy-column-value {Copy field value to clipboard} -setup {
+    set db_path [file join [tcltest::temporaryDirectory] test_copy.db]
+    db $db_path create table notes with schema title content
+    db $db_path add "Secret Key" "12345-ABCDE" in table notes
+} -body {
+    db $db_path copy content of 1 in notes
+} -cleanup {
+    if {[file exists $db_path]} { file delete -force $db_path }
+} -result {12345-ABCDE}
 
 cleanupTests
