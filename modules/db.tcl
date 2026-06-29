@@ -176,7 +176,22 @@ proc db {dbfile args} {
     }
     conn close
     return [join $result_list " "]
-  } else {
+  } elseif {$cmd1 eq "list" && [lindex $args 2] eq "where"} {
+      set table [lindex $args 1]
+      set col   [lindex $args 3]
+      set val   [lindex $args 5]
+      sqlite3 conn $dbfile
+      set cols {}
+      conn eval "PRAGMA table_info($table)" r { lappend cols $r(name) }
+      set result {}
+      conn eval "SELECT * FROM $table WHERE $col = '$val'" row {
+          foreach c $cols {
+              lappend result $c $row($c)
+          }
+      }
+      conn close
+      return $result
+   } else {
   	return "Unhandled"
   }
 }
