@@ -278,8 +278,38 @@ proc db {dbfile args} {
       }
       return [join $lines "\n"]
   } elseif {$cmd1 eq "search"} {
-      set term  [lindex $args 1]
-      set table [lindex $args 3]
+      set term [lindex $args 1]
+
+      # búsqueda cross-table si no hay "in"
+      set in_idx [lsearch $args "in"]
+      if {$in_idx == -1} {
+          sqlite3 conn $dbfile
+          set tables [conn eval {SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'}]
+
+          set result {}
+          foreach table $tables {
+              set cols {}
+              conn eval "PRAGMA table_info($table)" r {
+                  if {$r(name) ne "id"} { lappend cols $r(name) }
+              }
+              set like_clauses {}
+              foreach col $cols {
+                  lappend like_clauses "$col LIKE '%$term%'"
+              }
+              set where_str [join $like_clauses " OR "]
+              conn eval "SELECT * FROM $table WHERE ($where_str)" row {
+                  set record {}
+                  foreach col [list id {*}$cols] {
+                      lappend record $row($col)
+                  }
+                  lappend result "$table: [join $record " "]"
+              }
+          }
+          conn close
+          return [join $result "\n"]
+      }
+
+      set table [lindex $args [expr {$in_idx + 1}]]
 
       sqlite3 conn $dbfile
       set all_cols {}
@@ -287,7 +317,6 @@ proc db {dbfile args} {
           if {$r(name) ne "id"} { lappend all_cols $r(name) }
       }
 
-      # excluding opcional
       set exclude_cols {}
       set excl_idx [lsearch $args "excluding"]
       if {$excl_idx != -1} {
@@ -296,7 +325,6 @@ proc db {dbfile args} {
           }
       }
 
-      # columnas para SELECT (sin excluidas, pero siempre id)
       set select_cols {}
       foreach col $all_cols {
           if {[lsearch $exclude_cols $col] == -1} {
@@ -304,7 +332,6 @@ proc db {dbfile args} {
           }
       }
 
-      # where extra opcional (antes de excluding)
       set where_idx [lsearch $args "where"]
       if {$where_idx != -1} {
           set where_end [expr {$excl_idx != -1 ? $excl_idx - 1 : "end"}]
@@ -313,7 +340,6 @@ proc db {dbfile args} {
           set extra ""
       }
 
-      # LIKE en todas las columnas (no excluidas)
       set like_clauses {}
       foreach col $all_cols {
           lappend like_clauses "$col LIKE '%$term%'"

@@ -275,4 +275,19 @@ test search-excluding {Search excluding columns from result} -setup {
 } -result {1 Hello World
 2 Another}
 
+test search-cross-table {Search term across all tables} -setup {
+    set db_path [file join [tcltest::temporaryDirectory] test_search_cross.db]
+    db $db_path create table notes with schema title content
+    db $db_path create table tasks with schema title content
+    db $db_path add "Hello World" "Some text" in table notes
+    db $db_path add "Nothing" "Nada" in table notes
+    db $db_path add "World task" "Another text" in table tasks
+} -body {
+    db $db_path search World
+} -cleanup {
+    if {[file exists $db_path]} { file delete -force $db_path }
+} -result {notes: 1 Hello World Some text
+tasks: 1 World task Another text}
+
+
 cleanupTests
