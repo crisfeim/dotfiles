@@ -439,7 +439,7 @@ db <table> grouped by <col>
 set db_file [lindex $argv 0]
 set cmd_args [lrange $argv 1 end]
 
-set commands {create add rename edit delete echo copy schema list group help search}
+set commands {create add rename edit delete echo copy schema list group help search drop}
 
 # db create <table> → db create table <table> with schema category title content
 if {[llength $cmd_args] == 2 && [lindex $cmd_args 0] eq "create"} {
