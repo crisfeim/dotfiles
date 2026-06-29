@@ -280,26 +280,40 @@ proc db {dbfile args} {
   } elseif {$cmd1 eq "search"} {
       set term [lindex $args 1]
 
-      # búsqueda cross-table si no hay "in"
       set in_idx [lsearch $args "in"]
       if {$in_idx == -1} {
+          set exclude_cols {}
+          set excl_idx [lsearch $args "excluding"]
+          if {$excl_idx != -1} {
+              foreach c [split [lindex $args [expr {$excl_idx + 1}]] ","] {
+                  lappend exclude_cols [string trim $c]
+              }
+          }
+
           sqlite3 conn $dbfile
           set tables [conn eval {SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'}]
 
           set result {}
           foreach table $tables {
-              set cols {}
+              set all_cols {}
               conn eval "PRAGMA table_info($table)" r {
-                  if {$r(name) ne "id"} { lappend cols $r(name) }
+                  if {$r(name) ne "id"} { lappend all_cols $r(name) }
+              }
+              set select_cols {}
+              foreach col $all_cols {
+                  if {[lsearch $exclude_cols $col] == -1} {
+                      lappend select_cols $col
+                  }
               }
               set like_clauses {}
-              foreach col $cols {
+              foreach col $all_cols {
                   lappend like_clauses "$col LIKE '%$term%'"
               }
               set where_str [join $like_clauses " OR "]
-              conn eval "SELECT * FROM $table WHERE ($where_str)" row {
+              set cols_str [join [list id {*}$select_cols] ", "]
+              conn eval "SELECT $cols_str FROM $table WHERE ($where_str)" row {
                   set record {}
-                  foreach col [list id {*}$cols] {
+                  foreach col [list id {*}$select_cols] {
                       lappend record $row($col)
                   }
                   lappend result "$table: [join $record " "]"
