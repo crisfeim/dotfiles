@@ -48,26 +48,59 @@ proc db {dbfile args} {
       conn eval "ALTER TABLE $table ADD COLUMN $col_name $col_type;"
       conn close
     } elseif {$cmd1 eq "add"} {
-      set table [lindex $args end]
-      sqlite3 conn $dbfile
-      set cols {}
-      conn eval "PRAGMA table_info($table)" row {
-          if {$row(name) ne "id"} {
-              lappend cols $row(name)
-          }
-      }
-      set val_list [lrange $args 1 end-3]
-      set insert_cols {}
-      set insert_vals {}
-      for {set i 0} {$i < [llength $val_list]} {incr i} {
-          lappend insert_cols [lindex $cols $i]
-          set escaped_val [string map {' ''} [lindex $val_list $i]]
-          lappend insert_vals "'$escaped_val'"
-      }
-      set cols_str [join $insert_cols ", "]
-      set vals_str [join $insert_vals ", "]
-      conn eval "INSERT INTO $table ($cols_str) VALUES ($vals_str);"
-      conn close
+        set table [lindex $args end]
+        sqlite3 conn $dbfile
+        set cols {}
+        conn eval "PRAGMA table_info($table)" row {
+            if {$row(name) ne "id"} {
+                lappend cols $row(name)
+            }
+        }
+
+        if {[lindex $args end-1] eq "table"} {
+            set val_list [lrange $args 1 end-3]
+        } else {
+            set val_list [lrange $args 1 end-2]
+        }
+
+        set insert_cols {}
+        set insert_vals {}
+        for {set i 0} {$i < [llength $val_list]} {incr i} {
+            lappend insert_cols [lindex $cols $i]
+            set escaped_val [string map {' ''} [lindex $val_list $i]]
+            lappend insert_vals "'$escaped_val'"
+        }
+
+        if {[llength $val_list] < [llength $cols]} {
+            set last_col [lindex $cols end]
+
+            if {[info exists ::edit_proc]} {
+                set last_val [{*}$::edit_proc ""]
+            } else {
+                set tmp_file /tmp/db_edit_tmp.txt
+                set f [open $tmp_file w]
+                puts -nonewline $f ""
+                close $f
+
+                set editor "vi"
+                if {[info exists ::env(VISUAL)]} { set editor $::env(VISUAL) }
+                if {[info exists ::env(EDITOR)]}  { set editor $::env(EDITOR) }
+                exec {*}$editor $tmp_file >@stdout <@stdin 2>@stderr
+
+                set f [open $tmp_file r]
+                set last_val [read $f]
+                close $f
+                file delete -force $tmp_file
+            }
+
+            lappend insert_cols $last_col
+            lappend insert_vals "'[string map {' ''} $last_val]'"
+        }
+
+        set cols_str [join $insert_cols ", "]
+        set vals_str [join $insert_vals ", "]
+        conn eval "INSERT INTO $table ($cols_str) VALUES ($vals_str);"
+        conn close
     } elseif {$cmd1 eq "rename" && $cmd2 eq "column"} {
       set old [lindex $args 2]
       set new [lindex $args 4]

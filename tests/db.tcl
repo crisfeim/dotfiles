@@ -223,4 +223,19 @@ test echo-record-excluding {Print record fields excluding some} -setup {
     if {[file exists $db_path]} { file delete -force $db_path }
 } -result {title: Hello}
 
+test add-with-editor {Add record opening editor for last column} -setup {
+    set db_path [file join [tcltest::temporaryDirectory] test_add_editor.db]
+    db $db_path create table notes with schema title content
+    set ::edit_proc mock_edit
+} -body {
+    db $db_path add "My Title" in table notes
+    sqlite3 conn $db_path
+    set result [conn eval {SELECT title, content FROM notes}]
+    conn close
+    set result
+} -cleanup {
+    if {[file exists $db_path]} { file delete -force $db_path }
+    unset -nocomplain ::edit_proc
+} -result {{My Title} {Updated Content}}
+
 cleanupTests
