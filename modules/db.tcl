@@ -277,6 +277,41 @@ proc db {dbfile args} {
           lappend lines "$col: $val"
       }
       return [join $lines "\n"]
+  } elseif {$cmd1 eq "search"} {
+      set term  [lindex $args 1]
+      set table [lindex $args 3]
+
+      sqlite3 conn $dbfile
+      set cols {}
+      conn eval "PRAGMA table_info($table)" r {
+          if {$r(name) ne "id"} { lappend cols $r(name) }
+      }
+
+      # condición extra opcional: where <sqlite condition>
+      set where_idx [lsearch $args "where"]
+      if {$where_idx != -1} {
+          set extra "AND ([join [lrange $args [expr {$where_idx + 1}] end] " "])"
+      } else {
+          set extra ""
+      }
+
+      # LIKE en todas las columnas
+      set like_clauses {}
+      foreach col $cols {
+          lappend like_clauses "$col LIKE '%$term%'"
+      }
+      set where_str [join $like_clauses " OR "]
+
+      set result {}
+      conn eval "SELECT * FROM $table WHERE ($where_str) $extra" row {
+          set record {}
+          foreach col [list id {*}$cols] {
+              lappend record $row($col)
+          }
+          lappend result [join $record " "]
+      }
+      conn close
+      return [join $result "\n"]
   } elseif {$cmd1 eq "echo"} {
       set col   [lindex $args 1]
       set id    [lindex $args 3]

@@ -238,4 +238,29 @@ test add-with-editor {Add record opening editor for last column} -setup {
     unset -nocomplain ::edit_proc
 } -result {{My Title} {Updated Content}}
 
+
+test search-all-cols {Search term across all columns} -setup {
+    set db_path [file join [tcltest::temporaryDirectory] test_search.db]
+    db $db_path create table notes with schema title content
+    db $db_path add "Hello World" "Some text" in table notes
+    db $db_path add "Another" "World here" in table notes
+    db $db_path add "Nothing" "Nada" in table notes
+} -body {
+    db $db_path search World in notes
+} -cleanup {
+    if {[file exists $db_path]} { file delete -force $db_path }
+} -result {1 Hello World Some text
+2 Another World here}
+
+test search-with-condition {Search term with extra where condition} -setup {
+    set db_path [file join [tcltest::temporaryDirectory] test_search_where.db]
+    db $db_path create table notes with schema title content
+    db $db_path add "Hello World" "Some text" in table notes
+    db $db_path add "Another" "World here" in table notes
+} -body {
+    db $db_path search World in notes where id = 2
+} -cleanup {
+    if {[file exists $db_path]} { file delete -force $db_path }
+} -result {2 Another World here}
+
 cleanupTests
