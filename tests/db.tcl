@@ -64,8 +64,8 @@ proc db {dbfile args} {
       conn close
     } elseif {$cmd1 eq "rename" && $cmd2 eq "column"} {
       set old [lindex $args 2]
-      set table [lindex $args 5]
-      set new [lindex $args 7]
+      set new [lindex $args 4]
+      set table [lindex $args 7]
 
       sqlite3 conn $dbfile
       conn eval "ALTER TABLE $table RENAME COLUMN $old TO $new;"
@@ -125,7 +125,7 @@ test rename-column {Rename a column in a table} -setup {
     set db_path [file join [tcltest::temporaryDirectory] test_rename.db]
     db $db_path create table notes with schema title content
 } -body {
-    db $db_path rename column content in table notes to body
+    db $db_path rename column content to body in table notes
     get_schema $db_path notes
 } -cleanup {
     if {[file exists $db_path]} { file delete -force $db_path }
