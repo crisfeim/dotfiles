@@ -101,18 +101,25 @@ proc db {dbfile args} {
       conn eval "UPDATE $table SET $col = '$escaped_new_val' WHERE id = $id;"
       conn close
   } elseif {$cmd1 eq "delete"} {
-	    set ids_raw [lindex $args 1]
-	    set table [lindex $args 4]
+    if {[llength $args] == 2} {
+        set table [lindex $args 1]
+        sqlite3 conn $dbfile
+        conn eval "DELETE FROM $table;"
+        conn close
+    } elseif {[llength $args] == 5} {
+        set ids_raw [lindex $args 1]
+        set table [lindex $args 4]
 
-	    set id_list {}
-	    foreach id [split $ids_raw ","] {
-	        lappend id_list [string trim $id]
-	    }
-	    set ids_str [join $id_list ", "]
+        set id_list {}
+        foreach id [split $ids_raw ","] {
+            lappend id_list [string trim $id]
+        }
+        set ids_str [join $id_list ", "]
 
-	    sqlite3 conn $dbfile
-	    conn eval "DELETE FROM $table WHERE id IN ($ids_str);"
-	    conn close
+        sqlite3 conn $dbfile
+        conn eval "DELETE FROM $table WHERE id IN ($ids_str);"
+        conn close
+    }
   }
 }
 
@@ -210,5 +217,21 @@ test delete-records {Delete multiple records by IDs} -setup {
 } -cleanup {
     if {[file exists $db_path]} { file delete -force $db_path }
 } -result {{Note 2}}
+
+test delete-all-records {Delete entire table content} -setup {
+    set db_path [file join [tcltest::temporaryDirectory] test_delete_all.db]
+    db $db_path create table notes with schema title
+    db $db_path add "Note 1" in table notes
+    db $db_path add "Note 2" in table notes
+} -body {
+    db $db_path delete notes
+
+    sqlite3 conn $db_path
+    set count [conn onecolumn {SELECT count(*) FROM notes}]
+    conn close
+    set count
+} -cleanup {
+    if {[file exists $db_path]} { file delete -force $db_path }
+} -result 0
 
 cleanupTests
