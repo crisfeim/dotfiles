@@ -263,4 +263,16 @@ test search-with-condition {Search term with extra where condition} -setup {
     if {[file exists $db_path]} { file delete -force $db_path }
 } -result {2 Another World here}
 
+test search-excluding {Search excluding columns from result} -setup {
+    set db_path [file join [tcltest::temporaryDirectory] test_search_excl.db]
+    db $db_path create table notes with schema title content
+    db $db_path add "Hello World" "Some text" in table notes
+    db $db_path add "Another" "World here" in table notes
+} -body {
+    db $db_path search World in notes excluding content
+} -cleanup {
+    if {[file exists $db_path]} { file delete -force $db_path }
+} -result {1 Hello World
+2 Another}
+
 cleanupTests

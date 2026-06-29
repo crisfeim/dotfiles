@@ -282,30 +282,49 @@ proc db {dbfile args} {
       set table [lindex $args 3]
 
       sqlite3 conn $dbfile
-      set cols {}
+      set all_cols {}
       conn eval "PRAGMA table_info($table)" r {
-          if {$r(name) ne "id"} { lappend cols $r(name) }
+          if {$r(name) ne "id"} { lappend all_cols $r(name) }
       }
 
-      # condición extra opcional: where <sqlite condition>
+      # excluding opcional
+      set exclude_cols {}
+      set excl_idx [lsearch $args "excluding"]
+      if {$excl_idx != -1} {
+          foreach c [split [lindex $args [expr {$excl_idx + 1}]] ","] {
+              lappend exclude_cols [string trim $c]
+          }
+      }
+
+      # columnas para SELECT (sin excluidas, pero siempre id)
+      set select_cols {}
+      foreach col $all_cols {
+          if {[lsearch $exclude_cols $col] == -1} {
+              lappend select_cols $col
+          }
+      }
+
+      # where extra opcional (antes de excluding)
       set where_idx [lsearch $args "where"]
       if {$where_idx != -1} {
-          set extra "AND ([join [lrange $args [expr {$where_idx + 1}] end] " "])"
+          set where_end [expr {$excl_idx != -1 ? $excl_idx - 1 : "end"}]
+          set extra "AND ([join [lrange $args [expr {$where_idx + 1}] $where_end] " "])"
       } else {
           set extra ""
       }
 
-      # LIKE en todas las columnas
+      # LIKE en todas las columnas (no excluidas)
       set like_clauses {}
-      foreach col $cols {
+      foreach col $all_cols {
           lappend like_clauses "$col LIKE '%$term%'"
       }
       set where_str [join $like_clauses " OR "]
 
+      set cols_str [join [list id {*}$select_cols] ", "]
       set result {}
-      conn eval "SELECT * FROM $table WHERE ($where_str) $extra" row {
+      conn eval "SELECT $cols_str FROM $table WHERE ($where_str) $extra" row {
           set record {}
-          foreach col [list id {*}$cols] {
+          foreach col [list id {*}$select_cols] {
               lappend record $row($col)
           }
           lappend result [join $record " "]
