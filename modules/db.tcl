@@ -242,7 +242,7 @@ db rename column <old> to <new> in table <table>
 db edit <col> from record <id> in <table>
     Open a field in $VISUAL/$EDITOR for editing.
 
-db echo <col> (of|from) <id> in <table>
+    l
     Print a field value to stdout.
 
 db <col> of <id> in <table>
@@ -269,8 +269,15 @@ db <table> grouped by <col>
 set db_file [lindex $argv 0]
 set cmd_args [lrange $argv 1 end]
 
-set result [db $db_file {*}$cmd_args];
+set commands {create add rename edit delete echo copy schema list group help}
 
+if {[llength $cmd_args] == 1 && [lsearch $commands [lindex $cmd_args 0]] == -1} {
+    set cmd_args [list group [lindex $cmd_args 0] by category]
+} elseif {[llength $cmd_args] == 2 && [lsearch $commands [lindex $cmd_args 0]] == -1} {
+    set cmd_args [list list [lindex $cmd_args 0] where category is [lindex $cmd_args 1] excluding content]
+}
+
+set result [db $db_file {*}$cmd_args]
 if {$result ne ""} {
     puts $result
 }
