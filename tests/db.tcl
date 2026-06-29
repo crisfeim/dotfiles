@@ -41,6 +41,27 @@ proc db {dbfile args} {
       sqlite3 conn $dbfile
       conn eval "ALTER TABLE $table ADD COLUMN $col_name $col_type;"
       conn close
+    } elseif {$cmd1 eq "add"} {
+      set table [lindex $args end]
+      sqlite3 conn $dbfile
+      set cols {}
+      conn eval "PRAGMA table_info($table)" row {
+          if {$row(name) ne "id"} {
+              lappend cols $row(name)
+          }
+      }
+      set val_list [lrange $args 1 end-3]
+      set insert_cols {}
+      set insert_vals {}
+      for {set i 0} {$i < [llength $val_list]} {incr i} {
+          lappend insert_cols [lindex $cols $i]
+          set escaped_val [string map {' ''} [lindex $val_list $i]]
+          lappend insert_vals "'$escaped_val'"
+      }
+      set cols_str [join $insert_cols ", "]
+      set vals_str [join $insert_vals ", "]
+      conn eval "INSERT INTO $table ($cols_str) VALUES ($vals_str);"
+      conn close
     }
 }
 
@@ -74,5 +95,22 @@ test add-column {Add column to existing table} -setup {
 } -cleanup {
     if {[file exists $db_path]} { file delete -force $db_path }
 } -result {id:INTEGER title:TEXT views:INTEGER tags:TEXT}
+
+test add-record {Add record to table} -setup {
+    set db_path [file join [tcltest::temporaryDirectory] test_add.db]
+    db $db_path create table notes with schema title content
+} -body {
+    db $db_path add "First Note" "Some body text" in table notes
+
+    sqlite3 conn $db_path
+    set result {}
+    conn eval {SELECT title, content FROM notes} {
+      lappend result $title $content
+    }
+    conn close
+    set result
+} -cleanup {
+    if {[file exists $db_path]} { file delete -force $db_path }
+} -result {{First Note} {Some body text}}
 
 cleanupTests
