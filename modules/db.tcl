@@ -322,6 +322,11 @@ if {[llength $cmd_args] == 1 && [lsearch $commands [lindex $cmd_args 0]] == -1} 
   && [lindex $cmd_args 1] eq "edit"
   && [string is integer [lindex $cmd_args 2]]} {
   set cmd_args [list edit content from record [lindex $cmd_args 2] in [lindex $cmd_args 0]]
+} elseif {[llength $cmd_args] == 3
+  && [lsearch $commands [lindex $cmd_args 0]] == -1
+  && [lsearch $commands [lindex $cmd_args 1]] == -1
+  && [string is integer [lindex $cmd_args 2]]} {
+    set cmd_args [list echo [lindex $cmd_args 2] in [lindex $cmd_args 0]]
 }
 
 set result [db $db_file {*}$cmd_args]
