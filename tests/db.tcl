@@ -26,6 +26,21 @@ proc db {dbfile args} {
         sqlite3 conn $dbfile
         conn eval "CREATE TABLE IF NOT EXISTS $table ($cols_sql);"
         conn close
+    } elseif {$cmd1 eq "create" && $cmd2 eq "column"} {
+      set col [lindex $args 2]
+      set table [lindex $args 5]
+
+      set parts [split $col ":"]
+      set col_name [lindex $parts 0]
+      if {[llength $parts] >= 2} {
+          set col_type [lindex $parts 1]
+      } else {
+          set col_type "TEXT"
+      }
+
+      sqlite3 conn $dbfile
+      conn eval "ALTER TABLE $table ADD COLUMN $col_name $col_type;"
+      conn close
     }
 }
 
@@ -44,3 +59,23 @@ test create-table {Create table} -setup {
 } -cleanup {
     if {[file exists $db_path]} { file delete -force $db_path }
 } -result {id:INTEGER title:TEXT views:INTEGER price:REAL file:BLOB}
+
+test add-column {Add column to existing table} -setup {
+    set db_path [file join [tcltest::temporaryDirectory] test_alter.db]
+    db $db_path create table notes with schema title
+} -body {
+    db $db_path create column views:INTEGER in table notes
+    db $db_path create column tags in table notes
+
+    sqlite3 conn $db_path
+    set schema {}
+    conn eval {PRAGMA table_info(notes)} row {
+        lappend schema "$row(name):$row(type)"
+    }
+    conn close
+    set schema
+} -cleanup {
+    if {[file exists $db_path]} { file delete -force $db_path }
+} -result {id:INTEGER title:TEXT views:INTEGER tags:TEXT}
+
+cleanupTests
