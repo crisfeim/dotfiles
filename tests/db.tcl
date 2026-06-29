@@ -290,4 +290,17 @@ test search-cross-table {Search term across all tables} -setup {
 tasks: 1 World task Another text}
 
 
+test drop-table {Drop a table} -setup {
+    set db_path [file join [tcltest::temporaryDirectory] test_drop.db]
+    db $db_path create table notes with schema title
+} -body {
+    db $db_path drop table notes
+    sqlite3 conn $db_path
+    set result [conn eval {SELECT name FROM sqlite_master WHERE type='table' AND name='notes'}]
+    conn close
+    set result
+} -cleanup {
+    if {[file exists $db_path]} { file delete -force $db_path }
+} -result {}
+
 cleanupTests

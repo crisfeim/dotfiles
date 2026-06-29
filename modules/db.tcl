@@ -380,6 +380,11 @@ proc db {dbfile args} {
       set value [conn onecolumn "SELECT $col FROM $table WHERE id = $id;"]
       conn close
       return $value
+  } elseif {$cmd1 eq "drop" && $cmd2 eq "table"} {
+      set table [lindex $args 2]
+      sqlite3 conn $dbfile
+      conn eval "DROP TABLE IF EXISTS $table;"
+      conn close
   } elseif {$cmd1 eq "help"} {
       set help {
 db
@@ -436,8 +441,12 @@ set cmd_args [lrange $argv 1 end]
 
 set commands {create add rename edit delete echo copy schema list group help search}
 
+# db create <table> → db create table <table> with schema category title content
+if {[llength $cmd_args] == 2 && [lindex $cmd_args 0] eq "create"} {
+    set cmd_args [list create table [lindex $cmd_args 1] with schema category title content]
+
 # db <table> → db group <table> by category
-if {[llength $cmd_args] == 1 && [lsearch $commands [lindex $cmd_args 0]] == -1} {
+} elseif {[llength $cmd_args] == 1 && [lsearch $commands [lindex $cmd_args 0]] == -1} {
     set cmd_args [list group [lindex $cmd_args 0] by category]
 
 # db <table> <id>    → db echo <id> in <table>
