@@ -70,7 +70,37 @@ proc db {dbfile args} {
       sqlite3 conn $dbfile
       conn eval "ALTER TABLE $table RENAME COLUMN $old TO $new;"
       conn close
-    }
+    } elseif {$cmd1 eq "edit"} {
+      set col [lindex $args 1]
+      set id [lindex $args 4]
+      set table [lindex $args 6]
+
+      sqlite3 conn $dbfile
+      set current_val [conn eval "SELECT $col FROM $table WHERE id = $id;"]
+
+      set tmp_file [file join [tcltest::temporaryDirectory] "db_edit_tmp.txt"]
+      set f [open $tmp_file w]
+      puts -nonewline $f $current_val
+      close $f
+
+      set editor "vi"
+      if {[info exists ::env(VISUAL)]} {
+        set editor $::env(VISUAL)
+      } elseif {[info exists ::env(EDITOR)]} {
+        set editor $::env(EDITOR)
+      }
+
+      exec {*}$editor $tmp_file
+
+      set f [open $tmp_file r]
+      set new_val [read $f]
+      close $f
+      file delete -force $tmp_file
+
+      set escaped_new_val [string map {' ''} $new_val]
+      conn eval "UPDATE $table SET $col = '$escaped_new_val' WHERE id = $id;"
+      conn close
+  }
 }
 
 proc get_schema {db_path table} {
@@ -130,5 +160,25 @@ test rename-column {Rename a column in a table} -setup {
 } -cleanup {
     if {[file exists $db_path]} { file delete -force $db_path }
 } -result {id:INTEGER title:TEXT body:TEXT}
+
+
+test edit-record-content {Edit a record field using an external editor mockup} -setup {
+    set db_path [file join [tcltest::temporaryDirectory] test_edit.db]
+    db $db_path create table notes with schema title content
+    db $db_path add "Original Title" "Original Content" in table notes
+
+    set ::env(VISUAL) {printf "Updated Content" >}
+} -body {
+    db $db_path edit content from record 1 in notes
+
+    sqlite3 conn $db_path
+    set result [conn onecolumn {SELECT content FROM notes WHERE id = 1}]
+    conn close
+    set result
+} -cleanup {
+    if {[file exists $db_path]} { file delete -force $db_path }
+    unset -nocomplain ::env(VISUAL)
+} -result {Updated Content}
+
 
 cleanupTests
