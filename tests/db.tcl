@@ -211,4 +211,14 @@ test echo-col-from {Print field with "echo <col> from <id> in <table>"} -setup {
     if {[file exists $db_path]} { file delete -force $db_path }
 } -result {World}
 
+test echo-record-excluding {Print record fields excluding some} -setup {
+    set db_path [file join [tcltest::temporaryDirectory] test_echo_excl.db]
+    db $db_path create table notes with schema title content
+    db $db_path add "Hello" "World" in table notes
+} -body {
+    db $db_path echo 1 in notes excluding id,content
+} -cleanup {
+    if {[file exists $db_path]} { file delete -force $db_path }
+} -result {title: Hello}
+
 cleanupTests

@@ -215,6 +215,35 @@ proc db {dbfile args} {
       sqlite3 conn $dbfile
       conn eval "ALTER TABLE $old RENAME TO $new;"
       conn close
+  } elseif {$cmd1 eq "echo" && [string is integer [lindex $args 1]]} {
+      set id    [lindex $args 1]
+      set table [lindex $args 3]
+
+      set exclude_cols {}
+      set excl_idx [lsearch $args "excluding"]
+      if {$excl_idx != -1} {
+          set excl_raw [lindex $args [expr {$excl_idx + 1}]]
+          foreach c [split $excl_raw ","] {
+              lappend exclude_cols [string trim $c]
+          }
+      }
+
+      sqlite3 conn $dbfile
+      set cols {}
+      conn eval "PRAGMA table_info($table)" r {
+          if {[lsearch $exclude_cols $r(name)] == -1} {
+              lappend cols $r(name)
+          }
+      }
+      set cols_str [join $cols ", "]
+      set result [conn eval "SELECT $cols_str FROM $table WHERE id = $id"]
+      conn close
+
+      set lines {}
+      foreach col $cols val $result {
+          lappend lines "$col: $val"
+      }
+      return [join $lines "\n"]
   } elseif {$cmd1 eq "echo"} {
       set col   [lindex $args 1]
       set id    [lindex $args 3]
