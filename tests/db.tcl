@@ -191,4 +191,24 @@ test rename-table {Rename a table} -setup {
     if {[file exists $db_path]} { file delete -force $db_path }
 } -result {Hello}
 
+test echo-col-of {Print field with "echo <col> of <id> in <table>"} -setup {
+    set db_path [file join [tcltest::temporaryDirectory] test_echo.db]
+    db $db_path create table notes with schema title content
+    db $db_path add "Hello" "World" in table notes
+} -body {
+    db $db_path echo title of 1 in notes
+} -cleanup {
+    if {[file exists $db_path]} { file delete -force $db_path }
+} -result {Hello}
+
+test echo-col-from {Print field with "echo <col> from <id> in <table>"} -setup {
+    set db_path [file join [tcltest::temporaryDirectory] test_echo_from.db]
+    db $db_path create table notes with schema title content
+    db $db_path add "Hello" "World" in table notes
+} -body {
+    db $db_path echo content from 1 in notes
+} -cleanup {
+    if {[file exists $db_path]} { file delete -force $db_path }
+} -result {World}
+
 cleanupTests

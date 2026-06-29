@@ -215,6 +215,15 @@ proc db {dbfile args} {
       sqlite3 conn $dbfile
       conn eval "ALTER TABLE $old RENAME TO $new;"
       conn close
+  } elseif {$cmd1 eq "echo"} {
+      set col   [lindex $args 1]
+      set id    [lindex $args 3]
+      set table [lindex $args 5]
+
+      sqlite3 conn $dbfile
+      set value [conn onecolumn "SELECT $col FROM $table WHERE id = $id;"]
+      conn close
+      return $value
   } elseif {$cmd1 eq "help"} {
       set help {
 db
