@@ -167,15 +167,15 @@ test group-by-col {Group records by column} -setup {
 
 test list-where-filter {Filter records by column value} -setup {
     set db_path [file join [tcltest::temporaryDirectory] test_filter.db]
-    db $db_path create table items with schema name:TEXT status:TEXT
-    db $db_path add "Apple" "active" in table items
-    db $db_path add "Banana" "inactive" in table items
+    db $db_path create table items with schema name:TEXT category:TEXT status:TEXT
+    db $db_path add "Apple" "Fruit" "active" in table items
+    db $db_path add "Banana" "Fruit" "inactive" in table items
 } -body {
     # Filtramos por status = active
-    db $db_path list items where status is active
+    db $db_path list items where status is active excluding id,category
 } -cleanup {
     if {[file exists $db_path]} { file delete -force $db_path }
-} -result {id 1 name Apple status active}
+} -result {Apple}
 
 test rename-table {Rename a table} -setup {
     set db_path [file join [tcltest::temporaryDirectory] test_rename_table.db]

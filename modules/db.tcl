@@ -180,15 +180,26 @@ proc db {dbfile args} {
       set table [lindex $args 1]
       set col   [lindex $args 3]
       set val   [lindex $args 5]
-      sqlite3 conn $dbfile
-      set cols {}
-      conn eval "PRAGMA table_info($table)" r { lappend cols $r(name) }
-      set result {}
-      conn eval "SELECT * FROM $table WHERE $col = '$val'" row {
-          foreach c $cols {
-              lappend result $c $row($c)
+
+      set exclude_cols [list $col]
+      set excl_idx [lsearch $args "excluding"]
+      if {$excl_idx != -1} {
+          set excl_raw [lindex $args [expr {$excl_idx + 1}]]
+          foreach c [split $excl_raw ","] {
+              lappend exclude_cols [string trim $c]
           }
       }
+
+      sqlite3 conn $dbfile
+      set select_cols {}
+      conn eval "PRAGMA table_info($table)" r {
+          if {[lsearch $exclude_cols $r(name)] == -1} {
+              lappend select_cols $r(name)
+          }
+      }
+
+      set cols_str [join $select_cols ", "]
+      set result [conn eval "SELECT $cols_str FROM $table WHERE $col = '$val'"]
       conn close
       return $result
   } elseif {$cmd1 eq "rename" && $cmd2 eq "table"} {
