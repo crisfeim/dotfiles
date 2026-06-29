@@ -6,6 +6,16 @@ proc db {dbfile args} {
     set cmd1 [lindex $args 0]
     set cmd2 [lindex $args 1]
 
+    if {[llength $args] == 0} {
+      sqlite3 conn $dbfile
+      set tables [conn eval {
+          SELECT name FROM sqlite_master
+          WHERE type='table' AND name NOT LIKE 'sqlite_%';
+      }]
+      conn close
+      return $tables
+    }
+
     if {$cmd1 eq "create" && $cmd2 eq "table"} {
         set table [lindex $args 2]
         set cols [lrange $args 5 end]
@@ -233,5 +243,15 @@ test delete-all-records {Delete entire table content} -setup {
 } -cleanup {
     if {[file exists $db_path]} { file delete -force $db_path }
 } -result 0
+
+test list-tables {List user-created tables} -setup {
+    set db_path [file join [tcltest::temporaryDirectory] test_list.db]
+    db $db_path create table notes with schema title
+    db $db_path create table tasks with schema description
+} -body {
+    db $db_path
+} -cleanup {
+    if {[file exists $db_path]} { file delete -force $db_path }
+} -result {notes tasks}
 
 cleanupTests
