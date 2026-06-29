@@ -312,7 +312,11 @@ set commands {create add rename edit delete echo copy schema list group help}
 if {[llength $cmd_args] == 1 && [lsearch $commands [lindex $cmd_args 0]] == -1} {
     set cmd_args [list group [lindex $cmd_args 0] by category]
 } elseif {[llength $cmd_args] == 2 && [lsearch $commands [lindex $cmd_args 0]] == -1} {
-    set cmd_args [list list [lindex $cmd_args 0] where category is [lindex $cmd_args 1] excluding content]
+    if {[string is integer [lindex $cmd_args 1]]} {
+        set cmd_args [list echo [lindex $cmd_args 1] in [lindex $cmd_args 0]]
+    } else {
+        set cmd_args [list list [lindex $cmd_args 0] where category is [lindex $cmd_args 1] excluding content]
+    }
 }
 
 set result [db $db_file {*}$cmd_args]
