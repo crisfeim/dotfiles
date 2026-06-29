@@ -84,7 +84,7 @@ proc db {dbfile args} {
       sqlite3 conn $dbfile
       set current_val [conn eval "SELECT $col FROM $table WHERE id = $id;"]
 
-      set tmp_file [file join [tcltest::temporaryDirectory] "db_edit_tmp.txt"]
+      set tmp_file [file join /tmp "db_edit_tmp.txt"]
       set f [open $tmp_file w]
       puts -nonewline $f $current_val
       close $f
@@ -96,7 +96,7 @@ proc db {dbfile args} {
         set editor $::env(EDITOR)
       }
 
-      exec {*}$editor $tmp_file
+      exec {*}$editor $tmp_file >@stdout <@stdin 2>@stderr
 
       set f [open $tmp_file r]
       set new_val [read $f]
