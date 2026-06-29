@@ -9,7 +9,7 @@ proc db {dbfile args} {
           WHERE type='table' AND name NOT LIKE 'sqlite_%';
       }]
       conn close
-      return $tables
+      return [join $tables "\n"]
     }
 
     if {$cmd1 eq "create" && $cmd2 eq "table"} {
@@ -175,7 +175,7 @@ proc db {dbfile args} {
         lappend result_list "$row($col)($row(count))"
     }
     conn close
-    return [join $result_list " "]
+    return [join $result_list "\n"]
   } elseif {$cmd1 eq "list" && [lindex $args 2] eq "where"} {
     set table [lindex $args 1]
     set col   [lindex $args 3]

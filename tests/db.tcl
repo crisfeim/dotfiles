@@ -122,7 +122,8 @@ test list-tables {List user-created tables} -setup {
     db $db_path
 } -cleanup {
     if {[file exists $db_path]} { file delete -force $db_path }
-} -result {notes tasks}
+} -result {notes
+tasks}
 
 test get-column-value {Get a specific field value from a record} -setup {
     set db_path [file join [tcltest::temporaryDirectory] test_get.db]
@@ -163,7 +164,8 @@ test group-by-col {Group records by column} -setup {
     db $db_path group notes by category
 } -cleanup {
     if {[file exists $db_path]} { file delete -force $db_path }
-} -result {Home(1) Work(2)}
+} -result {Home(1)
+Work(2)}
 
 test list-where-filter {Filter records by column value} -setup {
     set db_path [file join [tcltest::temporaryDirectory] test_filter.db]
