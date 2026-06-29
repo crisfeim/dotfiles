@@ -177,4 +177,18 @@ test list-where-filter {Filter records by column value} -setup {
     if {[file exists $db_path]} { file delete -force $db_path }
 } -result {id 1 name Apple status active}
 
+test rename-table {Rename a table} -setup {
+    set db_path [file join [tcltest::temporaryDirectory] test_rename_table.db]
+    db $db_path create table notes with schema title
+    db $db_path add "Hello" in table notes
+} -body {
+    db $db_path rename table notes to entries
+    sqlite3 conn $db_path
+    set result [conn eval {SELECT title FROM entries}]
+    conn close
+    set result
+} -cleanup {
+    if {[file exists $db_path]} { file delete -force $db_path }
+} -result {Hello}
+
 cleanupTests
