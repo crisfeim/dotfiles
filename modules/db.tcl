@@ -191,7 +191,53 @@ proc db {dbfile args} {
       }
       conn close
       return $result
-   } else {
+  } elseif {$cmd1 eq "help"} {
+      set help {
+db
+    List all tables in the database.
+
+db create table <table> with schema <col:TYPE> ...
+    Create a new table. Type is optional (defaults to TEXT).
+    e.g. db mydb.db create table notes with schema title views:INTEGER
+
+db create column <col:TYPE> in table <table>
+    Add a column to an existing table.
+
+db add <val> ... in table <table>
+    Insert a record into a table.
+
+db delete <table>
+    Delete all records from a table.
+
+db delete "<id, id, ...>" in table <table>
+    Delete specific records by ID.
+
+db rename column <old> to <new> in table <table>
+    Rename a column.
+
+db edit <col> from record <id> in <table>
+    Open a field in $VISUAL/$EDITOR for editing.
+
+db echo <col> (of|from) <id> in <table>
+    Print a field value to stdout.
+
+db <col> of <id> in <table>
+    Return a field value (no print).
+
+db copy <col> of <id> in <table>
+    Copy a field value to clipboard.
+
+db schema of <table>
+    Show the schema of a table.
+
+db list <table> where <col> is <value>
+    Filter records by column value.
+
+db <table> grouped by <col>
+    Count and group records by column value.
+      }
+      return [string trim $help]
+  } else {
   	return "Unhandled"
   }
 }
