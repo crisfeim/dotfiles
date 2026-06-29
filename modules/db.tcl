@@ -420,7 +420,7 @@ db <table> grouped by <col>
 set db_file [lindex $argv 0]
 set cmd_args [lrange $argv 1 end]
 
-set commands {create add rename edit delete echo copy schema list group help}
+set commands {create add rename edit delete echo copy schema list group help search}
 
 # db <table> → db group <table> by category
 if {[llength $cmd_args] == 1 && [lsearch $commands [lindex $cmd_args 0]] == -1} {
