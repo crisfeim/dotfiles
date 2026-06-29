@@ -396,24 +396,43 @@ set cmd_args [lrange $argv 1 end]
 
 set commands {create add rename edit delete echo copy schema list group help}
 
+# db <table> → db group <table> by category
 if {[llength $cmd_args] == 1 && [lsearch $commands [lindex $cmd_args 0]] == -1} {
-  set cmd_args [list group [lindex $cmd_args 0] by category]
+    set cmd_args [list group [lindex $cmd_args 0] by category]
+
+# db <table> <id>    → db echo <id> in <table>
+# db <table> <cat>   → db list <table> where category is <cat> excluding content
 } elseif {[llength $cmd_args] == 2 && [lsearch $commands [lindex $cmd_args 0]] == -1} {
-  if {[string is integer [lindex $cmd_args 1]]} {
-    set cmd_args [list echo [lindex $cmd_args 1] in [lindex $cmd_args 0]]
-  } else {
-    set cmd_args [list list [lindex $cmd_args 0] where category is [lindex $cmd_args 1] excluding content]
-  }
+    if {[string is integer [lindex $cmd_args 1]]} {
+        set cmd_args [list echo [lindex $cmd_args 1] in [lindex $cmd_args 0]]
+    } else {
+        set cmd_args [list list [lindex $cmd_args 0] where category is [lindex $cmd_args 1] excluding content]
+    }
+
+# db <table> edit <id> → db edit content from record <id> in <table>
 } elseif {[llength $cmd_args] == 3
-  && [lsearch $commands [lindex $cmd_args 0]] == -1
-  && [lindex $cmd_args 1] eq "edit"
-  && [string is integer [lindex $cmd_args 2]]} {
-  set cmd_args [list edit content from record [lindex $cmd_args 2] in [lindex $cmd_args 0]]
+        && [lsearch $commands [lindex $cmd_args 0]] == -1
+        && [lindex $cmd_args 1] eq "edit"
+        && [string is integer [lindex $cmd_args 2]]} {
+    set cmd_args [list edit content from record [lindex $cmd_args 2] in [lindex $cmd_args 0]]
+
+# db <table> <cat> <id> → db echo <id> in <table>
 } elseif {[llength $cmd_args] == 3
-  && [lsearch $commands [lindex $cmd_args 0]] == -1
-  && [lsearch $commands [lindex $cmd_args 1]] == -1
-  && [string is integer [lindex $cmd_args 2]]} {
+        && [lsearch $commands [lindex $cmd_args 0]] == -1
+        && [lsearch $commands [lindex $cmd_args 1]] == -1
+        && [string is integer [lindex $cmd_args 2]]} {
     set cmd_args [list echo [lindex $cmd_args 2] in [lindex $cmd_args 0]]
+
+# db <table> search <term> (where <cond>)? → db search <term> in <table> (where <cond>)? excluding content
+} elseif {[llength $cmd_args] >= 2
+        && [lsearch $commands [lindex $cmd_args 0]] == -1
+        && [lindex $cmd_args 1] eq "search"} {
+    set table [lindex $cmd_args 0]
+    set term  [lindex $cmd_args 2]
+    set rest  [lrange $cmd_args 3 end]
+    set cmd_args [list search $term in $table {*}$rest excluding content]
+
+# db <table> <cat> search <term> (where <cond>)? → db search <term> in <table> where category = '<cat>' (AND <cond>)? excluding content
 } elseif {[llength $cmd_args] >= 3
         && [lsearch $commands [lindex $cmd_args 0]] == -1
         && [lsearch $commands [lindex $cmd_args 1]] == -1
@@ -422,7 +441,6 @@ if {[llength $cmd_args] == 1 && [lsearch $commands [lindex $cmd_args 0]] == -1} 
     set cat_val [lindex $cmd_args 1]
     set term    [lindex $cmd_args 3]
     set rest    [lrange $cmd_args 4 end]
-
     set where_idx [lsearch $rest "where"]
     if {$where_idx != -1} {
         set rest [lreplace $rest [expr {$where_idx + 1}] [expr {$where_idx + 1}] \
@@ -430,7 +448,6 @@ if {[llength $cmd_args] == 1 && [lsearch $commands [lindex $cmd_args 0]] == -1} 
     } else {
         lappend rest where "category = '$cat_val'"
     }
-
     set cmd_args [list search $term in $table {*}$rest excluding content]
 }
 
