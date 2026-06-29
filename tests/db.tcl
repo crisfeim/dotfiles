@@ -44,18 +44,21 @@ proc db {dbfile args} {
     }
 }
 
+proc get_schema {db_path table} {
+  sqlite3 conn $db_path
+  set schema {}
+  conn eval "PRAGMA table_info($table)" row {
+    lappend schema "$row(name):$row(type)"
+  }
+  conn close
+  return $schema
+}
+
 test create-table {Create table} -setup {
     set db_path [file join [tcltest::temporaryDirectory] test_literal.db]
 } -body {
     db $db_path create table notes with schema title views:INTEGER price:REAL file:BLOB
-
-    sqlite3 conn $db_path
-    set schema {}
-    conn eval {PRAGMA table_info(notes)} row {
-        lappend schema "$row(name):$row(type)"
-    }
-    conn close
-    set schema
+    get_schema $db_path notes
 } -cleanup {
     if {[file exists $db_path]} { file delete -force $db_path }
 } -result {id:INTEGER title:TEXT views:INTEGER price:REAL file:BLOB}
@@ -67,13 +70,7 @@ test add-column {Add column to existing table} -setup {
     db $db_path create column views:INTEGER in table notes
     db $db_path create column tags in table notes
 
-    sqlite3 conn $db_path
-    set schema {}
-    conn eval {PRAGMA table_info(notes)} row {
-        lappend schema "$row(name):$row(type)"
-    }
-    conn close
-    set schema
+    get_schema $db_path notes
 } -cleanup {
     if {[file exists $db_path]} { file delete -force $db_path }
 } -result {id:INTEGER title:TEXT views:INTEGER tags:TEXT}
