@@ -414,6 +414,24 @@ if {[llength $cmd_args] == 1 && [lsearch $commands [lindex $cmd_args 0]] == -1} 
   && [lsearch $commands [lindex $cmd_args 1]] == -1
   && [string is integer [lindex $cmd_args 2]]} {
     set cmd_args [list echo [lindex $cmd_args 2] in [lindex $cmd_args 0]]
+} elseif {[llength $cmd_args] >= 3
+        && [lsearch $commands [lindex $cmd_args 0]] == -1
+        && [lsearch $commands [lindex $cmd_args 1]] == -1
+        && [lindex $cmd_args 2] eq "search"} {
+    set table   [lindex $cmd_args 0]
+    set cat_val [lindex $cmd_args 1]
+    set term    [lindex $cmd_args 3]
+    set rest    [lrange $cmd_args 4 end]
+
+    set where_idx [lsearch $rest "where"]
+    if {$where_idx != -1} {
+        set rest [lreplace $rest [expr {$where_idx + 1}] [expr {$where_idx + 1}] \
+            "category = '$cat_val' AND [lindex $rest [expr {$where_idx + 1}]]"]
+    } else {
+        lappend rest where "category = '$cat_val'"
+    }
+
+    set cmd_args [list search $term in $table {*}$rest excluding content]
 }
 
 set result [db $db_file {*}$cmd_args]
