@@ -2,7 +2,6 @@ package require sqlite3
 proc db {dbfile args} {
     set cmd1 [lindex $args 0]
     set cmd2 [lindex $args 1]
-
     if {[llength $args] == 0} {
       sqlite3 conn $dbfile
       set tables [conn eval {
@@ -152,7 +151,6 @@ proc db {dbfile args} {
           set clip_cmd "xclip -selection clipboard"
       }
 
-      # Ejecutar la copia
       set f [open "|$clip_cmd" w]
       puts -nonewline $f $value
       close $f
@@ -168,4 +166,17 @@ proc db {dbfile args} {
       conn close
       return $value
   }
+}
+
+set db_file [lindex $argv 0]
+set cmd_args [lrange $argv 1 end]
+
+if {[llength $cmd_args] == 0} {
+	set result [db $db_file]
+} else {
+	set result [db $db_file $cmd_args]
+}
+
+if {$result ne ""} {
+    puts $result
 }
