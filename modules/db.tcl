@@ -165,14 +165,14 @@ proc db {dbfile args} {
       set value [conn onecolumn "SELECT $col FROM $table WHERE id = $id;"]
       conn close
       return $value
-  } elseif {$cmd2 eq "grouped" && [lindex $args 2] eq "by"} {
-    set table [lindex $args 0]
-    set col [lindex $args 3]
+  } elseif {$cmd1 eq "group" && [lindex $args 2] eq "by"} {
+    set table [lindex $args 1]
+    set col   [lindex $args 3]
 
     sqlite3 conn $dbfile
     set result_list {}
     conn eval "SELECT $col, count(*) as count FROM $table GROUP BY $col ORDER BY $col ASC" row {
-      lappend result_list "$row($col)($row(count))"
+        lappend result_list "$row($col)($row(count))"
     }
     conn close
     return [join $result_list " "]
