@@ -153,4 +153,16 @@ test copy-column-value {Copy field value to clipboard} -setup {
     if {[file exists $db_path]} { file delete -force $db_path }
 } -result {12345-ABCDE}
 
+test group-by-col {Group records by column} -setup {
+    set db_path [file join [tcltest::temporaryDirectory] test_group.db]
+    db $db_path create table notes with schema category:TEXT title:TEXT
+    db $db_path add "Work" "Task 1" in notes
+    db $db_path add "Work" "Task 2" in notes
+    db $db_path add "Home" "Task 3" in notes
+} -body {
+    db $db_path notes grouped by category
+} -cleanup {
+    if {[file exists $db_path]} { file delete -force $db_path }
+} -result {Home(1) Work(2)}
+
 cleanupTests

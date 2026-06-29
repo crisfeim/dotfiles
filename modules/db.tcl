@@ -165,17 +165,26 @@ proc db {dbfile args} {
       set value [conn onecolumn "SELECT $col FROM $table WHERE id = $id;"]
       conn close
       return $value
+  } elseif {$cmd2 eq "grouped" && [lindex $args 2] eq "by"} {
+    set table [lindex $args 0]
+    set col [lindex $args 3]
+
+    sqlite3 conn $dbfile
+    set result_list {}
+    conn eval "SELECT $col, count(*) as count FROM $table GROUP BY $col ORDER BY $col ASC" row {
+      lappend result_list "$row($col)($row(count))"
+    }
+    conn close
+    return [join $result_list " "]
+  } else {
+  	return "Unhandled"
   }
 }
 
 set db_file [lindex $argv 0]
 set cmd_args [lrange $argv 1 end]
 
-if {[llength $cmd_args] == 0} {
-	set result [db $db_file]
-} else {
-	set result [db $db_file $cmd_args]
-}
+set result [db $db_file {*}$cmd_args];
 
 if {$result ne ""} {
     puts $result
