@@ -130,6 +130,16 @@ proc db {dbfile args} {
         conn eval "DELETE FROM $table WHERE id IN ($ids_str);"
         conn close
     }
+  } elseif {$cmd1 eq "schema" && [lindex $args 1] eq "of"} {
+      set table [lindex $args 2]
+
+      sqlite3 conn $dbfile
+      set schema_list {}
+      conn eval "PRAGMA table_info($table)" row {
+        lappend schema_list "$row(name):$row(type)"
+      }
+      conn close
+      return $schema_list
   } elseif {[lindex $args 1] eq "of"} {
       set col [lindex $args 0]
       set id [lindex $args 2]
@@ -272,5 +282,14 @@ test get-column-value {Get a specific field value from a record} -setup {
 } -cleanup {
     if {[file exists $db_path]} { file delete -force $db_path }
 } -result {My Title}
+
+test get-table-schema {Get the schema of a table} -setup {
+    set db_path [file join [tcltest::temporaryDirectory] test_schema.db]
+    db $db_path create table notes with schema title views:INTEGER
+} -body {
+    db $db_path schema of notes
+} -cleanup {
+    if {[file exists $db_path]} { file delete -force $db_path }
+} -result {id:INTEGER title:TEXT views:INTEGER}
 
 cleanupTests
