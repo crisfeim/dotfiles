@@ -130,6 +130,15 @@ proc db {dbfile args} {
         conn eval "DELETE FROM $table WHERE id IN ($ids_str);"
         conn close
     }
+  } elseif {[lindex $args 1] eq "of"} {
+      set col [lindex $args 0]
+      set id [lindex $args 2]
+      set table [lindex $args 4]
+
+      sqlite3 conn $dbfile
+      set value [conn onecolumn "SELECT $col FROM $table WHERE id = $id;"]
+      conn close
+      return $value
   }
 }
 
@@ -253,5 +262,15 @@ test list-tables {List user-created tables} -setup {
 } -cleanup {
     if {[file exists $db_path]} { file delete -force $db_path }
 } -result {notes tasks}
+
+test get-column-value {Get a specific field value from a record} -setup {
+    set db_path [file join [tcltest::temporaryDirectory] test_get.db]
+    db $db_path create table notes with schema title content
+    db $db_path add "My Title" "My Content" in table notes
+} -body {
+    db $db_path title of 1 in notes
+} -cleanup {
+    if {[file exists $db_path]} { file delete -force $db_path }
+} -result {My Title}
 
 cleanupTests
