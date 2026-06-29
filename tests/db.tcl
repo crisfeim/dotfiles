@@ -62,22 +62,22 @@ test rename-column {Rename a column in a table} -setup {
 } -result {id:INTEGER title:TEXT body:TEXT}
 
 
+proc mock_edit {current} { return "Updated Content" }
+
 test edit-record-content {Edit a record field using an external editor mockup} -setup {
     set db_path [file join [tcltest::temporaryDirectory] test_edit.db]
     db $db_path create table notes with schema title content
     db $db_path add "Original Title" "Original Content" in table notes
-
-    set ::env(VISUAL) {printf "Updated Content" >}
+    set ::edit_proc mock_edit
 } -body {
     db $db_path edit content from record 1 in notes
-
     sqlite3 conn $db_path
     set result [conn onecolumn {SELECT content FROM notes WHERE id = 1}]
     conn close
     set result
 } -cleanup {
     if {[file exists $db_path]} { file delete -force $db_path }
-    unset -nocomplain ::env(VISUAL)
+    unset -nocomplain ::edit_proc
 } -result {Updated Content}
 
 

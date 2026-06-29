@@ -77,36 +77,36 @@ proc db {dbfile args} {
       conn eval "ALTER TABLE $table RENAME COLUMN $old TO $new;"
       conn close
     } elseif {$cmd1 eq "edit"} {
-      set col [lindex $args 1]
-      set id [lindex $args 4]
-      set table [lindex $args 6]
+        set col   [lindex $args 1]
+        set id    [lindex $args 4]
+        set table [lindex $args 6]
 
-      sqlite3 conn $dbfile
-      set current_val [conn eval "SELECT $col FROM $table WHERE id = $id;"]
+        sqlite3 conn $dbfile
+        set current_val [conn onecolumn "SELECT $col FROM $table WHERE id = $id;"]
 
-      set tmp_file [file join /tmp "db_edit_tmp.txt"]
-      set f [open $tmp_file w]
-      puts -nonewline $f $current_val
-      close $f
+        if {[info exists ::edit_proc]} {
+            set new_val [{*}$::edit_proc $current_val]
+        } else {
+            set tmp_file /tmp/db_edit_tmp.txt
+            set f [open $tmp_file w]
+            puts -nonewline $f $current_val
+            close $f
 
-      set editor "vi"
-      if {[info exists ::env(VISUAL)]} {
-        set editor $::env(VISUAL)
-      } elseif {[info exists ::env(EDITOR)]} {
-        set editor $::env(EDITOR)
-      }
+            set editor "vi"
+            if {[info exists ::env(VISUAL)]} { set editor $::env(VISUAL) }
+            if {[info exists ::env(EDITOR)]}  { set editor $::env(EDITOR) }
+            exec {*}$editor $tmp_file >@stdout <@stdin 2>@stderr
 
-      exec {*}$editor $tmp_file >@stdout <@stdin 2>@stderr
+            set f [open $tmp_file r]
+            set new_val [read $f]
+            close $f
+            file delete -force $tmp_file
+        }
 
-      set f [open $tmp_file r]
-      set new_val [read $f]
-      close $f
-      file delete -force $tmp_file
-
-      set escaped_new_val [string map {' ''} $new_val]
-      conn eval "UPDATE $table SET $col = '$escaped_new_val' WHERE id = $id;"
-      conn close
-  } elseif {$cmd1 eq "delete"} {
+        set escaped [string map {' ''} $new_val]
+        conn eval "UPDATE $table SET $col = '$escaped' WHERE id = $id;"
+        conn close
+    } elseif {$cmd1 eq "delete"} {
     if {[llength $args] == 2} {
         set table [lindex $args 1]
         sqlite3 conn $dbfile
