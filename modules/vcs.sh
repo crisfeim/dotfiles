@@ -254,7 +254,7 @@ amend() {
     else
         local tmp=$(mktemp)
         case $(vcs) in
-            fossil) fossil info tip | grep -E "^comment:" | sed 's/^comment: *//' > "$tmp" ;;
+            fossil) fossil info tip | grep -E "^comment:" | sed -E 's/^comment: *//; s/ \(user: [^)]*\)$//' > "$tmp" ;;
             git)    git log -1 --pretty=%B > "$tmp" ;;
         esac
         ${EDITOR:-vi} "$tmp"
