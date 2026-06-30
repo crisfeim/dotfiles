@@ -1,0 +1,6 @@
+ 1 test hmr script
+    2 add page title on rendering
+    3 refactor regex and fs tools to their own module
+    4 render all components and hydrate those that are dynamic
+    5 copy all assets on build
+    6 añadir mensajes a los expect
