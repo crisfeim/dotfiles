@@ -1,0 +1,15 @@
+name: test-install
+on:
+  push:
+    paths:
+      - install.sh
+
+jobs:
+  test:
+    runs-on: macos-latest
+    steps:
+      - run: curl -fsSL https://raw.githubusercontent.com/crisfeim/dotfiles/${{ github.sha }}/install.sh | bash
+      - run: test -L ~/.zshrc
+      - run: test -L ~/.config/nvim
+      - run: test -L ~/.sqliterc
+      - run: test -L ~/Library/Application\ Support/CodeRunner/Languages/Swift.crLanguage/Scripts/compile.sh
