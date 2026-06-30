@@ -194,7 +194,7 @@ proc db_copy {dbfile args} {
     puts -nonewline $f $value
     close $f
 
-    return $value
+    return "Copied $id"
 }
 
 proc db_get {dbfile args} {

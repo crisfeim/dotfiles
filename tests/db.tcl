@@ -152,7 +152,7 @@ test copy-column-value {Copy field value to clipboard} -setup {
     db $db_path copy content of 1 in notes
 } -cleanup {
     if {[file exists $db_path]} { file delete -force $db_path }
-} -result {12345-ABCDE}
+} -result {Copied 1}
 
 test group-by-col {Group records by column} -setup {
     set db_path [file join [tcltest::temporaryDirectory] test_group.db]
