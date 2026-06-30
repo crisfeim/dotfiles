@@ -390,65 +390,43 @@ proc db_search {dbfile args} {
 }
 
 proc db_help {} {
-    return [string trim {
-db
-    List all tables in the database.
+    set entries {
+        {"db"                                           "List all tables in the database."}
+        {"db create table <table> with schema <col:TYPE> ..." "Create a new table. Type is optional (defaults to TEXT)."}
+        {"db create column <col:TYPE> in table <table>" "Add a column to an existing table."}
+        {"db add <val> ... in table <table>"            "Insert a record. Omit last value to open editor."}
+        {"db delete <table>"                            "Delete all records from a table."}
+        {"db delete \"<id, id, ...>\" in table <table>" "Delete specific records by ID."}
+        {"db drop table <table>"                        "Drop a table entirely."}
+        {"db rename column <old> to <new> in table <table>" "Rename a column."}
+        {"db rename table <old> to <new>"               "Rename a table."}
+        {"db edit <col> from record <id> in <table>"    "Open a field in $VISUAL/$EDITOR for editing."}
+        {"db echo <id> in <table> (excluding <col,...>)?" "Print all fields of a record."}
+        {"db echo <col> of <id> in <table>"             "Print a specific field."}
+        {"db copy <col> of <id> in <table>"             "Copy a field value to clipboard."}
+        {"db schema of <table>"                         "Show the schema of a table."}
+        {"db list <table> (excluding <col,...>)?"       "List all records in a table."}
+        {"db list <table> where <col> is <value> (excluding <col,...>)?" "Filter records by column value."}
+        {"db group <table> by <col>"                    "Count and group records by column value."}
+        {"db select <sql after SELECT>"                 "Run an arbitrary SQL SELECT and print the rows."}
+        {"db search <term> (in <table>)? (where <cond>)? (excluding <col,...>)?" "Search term across columns."}
+    }
 
-db create table <table> with schema <col:TYPE> ...
-    Create a new table. Type is optional (defaults to TEXT).
+    set max_len 0
+    foreach entry $entries {
+        set cmd [string trim [lindex $entry 0]]
+        if {[string length $cmd] > $max_len} {
+            set max_len [string length $cmd]
+        }
+    }
 
-db create column <col:TYPE> in table <table>
-    Add a column to an existing table.
-
-db add <val> ... in table <table>
-    Insert a record. Omit last value to open editor.
-
-db delete <table>
-    Delete all records from a table.
-
-db delete "<id, id, ...>" in table <table>
-    Delete specific records by ID.
-
-db drop table <table>
-    Drop a table entirely.
-
-db rename column <old> to <new> in table <table>
-    Rename a column.
-
-db rename table <old> to <new>
-    Rename a table.
-
-db edit <col> from record <id> in <table>
-    Open a field in $VISUAL/$EDITOR for editing.
-
-db echo <id> in <table> (excluding <col,...>)?
-    Print all fields of a record.
-
-db echo <col> of <id> in <table>
-    Print a specific field.
-
-db copy <col> of <id> in <table>
-    Copy a field value to clipboard.
-
-db schema of <table>
-    Show the schema of a table.
-
-db list <table> (excluding <col,...>)?
-    List all records in a table.
-
-db list <table> where <col> is <value> (excluding <col,...>)?
-    Filter records by column value.
-
-db group <table> by <col>
-    Count and group records by column value.
-
-db select <sql after SELECT>
-    Run an arbitrary SQL SELECT and print the rows. Full sqlite power:
-    joins, aggregates, subqueries, order by, limit, etc.
-
-db search <term> (in <table>)? (where <cond>)? (excluding <col,...>)?
-    Search term across columns.
-    }]
+    set out {}
+    foreach entry $entries {
+        set cmd  [string trim [lindex $entry 0]]
+        set expl [lindex $entry 1]
+        lappend out [format "%-${max_len}s    %s" $cmd $expl]
+    }
+    return [join $out "\n"]
 }
 
 proc db_select {dbfile args} {
