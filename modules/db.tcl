@@ -263,13 +263,24 @@ proc db_group {dbfile args} {
 
 proc db_list {dbfile args} {
     set table [lindex $args 0]
-    set col   [lindex $args 2]
-    set val   [lindex $args 4]
+    set rest  [lrange $args 1 end]
 
-    set exclude_cols [list $col]
-    set excl_idx [lsearch $args "excluding"]
+    set where_idx [lsearch $rest "where"]
+    set excl_idx  [lsearch $rest "excluding"]
+
+    set exclude_cols {}
+    set where_sql ""
+
+    if {$where_idx != -1} {
+        set col [lindex $rest [expr {$where_idx + 1}]]
+        # [expr {$where_idx + 2}] es la palabra "is", se ignora
+        set val [lindex $rest [expr {$where_idx + 3}]]
+        lappend exclude_cols $col
+        set where_sql "WHERE $col = '$val'"
+    }
+
     if {$excl_idx != -1} {
-        foreach c [split [lindex $args [expr {$excl_idx + 1}]] ","] {
+        foreach c [split [lindex $rest [expr {$excl_idx + 1}]] ","] {
             lappend exclude_cols [string trim $c]
         }
     }
@@ -282,7 +293,7 @@ proc db_list {dbfile args} {
         }
     }
 
-    set result [conn eval "SELECT [join $select_cols ", "] FROM $table WHERE $col = '$val'"]
+    set result [conn eval "SELECT [join $select_cols ", "] FROM $table $where_sql"]
     conn close
 
     set n [llength $select_cols]
@@ -421,6 +432,9 @@ db copy <col> of <id> in <table>
 
 db schema of <table>
     Show the schema of a table.
+
+db list <table> (excluding <col,...>)?
+    List all records in a table.
 
 db list <table> where <col> is <value> (excluding <col,...>)?
     Filter records by column value.

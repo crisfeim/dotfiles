@@ -179,6 +179,39 @@ test list-where-filter {Filter records by column value} -setup {
     if {[file exists $db_path]} { file delete -force $db_path }
 } -result {Apple}
 
+test list-no-filter {Lista todos los registros sin where} -setup {
+    set db_path [file join [tcltest::temporaryDirectory] test_list_nofilter.db]
+    db $db_path create table items with schema name:TEXT category:TEXT
+    db $db_path add "Apple" "Fruit" in table items
+    db $db_path add "Carrot" "Vegetable" in table items
+} -body {
+    db $db_path list items
+} -cleanup {
+    if {[file exists $db_path]} { file delete -force $db_path }
+} -result {1 Apple Fruit
+2 Carrot Vegetable}
+
+test list-no-filter-excluding {Lista todos los registros sin where, excluyendo columnas} -setup {
+    set db_path [file join [tcltest::temporaryDirectory] test_list_nofilter_excl.db]
+    db $db_path create table items with schema name:TEXT category:TEXT
+    db $db_path add "Apple" "Fruit" in table items
+    db $db_path add "Carrot" "Vegetable" in table items
+} -body {
+    db $db_path list items excluding id,category
+} -cleanup {
+    if {[file exists $db_path]} { file delete -force $db_path }
+} -result {Apple
+Carrot}
+
+test list-no-filter-empty-table {Lista vacia cuando la tabla no tiene registros} -setup {
+    set db_path [file join [tcltest::temporaryDirectory] test_list_empty.db]
+    db $db_path create table items with schema name:TEXT
+} -body {
+    db $db_path list items
+} -cleanup {
+    if {[file exists $db_path]} { file delete -force $db_path }
+} -result {}
+
 test rename-table {Rename a table} -setup {
     set db_path [file join [tcltest::temporaryDirectory] test_rename_table.db]
     db $db_path create table notes with schema title
