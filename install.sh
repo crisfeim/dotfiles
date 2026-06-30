@@ -22,7 +22,8 @@ if ! command -v brew &>/dev/null; then
     fi
 fi
 
-brew install --cask --no-quarantine brettferdosi/tap/grayscale
+brew tap brettferdosi/tap
+brew install --cask --no-quarantine grayscale
 brew bundle --file="$DOTFILES_DIR/Brewfile"
 
 link() {
