@@ -2,6 +2,7 @@ name: test-install
 on:
   push:
     paths:
+      - "brewfile"
       - "install.sh"
       - ".github/workflows/test-install.yml"
 
