@@ -30,7 +30,7 @@ test list-counters {Lista contadores con numero de linea} -setup {
     counter $db_path list
 } -cleanup {
     if {[file exists $db_path]} { file delete -force $db_path }
-} -result "1. Sacar al perro a pasear — 0\n2. Hacer ejercicio — 0"
+} -result "1  Sacar al perro a pasear     0\n2  Hacer ejercicio             0"
 
 test no-args-equals-list {counter sin subcomando lista igual que counter list} -setup {
     set db_path [file join [tcltest::temporaryDirectory] test_noargs.counter]
@@ -117,7 +117,7 @@ test delete-counter {Elimina un contador y reindexa} -setup {
     counter $db_path list
 } -cleanup {
     if {[file exists $db_path]} { file delete -force $db_path }
-} -result "1. Hacer ejercicio — 0"
+} -result "1  Hacer ejercicio     0"
 
 test delete-counter-missing {Falla al borrar linea inexistente} -setup {
     set db_path [file join [tcltest::temporaryDirectory] test_delete_missing.counter]

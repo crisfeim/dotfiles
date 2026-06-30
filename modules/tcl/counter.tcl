@@ -39,7 +39,7 @@ proc counter_make_entry {value desc} {
 
 proc counter_format {line_num value desc {show_line 0}} {
     if {$show_line} {
-        return "$line_num. $desc — $value"
+        return [format "%d. %s — %5d" $line_num $desc $value]
     } else {
         return "$value $desc"
     }
@@ -64,12 +64,23 @@ proc counter_new {dbfile desc} {
 
 proc counter_list {dbfile} {
     set lines [counter_load_lines $dbfile]
-    set out {}
+    set parsed {}
+    set max_desc_len 0
+
     set i 1
     foreach raw $lines {
         lassign [counter_parse_entry $raw] value desc
-        lappend out [counter_format $i $value $desc 1]
+        set desc_len [string length $desc]
+        if {$desc_len > $max_desc_len} { set max_desc_len $desc_len }
+        lappend parsed [list $i $value $desc]
         incr i
+    }
+
+    set out {}
+    foreach item $parsed {
+        lassign $item id val desc
+        # Se elimina el punto tras el id y se mantiene la alineación
+        lappend out [format "%d  %-*s %5d" $id $max_desc_len $desc $val]
     }
     return [join $out "\n"]
 }
