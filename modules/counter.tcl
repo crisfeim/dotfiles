@@ -141,6 +141,37 @@ proc counter_delete {dbfile line_num} {
     return "Eliminado: $value $desc"
 }
 
+proc counter_help {} {
+    set entries {
+        {"counter"                  "Lista todos los contadores (igual que counter list)."}
+        {"counter list"             "Lista todos los contadores."}
+        {"counter new <texto>"      "Crea un nuevo contador a valor 0."}
+        {"counter <linea>"          "Obtiene el contador de esa linea."}
+        {"counter <linea> = <valor>" "Sobreescribe el valor del contador."}
+        {"counter <linea> + <int>?" "Incrementa el contador. Si se omite <int>, suma 1."}
+        {"counter <linea> - <int>?" "Decrementa el contador. Si se omite <int>, resta 1."}
+        {"counter edit <linea>"     "Abre $VISUAL/$EDITOR para editar la descripcion."}
+        {"counter delete <linea>"   "Elimina el contador de esa linea."}
+        {"counter help"             "Muestra esta ayuda."}
+    }
+
+    set max_len 0
+    foreach entry $entries {
+        set cmd [string trim [lindex $entry 0]]
+        if {[string length $cmd] > $max_len} {
+            set max_len [string length $cmd]
+        }
+    }
+
+    set out {}
+    foreach entry $entries {
+        set cmd  [string trim [lindex $entry 0]]
+        set expl [lindex $entry 1]
+        lappend out [format "%-${max_len}s    %s" $cmd $expl]
+    }
+    return [join $out "\n"]
+}
+
 # --- dispatcher -------------------------------------------------------
 
 proc counter {dbfile args} {
@@ -157,6 +188,9 @@ proc counter {dbfile args} {
         }
         list {
             return [counter_list $dbfile]
+        }
+        help {
+            return [counter_help]
         }
         edit {
             if {[llength $args] != 2} { error "uso: counter edit <linea>" }
