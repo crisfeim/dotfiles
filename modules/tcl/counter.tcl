@@ -39,7 +39,7 @@ proc counter_make_entry {value desc} {
 
 proc counter_format {line_num value desc {show_line 0}} {
     if {$show_line} {
-        return "$value $desc  — $line_num"
+        return "$line_num. $desc — $value"
     } else {
         return "$value $desc"
     }
