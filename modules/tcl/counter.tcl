@@ -230,30 +230,36 @@ proc counter {dbfile args} {
             return [counter_delete $dbfile [lindex $args 1]]
         }
         default {
-            set line_num $cmd
-            if {[llength $args] == 1} {
-                return [counter_get $dbfile $line_num]
-            } elseif {[llength $args] == 2} {
-                set op [lindex $args 1]
-                if {$op eq "+"} {
-                    return [counter_delta $dbfile $line_num 1]
-                } elseif {$op eq "-"} {
-                    return [counter_delta $dbfile $line_num -1]
-                } else {
-                    error "operador desconocido: $op"
-                }
-            } elseif {[llength $args] == 3} {
-                set op  [lindex $args 1]
-                set arg [lindex $args 2]
-                switch -- $op {
-                    "+" { return [counter_delta $dbfile $line_num $arg] }
-                    "-" { return [counter_delta $dbfile $line_num [expr {-1 * $arg}]] }
-                    "=" { return [counter_set $dbfile $line_num $arg] }
-                    default { error "operador desconocido: $op" }
-                }
-            } else {
-                error "demasiados argumentos"
-            }
+          set raw_cmd $cmd
+          if {[regexp {^([0-9]+)([+-])$} $raw_cmd -> line_num op]} {
+              set args [list $line_num $op]
+          }
+
+          set line_num [lindex $args 0]
+
+          if {[llength $args] == 1} {
+              return [counter_get $dbfile $line_num]
+          } elseif {[llength $args] == 2} {
+              set op [lindex $args 1]
+              if {$op eq "+"} {
+                  return [counter_delta $dbfile $line_num 1]
+              } elseif {$op eq "-"} {
+                  return [counter_delta $dbfile $line_num -1]
+              } else {
+                  error "operador desconocido: $op"
+              }
+          } elseif {[llength $args] == 3} {
+              set op  [lindex $args 1]
+              set arg [lindex $args 2]
+              switch -- $op {
+                  "+" { return [counter_delta $dbfile $line_num $arg] }
+                  "-" { return [counter_delta $dbfile $line_num [expr {-1 * $arg}]] }
+                  "=" { return [counter_set $dbfile $line_num $arg] }
+                  default { error "operador desconocido: $op" }
+              }
+          } else {
+              error "demasiados argumentos"
+          }
         }
     }
 }
