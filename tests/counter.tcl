@@ -1,6 +1,6 @@
 package require tcltest
 namespace import tcltest::*
-source [file join [file dirname [file dirname [info script]]] modules counter.tcl]
+source [file join [file dirname [file dirname [info script]]] modules tcl counter.tcl]
 
 test parse-entry-normal {Parsea linea con separador '. '} -body {
     counter_parse_entry "3. Sacar al perro a pasear"

@@ -1,3 +1,3 @@
-counter() { tclsh ~/dotfiles/modules/counter.tcl ~/db/.counter "$@"; }
-memo() { tclsh ~/dotfiles/modules/memo.tcl ~/dotfiles/db/memo "$@"; }
-db() { tclsh ~/dotfiles/modules/db.tcl ~/db/db.db "$@"; }
+counter() { tclsh ~/dotfiles/modules/tcl/counter.tcl ~/db/.counter "$@"; }
+memo() { tclsh ~/dotfiles/modules/tcl/memo.tcl ~/db/memo "$@"; }
+db() { tclsh ~/dotfiles/modules/tcl/db.tcl ~/db/db.db "$@"; }

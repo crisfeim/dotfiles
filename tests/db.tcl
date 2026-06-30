@@ -1,7 +1,7 @@
 package require tcltest
 package require sqlite3
 namespace import tcltest::*
-source [file join [file dirname [file dirname [info script]]] modules db.tcl]
+source [file join [file dirname [file dirname [info script]]] modules tcl db.tcl]
 
 proc get_schema {db_path table} {
   sqlite3 conn $db_path
