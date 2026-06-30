@@ -14,4 +14,3 @@ jobs:
       - run: test -L ~/.config/nvim
       - run: test -L ~/.sqliterc
       - run: test -L ~/Library/Application\ Support/CodeRunner/Languages/Swift.crLanguage/Scripts/compile.sh
-      - run: test -d "/Applications/Apptivate.app"
