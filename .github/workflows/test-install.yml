@@ -2,7 +2,8 @@ name: test-install
 on:
   push:
     paths:
-      - install.sh
+      - "install.sh"
+      - ".github/workflows/test-install.yml"
 
 jobs:
   test:
