@@ -442,10 +442,31 @@ db list <table> where <col> is <value> (excluding <col,...>)?
 db group <table> by <col>
     Count and group records by column value.
 
+db select <sql after SELECT>
+    Run an arbitrary SQL SELECT and print the rows. Full sqlite power:
+    joins, aggregates, subqueries, order by, limit, etc.
+
 db search <term> (in <table>)? (where <cond>)? (excluding <col,...>)?
     Search term across columns.
     }]
 }
+
+proc db_select {dbfile args} {
+    set sql "SELECT [join $args " "]"
+
+    sqlite3 conn $dbfile
+    set lines {}
+    conn eval $sql row {
+        set vals {}
+        foreach c $row(*) {
+            lappend vals $row($c)
+        }
+        lappend lines [join $vals " "]
+    }
+    conn close
+    return [join $lines "\n"]
+}
+
 
 proc db {dbfile args} {
     set cmd1 [lindex $args 0]
@@ -483,6 +504,8 @@ proc db {dbfile args} {
         return [db_list $dbfile {*}[lrange $args 1 end]]
     } elseif {$cmd1 eq "search"} {
         return [db_search $dbfile {*}[lrange $args 1 end]]
+    } elseif {$cmd1 eq "select"} {
+    		return [db_select $dbfile {*}[lrange $args 1 end]]
     } elseif {$cmd1 eq "help"} {
         return [db_help]
     } elseif {[lindex $args 1] eq "of"} {
