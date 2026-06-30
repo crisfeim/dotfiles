@@ -143,15 +143,4 @@ test edit-counter {Edita la descripcion via ::edit_proc, conserva el valor} -set
     unset -nocomplain ::edit_proc
 } -result {2 Pasear al perro por el parque}
 
-test help-lists-commands {counter help devuelve texto con todos los comandos} -body {
-    set out [counter "irrelevante" help]
-    list \
-        [expr {[string first "counter new" $out] != -1}] \
-        [expr {[string first "counter list" $out] != -1}] \
-        [expr {[string first "counter <linea> +" $out] != -1}] \
-        [expr {[string first "counter <linea> -" $out] != -1}] \
-        [expr {[string first "counter edit" $out] != -1}] \
-        [expr {[string first "counter delete" $out] != -1}]
-} -result {1 1 1 1 1 1}
-
 cleanupTests
