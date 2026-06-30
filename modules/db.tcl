@@ -393,38 +393,58 @@ proc db_help {} {
     set entries {
         {"empty"                                        "List all tables in the database."}
         {"create table <t> with schema <c:TYPE> ..." "Create a new table. Type is optional (defaults to TEXT)."}
-        {"create column <c:TYPE> in table <t>" "Add a column to an existing table."}
-        {"add <val> ... in table <t>"            "Insert a record. Omit last value to open editor."}
-        {"delete <t>"                            "Delete all records from a table."}
-        {"delete \"<id, id, ...>\" in table <t>" "Delete specific records by ID."}
-        {"drop table <t>"                        "Drop a table entirely."}
+        {"create column <c:TYPE> in table <t>"       "Add a column to an existing table."}
+        {"add <val> ... in table <t>"                "Insert a record. Omit last value to open editor."}
+        {"delete <t>"                                "Delete all records from a table."}
+        {"delete \"<id, id, ...>\" in table <t>"     "Delete specific records by ID."}
+        {"drop table <t>"                            "Drop a table entirely."}
         {"rename column <old> to <new> in table <t>" "Rename a column."}
         {"rename table <old> to <new>"               "Rename a table."}
-        {"edit <c> from record <id> in <t>"    "Open a field in $VISUAL/$EDITOR for editing."}
-        {"echo <id> in <t> (excluding <c's>)?" "Print all fields of a record."}
-        {"echo <c> of <id> in <t>"             "Print a specific field."}
-        {"copy <c> of <id> in <t>"             "Copy a field value to clipboard."}
-        {"schema of <t>"                         "Show the schema of a table."}
-        {"list <t> (excluding <c's>)?"       "List all records in a table."}
+        {"edit <c> from record <id> in <t>"          "Open a field in $VISUAL/$EDITOR for editing."}
+        {"echo <id> in <t> (excluding <c's>)?"       "Print all fields of a record."}
+        {"echo <c> of <id> in <t>"                   "Print a specific field."}
+        {"copy <c> of <id> in <t>"                   "Copy a field value to clipboard."}
+        {"schema of <t>"                             "Show the schema of a table."}
+        {"list <t> (excluding <c's>)?"               "List all records in a table."}
         {"list <t> where <c> is <value> (excluding <c's>)?" "Filter records by column value."}
-        {"group <t> by <c>"                    "Count and group records by column value."}
+        {"group <t> by <c>"                          "Count and group records by column value."}
         {"select <sql>"                              "Run an arbitrary SQL SELECT and print the rows."}
         {"search <q> (in <t>)? (where <b>)? (excluding <c's>)?" "Search term across columns."}
     }
 
     set max_len 0
     foreach entry $entries {
-        set cmd [string trim [lindex $entry 0]]
-        if {[string length $cmd] > $max_len} {
-            set max_len [string length $cmd]
-        }
+        set raw_cmd [string trim [lindex $entry 0]]
+        if {[string length $raw_cmd] > $max_len} { set max_len [string length $raw_cmd] }
     }
+
+    set red "\u001b\[31m"; set grn "\u001b\[32m"; set blu "\u001b\[34m"
+    set yel "\u001b\[33m"; set end "\u001b\[0m"; set dim "\u001b\[2m"; set rst "\u001b\[22m"
 
     set out {}
     foreach entry $entries {
-        set cmd  [string trim [lindex $entry 0]]
-        set expl [lindex $entry 1]
-        lappend out [format "%-${max_len}s    \u001b\[2m%s\u001b\[22m" $cmd $expl]
+        set raw_cmd [string trim [lindex $entry 0]]
+        set expl    [lindex $entry 1]
+
+        set colored_cmd $raw_cmd
+        set action [lindex [split $raw_cmd] 0]
+        if {$action eq "delete" || $action eq "drop"} {
+            set colored_cmd [string map [list $action "${red}${action}${end}"] $colored_cmd]
+        } elseif {$action eq "create" || $action eq "add" || $action eq "rename"} {
+            set colored_cmd [string map [list $action "${grn}${action}${end}"] $colored_cmd]
+        } else {
+            set colored_cmd [string map [list $action "${blu}${action}${end}"] $colored_cmd]
+        }
+
+        foreach prep {with in from of by where is} {
+            set colored_cmd [string map [list " $prep " " ${yel}${prep}${end} "] $colored_cmd]
+        }
+        foreach sym {to ? ( ) } {
+            set colored_cmd [string map [list $sym "${yel}${sym}${end}"] $colored_cmd]
+        }
+
+        set padding [string repeat " " [expr {$max_len - [string length $raw_cmd]}]]
+        lappend out [format "%s%s    ${dim}%s${rst}" $colored_cmd $padding $expl]
     }
     return [join $out "\n"]
 }

@@ -149,7 +149,7 @@ proc counter_help {} {
         {"<linea>"          "Obtiene el contador de esa linea."}
         {"<linea> = <valor>" "Sobreescribe el valor del contador."}
         {"<linea> + <int>?" "Incrementa el contador. Si se omite <int>, suma 1."}
-        {"<linea> - <int>?" "Decrementa el contador. Si se omite <int>, resta 1."}
+        {"<linea> - <int>?" "Decrementa el contador. Si se omite el <int>, resta 1."}
         {"edit <linea>"     "Abre $VISUAL/$EDITOR para editar la descripcion."}
         {"delete <linea>"   "Elimina el contador de esa linea."}
         {"help"             "Muestra esta ayuda."}
@@ -157,17 +157,35 @@ proc counter_help {} {
 
     set max_len 0
     foreach entry $entries {
-        set cmd [string trim [lindex $entry 0]]
-        if {[string length $cmd] > $max_len} {
-            set max_len [string length $cmd]
-        }
+        set raw_cmd [string trim [lindex $entry 0]]
+        if {[string length $raw_cmd] > $max_len} { set max_len [string length $raw_cmd] }
     }
+
+    set red "\u001b\[31m"; set grn "\u001b\[32m"; set blu "\u001b\[34m"
+    set yel "\u001b\[33m"; set end "\u001b\[0m"; set dim "\u001b\[2m"; set rst "\u001b\[22m"
 
     set out {}
     foreach entry $entries {
-        set cmd  [string trim [lindex $entry 0]]
-        set expl [lindex $entry 1]
-        lappend out [format "%-${max_len}s    \u001b\[90m%s\u001b\[0m" $cmd $expl]
+        set raw_cmd [string trim [lindex $entry 0]]
+        set expl    [lindex $entry 1]
+
+        set action [lindex [split $raw_cmd] 0]
+        set colored_cmd $raw_cmd
+
+        if {$action eq "delete"} {
+            set colored_cmd [string map [list $action "${red}${action}${end}"] $colored_cmd]
+        } elseif {$action eq "new" || $action eq "edit"} {
+            set colored_cmd [string map [list $action "${grn}${action}${end}"] $colored_cmd]
+        } elseif {[string index $action 0] ne "<"} {
+            set colored_cmd [string map [list $action "${blu}${action}${end}"] $colored_cmd]
+        }
+
+        foreach sym {= + - ?} {
+            set colored_cmd [string map [list $sym "${yel}${sym}${end}"] $colored_cmd]
+        }
+
+        set padding [string repeat " " [expr {$max_len - [string length $raw_cmd]}]]
+        lappend out [format "%s%s    ${dim}%s${rst}" $colored_cmd $padding $expl]
     }
     return [join $out "\n"]
 }
