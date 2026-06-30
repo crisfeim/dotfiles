@@ -3,4 +3,4 @@ brew "neovim"
 
 cask "zed"
 cask "coderunner"
-cask --no-quarantine brettferdosi/tap/grayscale
+cask "grayscale", args: { no_quarantine: true }
