@@ -1,2 +1,5 @@
 test:
-	tclsh tests/db.tcl
+	@for f in tests/*.tcl; do \
+		echo "== $$f =="; \
+		tclsh $$f || exit 1; \
+	done
