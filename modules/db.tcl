@@ -391,25 +391,25 @@ proc db_search {dbfile args} {
 
 proc db_help {} {
     set entries {
-        {"db"                                           "List all tables in the database."}
-        {"db create table <table> with schema <col:TYPE> ..." "Create a new table. Type is optional (defaults to TEXT)."}
-        {"db create column <col:TYPE> in table <table>" "Add a column to an existing table."}
-        {"db add <val> ... in table <table>"            "Insert a record. Omit last value to open editor."}
-        {"db delete <table>"                            "Delete all records from a table."}
-        {"db delete \"<id, id, ...>\" in table <table>" "Delete specific records by ID."}
-        {"db drop table <table>"                        "Drop a table entirely."}
-        {"db rename column <old> to <new> in table <table>" "Rename a column."}
-        {"db rename table <old> to <new>"               "Rename a table."}
-        {"db edit <col> from record <id> in <table>"    "Open a field in $VISUAL/$EDITOR for editing."}
-        {"db echo <id> in <table> (excluding <col,...>)?" "Print all fields of a record."}
-        {"db echo <col> of <id> in <table>"             "Print a specific field."}
-        {"db copy <col> of <id> in <table>"             "Copy a field value to clipboard."}
-        {"db schema of <table>"                         "Show the schema of a table."}
-        {"db list <table> (excluding <col,...>)?"       "List all records in a table."}
-        {"db list <table> where <col> is <value> (excluding <col,...>)?" "Filter records by column value."}
-        {"db group <table> by <col>"                    "Count and group records by column value."}
-        {"db select <sql after SELECT>"                 "Run an arbitrary SQL SELECT and print the rows."}
-        {"db search <term> (in <table>)? (where <cond>)? (excluding <col,...>)?" "Search term across columns."}
+        {"empty"                                        "List all tables in the database."}
+        {"create table <t> with schema <c:TYPE> ..." "Create a new table. Type is optional (defaults to TEXT)."}
+        {"create column <c:TYPE> in table <t>" "Add a column to an existing table."}
+        {"add <val> ... in table <t>"            "Insert a record. Omit last value to open editor."}
+        {"delete <t>"                            "Delete all records from a table."}
+        {"delete \"<id, id, ...>\" in table <t>" "Delete specific records by ID."}
+        {"drop table <t>"                        "Drop a table entirely."}
+        {"rename column <old> to <new> in table <t>" "Rename a column."}
+        {"rename table <old> to <new>"               "Rename a table."}
+        {"edit <c> from record <id> in <t>"    "Open a field in $VISUAL/$EDITOR for editing."}
+        {"echo <id> in <t> (excluding <c's>)?" "Print all fields of a record."}
+        {"echo <c> of <id> in <t>"             "Print a specific field."}
+        {"copy <c> of <id> in <t>"             "Copy a field value to clipboard."}
+        {"schema of <t>"                         "Show the schema of a table."}
+        {"list <t> (excluding <c's>)?"       "List all records in a table."}
+        {"list <t> where <c> is <value> (excluding <c's>)?" "Filter records by column value."}
+        {"group <t> by <c>"                    "Count and group records by column value."}
+        {"select <sql>"                              "Run an arbitrary SQL SELECT and print the rows."}
+        {"search <q> (in <t>)? (where <b>)? (excluding <c's>)?" "Search term across columns."}
     }
 
     set max_len 0

@@ -143,16 +143,16 @@ proc counter_delete {dbfile line_num} {
 
 proc counter_help {} {
     set entries {
-        {"counter"                  "Lista todos los contadores (igual que counter list)."}
-        {"counter list"             "Lista todos los contadores."}
-        {"counter new <texto>"      "Crea un nuevo contador a valor 0."}
-        {"counter <linea>"          "Obtiene el contador de esa linea."}
-        {"counter <linea> = <valor>" "Sobreescribe el valor del contador."}
-        {"counter <linea> + <int>?" "Incrementa el contador. Si se omite <int>, suma 1."}
-        {"counter <linea> - <int>?" "Decrementa el contador. Si se omite <int>, resta 1."}
-        {"counter edit <linea>"     "Abre $VISUAL/$EDITOR para editar la descripcion."}
-        {"counter delete <linea>"   "Elimina el contador de esa linea."}
-        {"counter help"             "Muestra esta ayuda."}
+        {"empty"            "Lista todos los contadores (igual que counter list)."}
+        {"list"             "Lista todos los contadores."}
+        {"new <texto>"      "Crea un nuevo contador a valor 0."}
+        {"<linea>"          "Obtiene el contador de esa linea."}
+        {"<linea> = <valor>" "Sobreescribe el valor del contador."}
+        {"<linea> + <int>?" "Incrementa el contador. Si se omite <int>, suma 1."}
+        {"<linea> - <int>?" "Decrementa el contador. Si se omite <int>, resta 1."}
+        {"edit <linea>"     "Abre $VISUAL/$EDITOR para editar la descripcion."}
+        {"delete <linea>"   "Elimina el contador de esa linea."}
+        {"help"             "Muestra esta ayuda."}
     }
 
     set max_len 0
