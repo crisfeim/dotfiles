@@ -424,7 +424,7 @@ proc db_help {} {
     foreach entry $entries {
         set cmd  [string trim [lindex $entry 0]]
         set expl [lindex $entry 1]
-        lappend out [format "%-${max_len}s    %s" $cmd $expl]
+        lappend out [format "%-${max_len}s    \u001b\[2m%s\u001b\[22m" $cmd $expl]
     }
     return [join $out "\n"]
 }
