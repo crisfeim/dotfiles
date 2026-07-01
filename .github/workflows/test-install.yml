@@ -2,7 +2,7 @@ name: test-install
 on:
   push:
     paths:
-      - "brewfile"
+      - "Brewfile"
       - "install.sh"
       - ".github/workflows/test-install.yml"
 
@@ -10,7 +10,20 @@ jobs:
   test:
     runs-on: macos-latest
     steps:
-      - run: curl -fsSL https://raw.githubusercontent.com/crisfeim/dotfiles/${{ github.sha }}/install.sh | bash
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Cache Homebrew Downloads
+        uses: actions/cache@v4
+        with:
+          path: ~/Library/Caches/Homebrew
+          key: ${{ runner.os }}-brew-${{ hashFiles('**/Brewfile') }}
+          restore-keys: |
+            ${{ runner.os }}-brew-
+
+      - name: Run install script
+        run: curl -fsSL https://raw.githubusercontent.com/crisfeim/dotfiles/${{ github.sha }}/install.sh | bash
+
       - run: test -L ~/.zshrc
       - run: test -L ~/.config/nvim
       - run: test -L ~/.sqliterc
