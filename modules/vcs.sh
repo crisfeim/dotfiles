@@ -42,10 +42,6 @@ init() {
             ;;
     esac
 }
-
-ignore() {
-	if [ "$1" = "git" ]; then
-		cp ~/dotfiles/misc/ignore.txt .gitignore
 	elif [ "$1" = "fossil" ]; then
 		mkdir -p .fossil-settings
 		cp ~/dotfiles/misc/ignore.txt .fossil-settings/ignore-glob
