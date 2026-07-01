@@ -3,6 +3,6 @@ brew "neovim"
 
 cask "zed"
 cask "coderunner"
-cask "iterm"
+cask "iterm2"
 cask "iina"
 cask "drawio"
