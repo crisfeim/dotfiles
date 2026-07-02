@@ -1,4 +1,4 @@
-source ~/dotfiles/init.sh
+source ~/dotfiles/source.sh
 
 export BUN_INSTALL="$HOME/.bun"
 export PNPM_HOME="$HOME/Library/pnpm"

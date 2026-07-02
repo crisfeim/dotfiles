@@ -12,4 +12,4 @@ for module in ~/dotfiles/modules/*.sh(N); do
     source "$module"
 done
 
-alias update="source ~/.zshrc"
+alias "*"="source ~/.zshrc"
