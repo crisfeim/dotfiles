@@ -45,4 +45,4 @@ link "$DOTFILES_DIR/configs/grayscale.xccolortheme" \
 link "$DOTFILES_DIR/configs/coderunner/swift.sh" \
      "$HOME/Library/Application Support/CodeRunner/Languages/Swift.crLanguage/Scripts/compile.sh"
 
-link "$DOTFILES_DIR/init.sh" "$HOME/.zshrc"
+link "$DOTFILES_DIR/source.sh" "$HOME/.zshrc"
