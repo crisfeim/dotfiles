@@ -45,7 +45,7 @@ link "$DOTFILES_DIR/configs/grayscale.xccolortheme" \
 link "$DOTFILES_DIR/configs/coderunner/swift.sh" \
      "$HOME/Library/Application Support/CodeRunner/Languages/Swift.crLanguage/Scripts/compile.sh"
 
-link "$DOTFILES_DIR/source.sh" "$HOME/.zshrc"
+link "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
 
 iterm_link() {
 	ITERM_PREFS_DIR="$HOME/dotfiles/configs/iterm"
