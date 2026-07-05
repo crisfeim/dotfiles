@@ -27,7 +27,12 @@ jobs:
               exit 1
           }
           EOF
-      - run: |
+      - name: iterm
+        run: |
           defaults read com.googlecode.iterm2 PrefsCustomFolder
           test "$(defaults read com.googlecode.iterm2 LoadPrefsFromCustomFolder)" = "1"
-      - run: test -f ~/dotfiles/configs/iterm/com.googlecode.iterm2.plist
+          test -f ~/dotfiles/configs/iterm/com.googlecode.iterm2.plist
+      - name: gitignore
+        run: |
+          test -L ~/.gitignore_global
+          test "$(git config --global core.excludesFile)" = "$HOME/.gitignore_global"
