@@ -5,7 +5,6 @@ on:
       - "brewfile"
       - "install.sh"
       - ".github/workflows/test-install.yml"
-
 jobs:
   test:
     runs-on: macos-latest
@@ -15,3 +14,16 @@ jobs:
       - run: test -L ~/.config/nvim
       - run: test -L ~/.sqliterc
       - run: test -L ~/Library/Application\ Support/CodeRunner/Languages/Swift.crLanguage/Scripts/compile.sh
+      - name: verify tclsh is Homebrew's, not the legacy Apple one
+        run: |
+          which tclsh
+          [[ "$(which tclsh)" == /opt/homebrew/bin/tclsh || "$(which tclsh)" == /usr/local/bin/tclsh ]]
+      - name: verify tclsh version and unicode handling
+        run: |
+          tclsh <<'EOF'
+          puts [info patchlevel]
+          if {![string match "9.*" [info patchlevel]]} {
+              puts stderr "Expected Tcl 9.x, got [info patchlevel]"
+              exit 1
+          }
+          EOF
