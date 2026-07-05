@@ -104,6 +104,23 @@ switch $cmd {
         }
         save_memo $baseDir $content
     }
+    "append" {
+      set files [lsort -decreasing [glob -nocomplain -tails -directory $baseDir *.txt]]
+      if {[llength $argv] > 1} {
+          set target [lindex $files [expr {[lindex $argv 1] - 1}]]
+      } else {
+          set target [lindex $files 0]
+      }
+      if {$target ne ""} {
+          if {[catch {exec xclip -o} content]} {
+              if {[catch {exec pbpaste} content]} { return }
+          }
+          set f [open [file join $baseDir $target] a]
+          puts $f $content
+          close $f
+          puts "Appended to $target"
+      }
+    }
     "help" { show_help }
     "" { show_list $baseDir }
     default { save_memo $baseDir [join $argv " "] }

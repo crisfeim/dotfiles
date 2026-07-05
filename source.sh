@@ -12,4 +12,5 @@ for module in ~/dotfiles/modules/*.sh(N); do
     source "$module"
 done
 
-alias "*"="source ~/.zshrc"
+
+alias "*"="hash -r ; source ~/.zshrc"
