@@ -27,3 +27,7 @@ jobs:
               exit 1
           }
           EOF
+      - run: |
+          defaults read com.googlecode.iterm2 PrefsCustomFolder
+          test "$(defaults read com.googlecode.iterm2 LoadPrefsFromCustomFolder)" = "1"
+      - run: test -f ~/dotfiles/configs/iterm/com.googlecode.iterm2.plist

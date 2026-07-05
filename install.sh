@@ -46,3 +46,12 @@ link "$DOTFILES_DIR/configs/coderunner/swift.sh" \
      "$HOME/Library/Application Support/CodeRunner/Languages/Swift.crLanguage/Scripts/compile.sh"
 
 link "$DOTFILES_DIR/source.sh" "$HOME/.zshrc"
+
+iterm_link() {
+	ITERM_PREFS_DIR="$HOME/dotfiles/configs/iterm"
+ defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$ITERM_PREFS_DIR"
+ defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
+}
+
+
+iterm_link
