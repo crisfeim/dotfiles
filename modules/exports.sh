@@ -1,10 +1,8 @@
 path() {
-    if [ -d "$1" ]; then
-        case ":$PATH:" in
-            *":$1:"*) ;;
-            *) export PATH="$1:$PATH" ;;
-        esac
-    fi
+  if [ -d "$1" ]; then
+    PATH_CLEAN=$(echo "$PATH" | sed -E "s|:$1:|:|g; s|^$1:||g; s|:$1$||g")
+    export PATH="$1:$PATH_CLEAN"
+  fi
 }
 
 path_end() {
