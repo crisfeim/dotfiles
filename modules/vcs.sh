@@ -386,4 +386,12 @@ function fossil_prompt_info() {
 }
 
 setopt prompt_subst
-PROMPT+='$(fossil_prompt_info)[$(t count 2>/dev/null)] '
+count_prompt_info() {
+  local c
+  c=$(t count 2>/dev/null)
+  if [ -n "$c" ] && [ "$c" != "0" ]; then
+    echo "[$c] "
+  fi
+}
+
+PROMPT+='$(fossil_prompt_info)$(count_prompt_info)'
