@@ -386,4 +386,4 @@ function fossil_prompt_info() {
 }
 
 setopt prompt_subst
-PROMPT+='$(fossil_prompt_info)'
+PROMPT+='$(fossil_prompt_info)[$(t count 2>/dev/null)] '
