@@ -45,8 +45,6 @@ link "$DOTFILES_DIR/configs/grayscale.xccolortheme" \
 link "$DOTFILES_DIR/configs/coderunner/swift.sh" \
      "$HOME/Library/Application Support/CodeRunner/Languages/Swift.crLanguage/Scripts/compile.sh"
 
-link "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
-
 iterm_link() {
 	ITERM_PREFS_DIR="$HOME/dotfiles/configs/iterm"
  defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$ITERM_PREFS_DIR"
@@ -70,6 +68,8 @@ defaults write -g NSAutomaticDashSubstitutionEnabled -bool false
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
   RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi
+
+link "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
 
 ZSH_CUSTOM=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}
 
