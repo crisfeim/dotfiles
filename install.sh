@@ -63,7 +63,7 @@ git config --global core.excludesFile "$HOME/.gitignore_global"
 
 defaults write -g NSAutomaticQuoteSubstitutionEnabled -bool false
 defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false
-defaults write -g WebAutomaticSpellingCorrectionEnabled -bool
+defaults write -g WebAutomaticSpellingCorrectionEnabled -bool false
 defaults write -g NSAutomaticDashSubstitutionEnabled -bool false
 
 
