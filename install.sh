@@ -66,6 +66,8 @@ defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false
 defaults write -g WebAutomaticSpellingCorrectionEnabled -bool false
 defaults write -g NSAutomaticDashSubstitutionEnabled -bool false
 
+# Finder list
+defaults write com.apple.finder FXPreferredViewStyle Nlsv
 
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
   RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
