@@ -1,64 +1,132 @@
 name: test-install
+
 on:
   push:
     paths:
       - "brewfile"
       - "install.sh"
       - ".github/workflows/test-install.yml"
+
 jobs:
   test:
     runs-on: macos-latest
+
     steps:
       - name: Install dotfiles
         run: |
           curl -fsSL https://raw.githubusercontent.com/crisfeim/dotfiles/${{ github.sha }}/install.sh | bash
 
+      - name: Setup test helpers
+        run: |
+          cat > /tmp/test-helpers.sh <<'EOF'
+          check_file() {
+            local file="$1"
+
+            echo "Checking file: $file"
+
+            test -f "$file" || {
+              echo "Missing file: $file"
+              exit 1
+            }
+          }
+
+          check_dir() {
+            local dir="$1"
+
+            echo "Checking directory: $dir"
+
+            test -d "$dir" || {
+              echo "Missing directory: $dir"
+              exit 1
+            }
+          }
+
+          check_link() {
+            local link="$1"
+            local target="$2"
+
+            echo "Checking symlink: $link -> $target"
+
+            test -L "$link" || {
+              echo "Missing symlink: $link"
+              exit 1
+            }
+
+            actual="$(readlink "$link")"
+
+            test "$actual" = "$target" || {
+              echo "Wrong symlink target"
+              echo "Expected: $target"
+              echo "Actual:   $actual"
+              exit 1
+            }
+          }
+
+          check_command() {
+            local command="$1"
+
+            echo "Checking command: $command"
+
+            command -v "$command" >/dev/null || {
+              echo "Command not found: $command"
+              exit 1
+            }
+          }
+          EOF
+
       - name: Verify symlinks
         run: |
-          test -L ~/.zshrc
-          test "$(readlink ~/.zshrc)" = "$HOME/dotfiles/.zshrc"
+          source /tmp/test-helpers.sh
 
-          test -L ~/.config/nvim
-          test "$(readlink ~/.config/nvim)" = "$HOME/dotfiles/configs/nvim"
-
-          test -L ~/.sqliterc
-          test "$(readlink ~/.sqliterc)" = "$HOME/dotfiles/.sqliterc"
-
-          test -L ~/Library/Application\ Support/CodeRunner/Languages/Swift.crLanguage/Scripts/compile.sh
-          test "$(readlink ~/Library/Application\ Support/CodeRunner/Languages/Swift.crLanguage/Scripts/compile.sh)" = "$HOME/dotfiles/configs/CodeRunner/Languages/Swift.crLanguage/Scripts/compile.sh"
-
-          test -L ~/.gitignore_global
-          test "$(readlink ~/.gitignore_global)" = "$HOME/dotfiles/.gitignore_global"
+          check_link "$HOME/.zshrc" "$HOME/dotfiles/.zshrc"
+          check_link "$HOME/.config/nvim" "$HOME/dotfiles/configs/nvim"
+          check_link "$HOME/.sqliterc" "$HOME/dotfiles/.sqliterc"
+          check_link "$HOME/Library/Application Support/CodeRunner/Languages/Swift.crLanguage/Scripts/compile.sh" "$HOME/dotfiles/configs/CodeRunner/Languages/Swift.crLanguage/Scripts/compile.sh"
+          check_link "$HOME/.gitignore_global" "$HOME/dotfiles/.gitignore_global"
 
       - name: Verify zsh
         run: |
-          zsh --version
+          source /tmp/test-helpers.sh
+
+          check_command zsh
+
+          echo "Checking zsh startup"
           zsh -ic 'exit'
 
       - name: Verify Oh My Zsh
         run: |
-          test -d ~/.oh-my-zsh
-          test -d ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-          test -d ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+          source /tmp/test-helpers.sh
 
-          grep -q "zsh-autosuggestions" ~/.zshrc
-          grep -q "zsh-syntax-highlighting" ~/.zshrc
+          check_dir "$HOME/.oh-my-zsh"
+          check_dir "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+          check_dir "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+
+          echo "Checking zsh plugins"
 
       - name: Verify Homebrew tools
         run: |
-          brew --version
-          command -v nvim
-          command -v tclsh
+          source /tmp/test-helpers.sh
+
+          check_command brew
+          check_command nvim
+          check_command tclsh
 
       - name: Verify tclsh is Homebrew's, not Apple legacy
         run: |
           TCLSH_PATH="$(which tclsh)"
-          [[ "$TCLSH_PATH" == /opt/homebrew/bin/tclsh || "$TCLSH_PATH" == /usr/local/bin/tclsh ]]
+
+          echo "tclsh path: $TCLSH_PATH"
+
+          [[ "$TCLSH_PATH" == /opt/homebrew/bin/tclsh || "$TCLSH_PATH" == /usr/local/bin/tclsh ]] || {
+            echo "Expected Homebrew Tcl, got: $TCLSH_PATH"
+            exit 1
+          }
 
       - name: Verify tclsh version and unicode handling
         run: |
           tclsh <<'EOF'
           puts [info patchlevel]
+
           if {![string match "9.*" [info patchlevel]]} {
               puts stderr "Expected Tcl 9.x, got [info patchlevel]"
               exit 1
@@ -67,17 +135,45 @@ jobs:
 
       - name: Verify iTerm configuration
         run: |
-          test "$(defaults read com.googlecode.iterm2 LoadPrefsFromCustomFolder)" = "1"
-          defaults read com.googlecode.iterm2 PrefsCustomFolder | grep -q "$HOME/dotfiles/configs/iterm"
-          test -f "$HOME/dotfiles/configs/iterm/com.googlecode.iterm2.plist"
+          source /tmp/test-helpers.sh
+
+          echo "Checking iTerm preferences folder"
+
+          test "$(defaults read com.googlecode.iterm2 LoadPrefsFromCustomFolder)" = "1" || {
+            echo "iTerm custom preferences are disabled"
+            exit 1
+          }
+
+          defaults read com.googlecode.iterm2 PrefsCustomFolder | grep -q "$HOME/dotfiles/configs/iterm" || {
+            echo "Wrong iTerm preferences folder"
+            exit 1
+          }
+
+          check_file "$HOME/dotfiles/configs/iterm/com.googlecode.iterm2.plist"
 
       - name: Verify gitignore
         run: |
-          test "$(git config --global core.excludesFile)" = "$HOME/.gitignore_global"
+          source /tmp/test-helpers.sh
+
+          check_link "$HOME/.gitignore_global" "$HOME/dotfiles/.gitignore_global"
+
+          echo "Checking git global excludes file"
+
+          test "$(git config --global core.excludesFile)" = "$HOME/.gitignore_global" || {
+            echo "Wrong git excludesFile"
+            exit 1
+          }
 
       - name: Verify macOS defaults
         run: |
-          test "$(defaults read -g NSAutomaticSpellingCorrectionEnabled)" = "0"
-          test "$(defaults read -g NSAutomaticQuoteSubstitutionEnabled)" = "0"
-          test "$(defaults read -g WebAutomaticSpellingCorrectionEnabled)" = "0"
-          test "$(defaults read -g NSAutomaticDashSubstitutionEnabled)" = "0"
+          echo "Checking macOS text input defaults"
+
+          test "$(defaults read -g NSAutomaticSpellingCorrectionEnabled)" = "0" || {
+            echo "Automatic spelling correction is enabled"
+            exit 1
+          }
+
+          test "$(defaults read -g NSAutomaticQuoteSubstitutionEnabled)" = "0" || {
+            echo "Quote substitution is enabled"
+            exit 1
+          }
