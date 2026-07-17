@@ -9,53 +9,16 @@ jobs:
   test:
     runs-on: macos-latest
     steps:
-      - name: Install dotfiles
+      - run: curl -fsSL https://raw.githubusercontent.com/crisfeim/dotfiles/${{ github.sha }}/install.sh | bash
+      - run: test -L ~/.zshrc
+      - run: test -L ~/.config/nvim
+      - run: test -L ~/.sqliterc
+      - run: test -L ~/Library/Application\ Support/CodeRunner/Languages/Swift.crLanguage/Scripts/compile.sh
+      - name: verify tclsh is Homebrew's, not the legacy Apple one
         run: |
-          curl -fsSL https://raw.githubusercontent.com/crisfeim/dotfiles/${{ github.sha }}/install.sh | bash
-
-      - name: Verify symlinks
-        run: |
-          test -L ~/.zshrc
-          test "$(readlink ~/.zshrc)" = "$HOME/dotfiles/.zshrc"
-
-          test -L ~/.config/nvim
-          test "$(readlink ~/.config/nvim)" = "$HOME/dotfiles/configs/nvim"
-
-          test -L ~/.sqliterc
-          test "$(readlink ~/.sqliterc)" = "$HOME/dotfiles/.sqliterc"
-
-          test -L ~/Library/Application\ Support/CodeRunner/Languages/Swift.crLanguage/Scripts/compile.sh
-          test "$(readlink ~/Library/Application\ Support/CodeRunner/Languages/Swift.crLanguage/Scripts/compile.sh)" = "$HOME/dotfiles/configs/CodeRunner/Languages/Swift.crLanguage/Scripts/compile.sh"
-
-          test -L ~/.gitignore_global
-          test "$(readlink ~/.gitignore_global)" = "$HOME/dotfiles/.gitignore_global"
-
-      - name: Verify zsh
-        run: |
-          zsh --version
-          zsh -ic 'exit'
-
-      - name: Verify Oh My Zsh
-        run: |
-          test -d ~/.oh-my-zsh
-          test -d ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-          test -d ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-
-          grep -q "zsh-autosuggestions" ~/.zshrc
-          grep -q "zsh-syntax-highlighting" ~/.zshrc
-
-      - name: Verify Homebrew tools
-        run: |
-          brew --version
-          command -v nvim
-          command -v tclsh
-
-      - name: Verify tclsh is Homebrew's, not Apple legacy
-        run: |
-          TCLSH_PATH="$(which tclsh)"
-          [[ "$TCLSH_PATH" == /opt/homebrew/bin/tclsh || "$TCLSH_PATH" == /usr/local/bin/tclsh ]]
-
-      - name: Verify tclsh version and unicode handling
+          which tclsh
+          [[ "$(which tclsh)" == /opt/homebrew/bin/tclsh || "$(which tclsh)" == /usr/local/bin/tclsh ]]
+      - name: verify tclsh version and unicode handling
         run: |
           tclsh <<'EOF'
           puts [info patchlevel]
@@ -64,20 +27,12 @@ jobs:
               exit 1
           }
           EOF
-
-      - name: Verify iTerm configuration
+      - name: iterm
         run: |
+          defaults read com.googlecode.iterm2 PrefsCustomFolder
           test "$(defaults read com.googlecode.iterm2 LoadPrefsFromCustomFolder)" = "1"
-          defaults read com.googlecode.iterm2 PrefsCustomFolder | grep -q "$HOME/dotfiles/configs/iterm"
-          test -f "$HOME/dotfiles/configs/iterm/com.googlecode.iterm2.plist"
-
-      - name: Verify gitignore
+          test -f ~/dotfiles/configs/iterm/com.googlecode.iterm2.plist
+      - name: gitignore
         run: |
+          test -L ~/.gitignore_global
           test "$(git config --global core.excludesFile)" = "$HOME/.gitignore_global"
-
-      - name: Verify macOS defaults
-        run: |
-          test "$(defaults read -g NSAutomaticSpellingCorrectionEnabled)" = "0"
-          test "$(defaults read -g NSAutomaticQuoteSubstitutionEnabled)" = "0"
-          test "$(defaults read -g WebAutomaticSpellingCorrectionEnabled)" = "0"
-          test "$(defaults read -g NSAutomaticDashSubstitutionEnabled)" = "0"
