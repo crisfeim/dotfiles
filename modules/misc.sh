@@ -84,3 +84,12 @@ anima() { iina ~/"Music/Music/Media.localized/Music/Marco Frisina/Unknown Album/
 gregorian() { iina ~/"Music/Music/Media.localized/Music/Benedictine Monks/Unknown Album/Gregorian Chants of the Benedictine Monks.mp3" }
 
 @() { t @ }
+
+export_replacements() {
+	defaults read -g NSUserDictionaryReplacementItems > ~/dotfiles/configs/replacements.plist
+}
+
+import_replacements() {
+	defaults write -g NSUserDictionaryReplacementItems "$(cat ~/dotfiles/configs/replacements.plist)"
+	killall cfprefsd
+}

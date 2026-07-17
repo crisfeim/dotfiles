@@ -1,0 +1,2472 @@
+(
+        {
+        on = 1;
+        replace = "p\\U00e9";
+        with = "por qu\\U00e9";
+    },
+        {
+        on = 1;
+        replace = "pq\\U00e9";
+        with = "por qu\\U00e9";
+    },
+        {
+        on = 1;
+        replace = "\\U00e9";
+        with = "qu\\U00e9";
+    },
+        {
+        on = 1;
+        replace = ":iks";
+        with = "\\U274c";
+    },
+        {
+        on = 1;
+        replace = ":cristo";
+        with = "\\U271d\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":cross";
+        with = "\\U271d\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":cruz";
+        with = "\\U271d\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = "clara/";
+        with = claramente;
+    },
+        {
+        on = 1;
+        replace = "probable/";
+        with = probablemente;
+    },
+        {
+        on = 1;
+        replace = xq;
+        with = porque;
+    },
+        {
+        on = 1;
+        replace = "xq\\U00e9";
+        with = "por qu\\U00e9";
+    },
+        {
+        on = 1;
+        replace = porq;
+        with = porque;
+    },
+        {
+        on = 1;
+        replace = ":ohmy";
+        with = "\\Ud83e\\Udd2f";
+    },
+        {
+        on = 1;
+        replace = q;
+        with = que;
+    },
+        {
+        on = 1;
+        replace = "@linkedin";
+        with = "https://www.linkedin.com/in/crisfeim";
+    },
+        {
+        on = 1;
+        replace = "@gh";
+        with = "https://github.com/crisfeim";
+    },
+        {
+        on = 1;
+        replace = "@github";
+        with = "https://github.com/crisfeim";
+    },
+        {
+        on = 1;
+        replace = "@in";
+        with = "https://www.linkedin.com/in/crisfeim/";
+    },
+        {
+        on = 1;
+        replace = "@pt";
+        with = "\\U59cb\\U7ec8\\U8bda\\U5b9e\\U3001\\U7b80\\U8981\\Uff1a\\U53ea\\U8bf4\\U5fc5\\U8981\\U5185\\U5bb9\\Uff0c\\U4e0d\\U5c45\\U9ad8\\U4e34\\U4e0b\\Uff0c\\U4e0d\\U4f5c\\U7a7a\\U6d1e\\U606d\\U7ef4\\U3002\\U4ec5\\U5728\\U6211\\U8981\\U6c42\\U65f6\\U63d0\\U4f9b\\U8bda\\U5b9e\\U53cd\\U9988\\Uff0c\\U8bed\\U6c14\\U5e73\\U548c\\U3002\\U82e5\\U6709\\U5145\\U5206\\U7406\\U7531\\Uff0c\\U987b\\U76f4\\U63a5\\U7ea0\\U6b63\\U9519\\U8bef\\Uff1b\\U4e0d\\U8981\\U56e0\\U4e3a\\U6211\\U6001\\U5ea6\\U575a\\U5b9a\\U5c31\\U9ed8\\U8ba4\\U6211\\U6b63\\U786e\\U3002\\U6d88\\U606f\\U7ed3\\U5c3e\\U4e0d\\U52a0\\U5efa\\U8bae\\U6216\\U95ee\\U53e5\\U3002\\U6211\\U7ea0\\U6b63\\U4f60\\U65f6\\Uff0c\\U4e0d\\U8981\\U88c5\\U4f5c\\U5df2\\U77e5\\U3002\\U4e0d\\U8981\\U4f7f\\U7528\\U963f\\U6839\\U5ef7\\U53e3\\U8bed\\U3002\\U4e0d\\U8981\\U4f7f\\U7528\\U8bf8\\U5982\\U201c\\U65e0\\U4fee\\U9970\\U201d\\U201c\\U65e0\\U59ff\\U6001\\U201d\\U201c\\U4ec5\\U9650\\U5fc5\\U8981\\U201d\\U201c\\U6e05\\U6670\\U7b80\\U660e\\U201d\\U7b49\\U5197\\U4f59\\U5f3a\\U8c03\\U6027\\U77ed\\U8bed\\Uff0c\\U4e5f\\U4e0d\\U8981\\U4f7f\\U7528\\U4efb\\U4f55\\U8425\\U9500\\U6216 LinkedIn \\U98ce\\U683c\\U7684\\U8868\\U8fbe\\Uff1b\\U7528\\U76f4\\U63a5\\U3001\\U7cbe\\U51c6\\U3001\\U529f\\U80fd\\U6027\\U7684\\U8bed\\U8a00\\U4ea4\\U6d41\\Uff0c\\U4e0d\\U52a0\\U82b1\\U54e8\\U6216\\U91cd\\U590d\\U5185\\U5bb9\\U3002\\n---";
+    },
+        {
+        on = 1;
+        replace = "@teles";
+        with = 688747754;
+    },
+        {
+        on = 1;
+        replace = ":ks";
+        with = "\\U274c";
+    },
+        {
+        on = 1;
+        replace = ":x";
+        with = "\\U274c";
+    },
+        {
+        on = 1;
+        replace = ":carpeta";
+        with = "\\Ud83d\\Udcc1";
+    },
+        {
+        on = 1;
+        replace = ":folder";
+        with = "\\Ud83d\\Udcc1";
+    },
+        {
+        on = 1;
+        replace = ":laboratoir";
+        with = "\\Ud83e\\Uddd1\\U200d\\Ud83d\\Udd2c";
+    },
+        {
+        on = 1;
+        replace = ":laboratorio";
+        with = "\\Ud83e\\Uddd1\\U200d\\Ud83d\\Udd2c";
+    },
+        {
+        on = 1;
+        replace = ":labo";
+        with = "\\Ud83e\\Uddd1\\U200d\\Ud83d\\Udd2c";
+    },
+        {
+        on = 1;
+        replace = ":lab";
+        with = "\\Ud83e\\Uddd1\\U200d\\Ud83d\\Udd2c";
+    },
+        {
+        on = 1;
+        replace = ":in";
+        with = "\\Ud83d\\Udcbc";
+    },
+        {
+        on = 1;
+        replace = ":linkedin";
+        with = "\\Ud83d\\Udcbc";
+    },
+        {
+        on = 1;
+        replace = ":corporate";
+        with = "\\Ud83d\\Udcbc";
+    },
+        {
+        on = 1;
+        replace = ":corporativo";
+        with = "\\Ud83d\\Udcbc";
+    },
+        {
+        on = 1;
+        replace = ":profesional";
+        with = "\\Ud83d\\Udcbc";
+    },
+        {
+        on = 1;
+        replace = ":pro";
+        with = "\\Ud83d\\Udcbc";
+    },
+        {
+        on = 1;
+        replace = ":commentaire";
+        with = "\\Ud83d\\Udcac";
+    },
+        {
+        on = 1;
+        replace = ":comentario";
+        with = "\\Ud83d\\Udcac";
+    },
+        {
+        on = 1;
+        replace = ":comment";
+        with = "\\Ud83d\\Udcac";
+    },
+        {
+        on = 1;
+        replace = ":movie";
+        with = "\\Ud83c\\Udf9e\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":movies";
+        with = "\\Ud83c\\Udf9e\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":periodico";
+        with = "\\Ud83d\\Udcf0";
+    },
+        {
+        on = 1;
+        replace = ":documento";
+        with = "\\Ud83d\\Udcc4";
+    },
+        {
+        on = 1;
+        replace = ":document";
+        with = "\\Ud83d\\Udcc4";
+    },
+        {
+        on = 1;
+        replace = ":doc";
+        with = "\\Ud83d\\Udcc4";
+    },
+        {
+        on = 1;
+        replace = ":articulo";
+        with = "\\Ud83d\\Udcc4";
+    },
+        {
+        on = 1;
+        replace = ":art\\U00edculo";
+        with = "\\Ud83d\\Udcc4";
+    },
+        {
+        on = 1;
+        replace = ":article";
+        with = "\\Ud83d\\Udcc4";
+    },
+        {
+        on = 1;
+        replace = ":visto";
+        with = "\\Ud83d\\Udc40";
+    },
+        {
+        on = 1;
+        replace = ":ojos";
+        with = "\\Ud83d\\Udc40";
+    },
+        {
+        on = 1;
+        replace = ":buscar";
+        with = "\\Ud83d\\Udd0e";
+    },
+        {
+        on = 1;
+        replace = ":search";
+        with = "\\Ud83d\\Udd0e";
+    },
+        {
+        on = 1;
+        replace = ":trabajo";
+        with = "\\Ud83d\\Udee0\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":work";
+        with = "\\Ud83d\\Udee0\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":doctor";
+        with = "\\Ud83d\\Udc69\\U200d\\U2695\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":ecole";
+        with = "\\Ud83d\\Udc68\\U200d\\Ud83c\\Udfeb";
+    },
+        {
+        on = 1;
+        replace = ":prof";
+        with = "\\Ud83d\\Udc68\\U200d\\Ud83c\\Udfeb";
+    },
+        {
+        on = 1;
+        replace = ":formation";
+        with = "\\Ud83d\\Udc68\\U200d\\Ud83c\\Udfeb";
+    },
+        {
+        on = 1;
+        replace = ":\\U00e9cole";
+        with = "\\Ud83d\\Udc68\\U200d\\Ud83c\\Udfeb";
+    },
+        {
+        on = 1;
+        replace = ":almuerzo";
+        with = "\\Ud83c\\Udf7d\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":comida";
+        with = "\\Ud83c\\Udf7d\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":dish";
+        with = "\\Ud83c\\Udf7d\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":ios";
+        with = "\\Ud83d\\Udcf1";
+    },
+        {
+        on = 1;
+        replace = ":mobile";
+        with = "\\Ud83d\\Udcf1";
+    },
+        {
+        on = 1;
+        replace = ":mac";
+        with = "\\Ud83d\\Udcbb";
+    },
+        {
+        on = 1;
+        replace = ":component";
+        with = "\\Ud83e\\Udde9";
+    },
+        {
+        on = 1;
+        replace = ":puzzle";
+        with = "\\Ud83e\\Udde9";
+    },
+        {
+        on = 1;
+        replace = ":ropa";
+        with = "\\Ud83d\\Udc54";
+    },
+        {
+        on = 1;
+        replace = ":shirt";
+        with = "\\Ud83d\\Udc54";
+    },
+        {
+        on = 1;
+        replace = ":camisa";
+        with = "\\Ud83d\\Udc54";
+    },
+        {
+        on = 1;
+        replace = ":us";
+        with = "\\Ud83c\\Uddfa\\Ud83c\\Uddf8";
+    },
+        {
+        on = 1;
+        replace = ":en";
+        with = "\\Ud83c\\Uddec\\Ud83c\\Udde7";
+    },
+        {
+        on = 1;
+        replace = ":fr";
+        with = "\\Ud83c\\Uddeb\\Ud83c\\Uddf7";
+    },
+        {
+        on = 1;
+        replace = ":es";
+        with = "\\Ud83c\\Uddea\\Ud83c\\Uddf8";
+    },
+        {
+        on = 1;
+        replace = ":maleta";
+        with = "\\Ud83d\\Udcbc";
+    },
+        {
+        on = 1;
+        replace = ":bubble";
+        with = "\\Ud83d\\Udcac";
+    },
+        {
+        on = 1;
+        replace = "@inbox";
+        with = "#\\Ud83d\\Udce5";
+    },
+        {
+        on = 1;
+        replace = "@escribir";
+        with = "#\\U270d\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = "@publicables";
+        with = "#\\Ud83d\\Udd8b\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = "@projects";
+        with = "#\\Ud83d\\Udee0\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = "@learning";
+        with = "#\\Ud83e\\Udde0";
+    },
+        {
+        on = 1;
+        replace = "@learn";
+        with = "#\\Ud83e\\Udde0";
+    },
+        {
+        on = 1;
+        replace = "@publicable";
+        with = "#\\Ud83d\\Udd8b\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = "@pluma";
+        with = "#\\Ud83d\\Udd8b\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = "@pen";
+        with = "#\\Ud83d\\Udd8b\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = "@reference";
+        with = "#\\Ud83d\\Udcd6";
+    },
+        {
+        on = 1;
+        replace = "@quotes";
+        with = "#\\Ud83d\\Udcac";
+    },
+        {
+        on = 1;
+        replace = "@gota";
+        with = "#\\Ud83d\\Udca7";
+    },
+        {
+        on = 1;
+        replace = "@drop";
+        with = "#\\Ud83d\\Udca7";
+    },
+        {
+        on = 1;
+        replace = "@objetivos";
+        with = "#\\Ud83c\\Udfaf";
+    },
+        {
+        on = 1;
+        replace = "@goals";
+        with = "#\\Ud83c\\Udfaf";
+    },
+        {
+        on = 1;
+        replace = "@remolino";
+        with = "#\\Ud83c\\Udf00";
+    },
+        {
+        on = 1;
+        replace = "@misc";
+        with = "#\\Ud83c\\Udf00";
+    },
+        {
+        on = 1;
+        replace = "@journal";
+        with = "#\\U270d\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = "@mail";
+        with = "cristian.rojas@live.fr";
+    },
+        {
+        on = 1;
+        replace = "@telmom";
+        with = 677404619;
+    },
+        {
+        on = 1;
+        replace = "@telmama";
+        with = 677404619;
+    },
+        {
+        on = 1;
+        replace = "@telma";
+        with = 677404619;
+    },
+        {
+        on = 1;
+        replace = "@tel";
+        with = 677408756;
+    },
+        {
+        on = 1;
+        replace = "@estel";
+        with = 688747754;
+    },
+        {
+        on = 1;
+        replace = "@address";
+        with = "Avenida Alcudia 84, 3ero 13";
+    },
+        {
+        on = 1;
+        replace = "@surname";
+        with = "Pati\\U00f1o Rojas";
+    },
+        {
+        on = 1;
+        replace = "@name";
+        with = "Cristian Felipe";
+    },
+        {
+        on = 1;
+        replace = ":runner";
+        with = "\\Ud83c\\Udfc3\\U200d\\U2642\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":failed";
+        with = "\\U274c";
+    },
+        {
+        on = 1;
+        replace = ":fail";
+        with = "\\U274c";
+    },
+        {
+        on = 1;
+        replace = ":wrong";
+        with = "\\U274c";
+    },
+        {
+        on = 1;
+        replace = "@gmail";
+        with = "cristianf982@gmail.com";
+    },
+        {
+        on = 1;
+        replace = "@live";
+        with = "cristian.rojas@live.fr";
+    },
+        {
+        on = 1;
+        replace = ":shit";
+        with = "\\Ud83d\\Udca9";
+    },
+        {
+        on = 1;
+        replace = ":mierda";
+        with = "\\Ud83d\\Udca9";
+    },
+        {
+        on = 1;
+        replace = ":poo";
+        with = "\\Ud83d\\Udca9";
+    },
+        {
+        on = 1;
+        replace = ":caca";
+        with = "\\Ud83d\\Udca9";
+    },
+        {
+        on = 1;
+        replace = ":~|";
+        with = "\\Ud83e\\Udd28";
+    },
+        {
+        on = 1;
+        replace = ":blanco";
+        with = "\\U26aa\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":white";
+        with = "\\U26aa\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":negro";
+        with = "\\U26ab\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":black";
+        with = "\\U26ab\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":marr\\U00f3n";
+        with = "\\Ud83d\\Udfe4";
+    },
+        {
+        on = 1;
+        replace = ":brown";
+        with = "\\Ud83d\\Udfe4";
+    },
+        {
+        on = 1;
+        replace = ":p\\U00farpura";
+        with = "\\Ud83d\\Udfe3";
+    },
+        {
+        on = 1;
+        replace = ":purple";
+        with = "\\Ud83d\\Udfe3";
+    },
+        {
+        on = 1;
+        replace = ":note";
+        with = "\\Ud83d\\Uddd2\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":notes";
+        with = "\\Ud83d\\Uddd2\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":D!";
+        with = "\\Ud83d\\Ude05";
+    },
+        {
+        on = 1;
+        replace = ":?";
+        with = "\\Ud83e\\Udd14";
+    },
+        {
+        on = 1;
+        replace = "!:D";
+        with = "\\Ud83d\\Ude05";
+    },
+        {
+        on = 1;
+        replace = ":pollo";
+        with = "\\Ud83c\\Udf57";
+    },
+        {
+        on = 1;
+        replace = ":tocineta";
+        with = "\\Ud83e\\Udd53";
+    },
+        {
+        on = 1;
+        replace = ":bacon";
+        with = "\\Ud83e\\Udd53";
+    },
+        {
+        on = 1;
+        replace = ":egg";
+        with = "\\Ud83e\\Udd5a";
+    },
+        {
+        on = 1;
+        replace = ":huevo";
+        with = "\\Ud83e\\Udd5a";
+    },
+        {
+        on = 1;
+        replace = ":eggs";
+        with = "\\Ud83c\\Udf73";
+    },
+        {
+        on = 1;
+        replace = ":huevos";
+        with = "\\Ud83c\\Udf73";
+    },
+        {
+        on = 1;
+        replace = ":photo";
+        with = "\\Ud83c\\Udfde\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":foto";
+        with = "\\Ud83c\\Udfde\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":imagen";
+        with = "\\Ud83c\\Udfde\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":picture";
+        with = "\\Ud83c\\Udfde\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":pic";
+        with = "\\Ud83c\\Udfde\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":hug";
+        with = "\\Ud83e\\Udec2";
+    },
+        {
+        on = 1;
+        replace = ":bed";
+        with = "\\Ud83d\\Udecf\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":sanar";
+        with = "\\U2764\\Ufe0f\\U200d\\Ud83e\\Ude79";
+    },
+        {
+        on = 1;
+        replace = ":cama";
+        with = "\\Ud83d\\Udecf\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":alarm";
+        with = "\\U23f0";
+    },
+        {
+        on = 1;
+        replace = ":soleil";
+        with = "\\U2600\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":sun";
+        with = "\\U2600\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":sol";
+        with = "\\U2600\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":clip";
+        with = "\\Ud83c\\Udf9e\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":video";
+        with = "\\Ud83c\\Udf9e\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":car";
+        with = "\\Ud83d\\Ude97";
+    },
+        {
+        on = 1;
+        replace = ":coche";
+        with = "\\Ud83d\\Ude97";
+    },
+        {
+        on = 1;
+        replace = ":-D";
+        with = "\\Ud83d\\Ude01";
+    },
+        {
+        on = 1;
+        replace = ":fiesta";
+        with = "\\Ud83c\\Udf89";
+    },
+        {
+        on = 1;
+        replace = ":locked";
+        with = "\\Ud83d\\Udd12";
+    },
+        {
+        on = 1;
+        replace = ":lock";
+        with = "\\Ud83d\\Udd12";
+    },
+        {
+        on = 1;
+        replace = ":private";
+        with = "\\Ud83d\\Udd12";
+    },
+        {
+        on = 1;
+        replace = ":privado";
+        with = "\\Ud83d\\Udd12";
+    },
+        {
+        on = 1;
+        replace = ":libro";
+        with = "\\Ud83d\\Udcd8";
+    },
+        {
+        on = 1;
+        replace = ":mountain";
+        with = "\\U26f0\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":monta\\U00f1a";
+        with = "\\U26f0\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":focus";
+        with = "\\Ud83d\\Udca7";
+    },
+        {
+        on = 1;
+        replace = ":grima";
+        with = "\\Ud83d\\Ude2c";
+    },
+        {
+        on = 1;
+        replace = ":p\\U00edcaro";
+        with = "\\Ud83d\\Ude0f";
+    },
+        {
+        on = 1;
+        replace = ":brazo";
+        with = "\\Ud83d\\Udcaa";
+    },
+        {
+        on = 1;
+        replace = ":bras";
+        with = "\\Ud83d\\Udcaa";
+    },
+        {
+        on = 1;
+        replace = ":podcast";
+        with = "\\Ud83c\\Udf99\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":mic";
+        with = "\\Ud83c\\Udf99\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":micro";
+        with = "\\Ud83c\\Udf99\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":tooth";
+        with = "\\Ud83e\\Uddb7";
+    },
+        {
+        on = 1;
+        replace = ":muela";
+        with = "\\Ud83e\\Uddb7";
+    },
+        {
+        on = 1;
+        replace = ":dent";
+        with = "\\Ud83e\\Uddb7";
+    },
+        {
+        on = 1;
+        replace = ":diente";
+        with = "\\Ud83e\\Uddb7";
+    },
+        {
+        on = 1;
+        replace = ":oink";
+        with = "\\Ud83d\\Udc37";
+    },
+        {
+        on = 1;
+        replace = ":home";
+        with = "\\Ud83c\\Udfe0";
+    },
+        {
+        on = 1;
+        replace = ":casa";
+        with = "\\Ud83c\\Udfe0";
+    },
+        {
+        on = 1;
+        replace = ":house";
+        with = "\\Ud83c\\Udfe0";
+    },
+        {
+        on = 1;
+        replace = ":key";
+        with = "\\Ud83d\\Udd11";
+    },
+        {
+        on = 1;
+        replace = ":specs";
+        with = "\\Ud83d\\Udccb";
+    },
+        {
+        on = 1;
+        replace = ":systempreferences";
+        with = "\\U2699\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":systemprefs";
+        with = "\\U2699\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":preferences";
+        with = "\\U2699\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":system";
+        with = "\\U2699\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":preferencias";
+        with = "\\U2699\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":rueda";
+        with = "\\U2699\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":engine";
+        with = "\\U2699\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":bloc";
+        with = "\\Ud83d\\Uddd2\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":nota";
+        with = "\\Ud83d\\Uddd2\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":ingl\\U00e9s";
+        with = "\\Ud83c\\Uddec\\Ud83c\\Udde7";
+    },
+        {
+        on = 1;
+        replace = ":english";
+        with = "\\Ud83c\\Uddec\\Ud83c\\Udde7";
+    },
+        {
+        on = 1;
+        replace = ":british";
+        with = "\\Ud83c\\Uddec\\Ud83c\\Udde7";
+    },
+        {
+        on = 1;
+        replace = ":uk";
+        with = "\\Ud83c\\Uddec\\Ud83c\\Udde7";
+    },
+        {
+        on = 1;
+        replace = ":justicia";
+        with = "\\U2696\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":justice";
+        with = "\\U2696\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":moral";
+        with = "\\U2696\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":balanza";
+        with = "\\U2696\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":balance";
+        with = "\\U2696\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":marathon";
+        with = "\\Ud83c\\Udfc3\\U200d\\U2642\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":speed";
+        with = "\\Ud83c\\Udfc3\\U200d\\U2642\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":correr";
+        with = "\\Ud83c\\Udfc3\\U200d\\U2642\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":icloud";
+        with = "\\U2601\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":nube";
+        with = "\\U2601\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":cloud";
+        with = "\\U2601\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":script";
+        with = "\\Ud83d\\Udc0d";
+    },
+        {
+        on = 1;
+        replace = ":python";
+        with = "\\Ud83d\\Udc0d";
+    },
+        {
+        on = 1;
+        replace = ":scripting";
+        with = "\\Ud83d\\Udc0d";
+    },
+        {
+        on = 1;
+        replace = ":snake";
+        with = "\\Ud83d\\Udc0d";
+    },
+        {
+        on = 1;
+        replace = ":fuego";
+        with = "\\Ud83d\\Udd25";
+    },
+        {
+        on = 1;
+        replace = ":fire";
+        with = "\\Ud83d\\Udd25";
+    },
+        {
+        on = 1;
+        replace = ":notification";
+        with = "\\Ud83d\\Udd14";
+    },
+        {
+        on = 1;
+        replace = ":notificaci\\U00f3n";
+        with = "\\Ud83d\\Udd14";
+    },
+        {
+        on = 1;
+        replace = ":campana";
+        with = "\\Ud83d\\Udd14";
+    },
+        {
+        on = 1;
+        replace = ":bell";
+        with = "\\Ud83d\\Udd14";
+    },
+        {
+        on = 1;
+        replace = ":warning";
+        with = "\\U26a0\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":alert";
+        with = "\\U26a0\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":abrazo";
+        with = "\\Ud83e\\Udec2";
+    },
+        {
+        on = 1;
+        replace = ":peri\\U00f3dico";
+        with = "\\Ud83d\\Udcf0";
+    },
+        {
+        on = 1;
+        replace = ":journal";
+        with = "\\Ud83d\\Udcf0";
+    },
+        {
+        on = 1;
+        replace = ":distribution";
+        with = "\\Ud83d\\Ude9a";
+    },
+        {
+        on = 1;
+        replace = ":distribuci\\U00f3n";
+        with = "\\Ud83d\\Ude9a";
+    },
+        {
+        on = 1;
+        replace = ":camion";
+        with = "\\Ud83d\\Ude9a";
+    },
+        {
+        on = 1;
+        replace = ":nerd";
+        with = "\\Ud83e\\Udd13";
+    },
+        {
+        on = 1;
+        replace = ":launch";
+        with = "\\Ud83d\\Ude80";
+    },
+        {
+        on = 1;
+        replace = ":cohete";
+        with = "\\Ud83d\\Ude80";
+    },
+        {
+        on = 1;
+        replace = ":rocket";
+        with = "\\Ud83d\\Ude80";
+    },
+        {
+        on = 1;
+        replace = ":lista";
+        with = "\\Udbc0\\Udef4";
+    },
+        {
+        on = 1;
+        replace = ":draw";
+        with = "\\Ud83c\\Udfa8";
+    },
+        {
+        on = 1;
+        replace = ":pastilla";
+        with = "\\Ud83d\\Udc8a";
+    },
+        {
+        on = 1;
+        replace = ":pillule";
+        with = "\\Ud83d\\Udc8a";
+    },
+        {
+        on = 1;
+        replace = ":pill";
+        with = "\\Ud83d\\Udc8a";
+    },
+        {
+        on = 1;
+        replace = ":medicamento";
+        with = "\\Ud83d\\Udc8a";
+    },
+        {
+        on = 1;
+        replace = ":m\\U00e9dicament";
+        with = "\\Ud83d\\Udc8a";
+    },
+        {
+        on = 1;
+        replace = ":pildora";
+        with = "\\Ud83d\\Udc8a";
+    },
+        {
+        on = 1;
+        replace = ":profe";
+        with = "\\Ud83d\\Udc68\\U200d\\Ud83c\\Udfeb";
+    },
+        {
+        on = 1;
+        replace = ":amigos";
+        with = "\\Ud83d\\Udc65";
+    },
+        {
+        on = 1;
+        replace = ":contacts";
+        with = "\\Ud83d\\Udc65";
+    },
+        {
+        on = 1;
+        replace = ":contactos";
+        with = "\\Ud83d\\Udc65";
+    },
+        {
+        on = 1;
+        replace = ":gente";
+        with = "\\Ud83d\\Udc65";
+    },
+        {
+        on = 1;
+        replace = ":people";
+        with = "\\Ud83d\\Udc65";
+    },
+        {
+        on = 1;
+        replace = ":social";
+        with = "\\Ud83d\\Udc65";
+    },
+        {
+        on = 1;
+        replace = ":book";
+        with = "\\Ud83d\\Udcd8";
+    },
+        {
+        on = 1;
+        replace = ":livre";
+        with = "\\Ud83d\\Udcd8";
+    },
+        {
+        on = 1;
+        replace = ":chapter";
+        with = "\\Ud83d\\Udcd8";
+    },
+        {
+        on = 1;
+        replace = ":verde";
+        with = "\\Ud83d\\Udfe2";
+    },
+        {
+        on = 1;
+        replace = ":hecho";
+        with = "\\Ud83d\\Udfe2";
+    },
+        {
+        on = 1;
+        replace = ":done";
+        with = "\\Ud83d\\Udfe2";
+    },
+        {
+        on = 1;
+        replace = ":yellow";
+        with = "\\Ud83d\\Udfe1";
+    },
+        {
+        on = 1;
+        replace = ":tooling";
+        with = "\\Ud83d\\Udee0\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":project";
+        with = "\\Ud83d\\Udee0\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":tools";
+        with = "\\Ud83d\\Udee0\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":projects";
+        with = "\\Ud83d\\Udee0\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":oraci\\U00f3n";
+        with = "\\Ud83d\\Ude4f";
+    },
+        {
+        on = 1;
+        replace = ":prier";
+        with = "\\Ud83d\\Ude4f";
+    },
+        {
+        on = 1;
+        replace = ":orar";
+        with = "\\Ud83d\\Ude4f";
+    },
+        {
+        on = 1;
+        replace = ":pray";
+        with = "\\Ud83d\\Ude4f";
+    },
+        {
+        on = 1;
+        replace = ":f\\U00e9";
+        with = "\\Ud83d\\Ude4f";
+    },
+        {
+        on = 1;
+        replace = ":casco";
+        with = "\\Ud83e\\Ude96";
+    },
+        {
+        on = 1;
+        replace = ":dna";
+        with = "\\Ud83e\\Uddec";
+    },
+        {
+        on = 1;
+        replace = ":gorilla";
+        with = "\\Ud83e\\Udd8d";
+    },
+        {
+        on = 1;
+        replace = ":mindset";
+        with = "\\Ud83e\\Udd81";
+    },
+        {
+        on = 1;
+        replace = ":boxeo";
+        with = "\\Ud83e\\Udd4a";
+    },
+        {
+        on = 1;
+        replace = ":boxing";
+        with = "\\Ud83e\\Udd4a";
+    },
+        {
+        on = 1;
+        replace = ":ia";
+        with = "\\Ud83e\\Udd16";
+    },
+        {
+        on = 1;
+        replace = ":ai";
+        with = "\\Ud83e\\Udd16";
+    },
+        {
+        on = 1;
+        replace = ":apuntes";
+        with = "\\Ud83d\\Uddd2\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":archive";
+        with = "\\Ud83d\\Uddc4\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":pen";
+        with = "\\Ud83d\\Udd8b\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":spider";
+        with = "\\Ud83d\\Udd78\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":ara\\U00f1a";
+        with = "\\Ud83d\\Udd78\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":tel";
+        with = "\\Ud83d\\Udcf1";
+    },
+        {
+        on = 1;
+        replace = ":phone";
+        with = "\\Ud83d\\Udcf1";
+    },
+        {
+        on = 1;
+        replace = ":package";
+        with = "\\Ud83d\\Udce6";
+    },
+        {
+        on = 1;
+        replace = ":library";
+        with = "\\Ud83d\\Udce6";
+    },
+        {
+        on = 1;
+        replace = ":dependency";
+        with = "\\Ud83d\\Udce6";
+    },
+        {
+        on = 1;
+        replace = ":box";
+        with = "\\Ud83d\\Udce6";
+    },
+        {
+        on = 1;
+        replace = ":ux";
+        with = "\\Ud83d\\Udcd0";
+    },
+        {
+        on = 1;
+        replace = ":rule";
+        with = "\\Ud83d\\Udcd0";
+    },
+        {
+        on = 1;
+        replace = ":calendar";
+        with = "\\Ud83d\\Udcc6";
+    },
+        {
+        on = 1;
+        replace = ":save";
+        with = "\\Ud83d\\Udcbe";
+    },
+        {
+        on = 1;
+        replace = ":disk";
+        with = "\\Ud83d\\Udcbe";
+    },
+        {
+        on = 1;
+        replace = ":computer";
+        with = "\\Ud83d\\Udcbb";
+    },
+        {
+        on = 1;
+        replace = ":macbook";
+        with = "\\Ud83d\\Udcbb";
+    },
+        {
+        on = 1;
+        replace = ":money";
+        with = "\\Ud83d\\Udcb0";
+    },
+        {
+        on = 1;
+        replace = ":drop";
+        with = "\\Ud83d\\Udca7";
+    },
+        {
+        on = 1;
+        replace = ":teaching";
+        with = "\\Ud83d\\Udc68\\U200d\\Ud83c\\Udfeb";
+    },
+        {
+        on = 1;
+        replace = ":education";
+        with = "\\Ud83d\\Udc68\\U200d\\Ud83c\\Udfeb";
+    },
+        {
+        on = 1;
+        replace = ":educaci\\U00f3n";
+        with = "\\Ud83d\\Udc68\\U200d\\Ud83c\\Udfeb";
+    },
+        {
+        on = 1;
+        replace = ":course";
+        with = "\\Ud83d\\Udc68\\U200d\\Ud83c\\Udfeb";
+    },
+        {
+        on = 1;
+        replace = ":hello";
+        with = "\\Ud83d\\Udc4b";
+    },
+        {
+        on = 1;
+        replace = ":hi";
+        with = "\\Ud83d\\Udc4b";
+    },
+        {
+        on = 1;
+        replace = ":eye";
+        with = "\\Ud83d\\Udc41\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":arquitectura";
+        with = "\\Ud83c\\Udfdb\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":architecture";
+        with = "\\Ud83c\\Udfdb\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":medal";
+        with = "\\Ud83c\\Udf96\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":birthday";
+        with = "\\Ud83c\\Udf82";
+    },
+        {
+        on = 1;
+        replace = ":cumplea\\U00f1os";
+        with = "\\Ud83c\\Udf82";
+    },
+        {
+        on = 1;
+        replace = ":tree";
+        with = "\\Ud83c\\Udf33";
+    },
+        {
+        on = 1;
+        replace = ":redes";
+        with = "\\Ud83c\\Udf10";
+    },
+        {
+        on = 1;
+        replace = ":red";
+        with = "\\Ud83c\\Udf10";
+    },
+        {
+        on = 1;
+        replace = ":\\U00e9toile";
+        with = "\\U2b50\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":francia";
+        with = "\\Ud83c\\Uddeb\\Ud83c\\Uddf7";
+    },
+        {
+        on = 1;
+        replace = ":alarma";
+        with = "\\U23f0";
+    },
+        {
+        on = 1;
+        replace = ":->";
+        with = "\\U2192";
+    },
+        {
+        on = 1;
+        replace = ":party";
+        with = "\\Ud83c\\Udf89";
+    },
+        {
+        on = 1;
+        replace = ":confeti";
+        with = "\\Ud83c\\Udf89";
+    },
+        {
+        on = 1;
+        replace = ":running";
+        with = "\\Ud83c\\Udfc3\\U200d\\U2642\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":guitarra";
+        with = "\\Ud83c\\Udfb8";
+    },
+        {
+        on = 1;
+        replace = ":musique";
+        with = "\\Ud83c\\Udfb5";
+    },
+        {
+        on = 1;
+        replace = ":objetivos";
+        with = "\\Ud83c\\Udfaf";
+    },
+        {
+        on = 1;
+        replace = ":goal";
+        with = "\\Ud83c\\Udfaf";
+    },
+        {
+        on = 1;
+        replace = ":ui";
+        with = "\\Ud83c\\Udfa8";
+    },
+        {
+        on = 1;
+        replace = ":art";
+        with = "\\Ud83c\\Udfa8";
+    },
+        {
+        on = 1;
+        replace = ":task";
+        with = "\\U2611\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":lyon";
+        with = "\\Ud83e\\Udd81";
+    },
+        {
+        on = 1;
+        replace = ":le\\U00f3n";
+        with = "\\Ud83e\\Udd81";
+    },
+        {
+        on = 1;
+        replace = ":lion";
+        with = "\\Ud83e\\Udd81";
+    },
+        {
+        on = 1;
+        replace = ":enlaces";
+        with = "\\Ud83d\\Udd17";
+    },
+        {
+        on = 1;
+        replace = ":guitar";
+        with = "\\Ud83c\\Udfb8";
+    },
+        {
+        on = 1;
+        replace = ":unitedkingdom";
+        with = "\\Ud83c\\Uddec\\Ud83c\\Udde7";
+    },
+        {
+        on = 1;
+        replace = ":england";
+        with = "\\Ud83c\\Udff4\\Udb40\\Udc67\\Udb40\\Udc62\\Udb40\\Udc65\\Udb40\\Udc6e\\Udb40\\Udc67\\Udb40\\Udc7f";
+    },
+        {
+        on = 1;
+        replace = ":france";
+        with = "\\Ud83c\\Uddeb\\Ud83c\\Uddf7";
+    },
+        {
+        on = 1;
+        replace = ":espa\\U00f1a";
+        with = "\\Ud83c\\Uddea\\Ud83c\\Uddf8";
+    },
+        {
+        on = 1;
+        replace = ":spain";
+        with = "\\Ud83c\\Uddea\\Ud83c\\Uddf8";
+    },
+        {
+        on = 1;
+        replace = ":usa";
+        with = "\\Ud83c\\Uddfa\\Ud83c\\Uddf8";
+    },
+        {
+        on = 1;
+        replace = ":marcador";
+        with = "\\Ud83d\\Udd16";
+    },
+        {
+        on = 1;
+        replace = ":bookmark";
+        with = "\\Ud83d\\Udd16";
+    },
+        {
+        on = 1;
+        replace = ":caja";
+        with = "\\Ud83d\\Udce6";
+    },
+        {
+        on = 1;
+        replace = ":rojo";
+        with = "\\Ud83d\\Udd34";
+    },
+        {
+        on = 1;
+        replace = ":checkmark";
+        with = "\\U2705";
+    },
+        {
+        on = 1;
+        replace = ":green";
+        with = "\\Ud83d\\Udfe2";
+    },
+        {
+        on = 1;
+        replace = ":amarillo";
+        with = "\\Ud83d\\Udfe1";
+    },
+        {
+        on = 1;
+        replace = ":ongoing";
+        with = "\\Ud83d\\Udfe1";
+    },
+        {
+        on = 1;
+        replace = ":magnifyingglass";
+        with = "\\Ud83d\\Udd0e ";
+    },
+        {
+        on = 1;
+        replace = ":lupa";
+        with = "\\Ud83d\\Udd0e";
+    },
+        {
+        on = 1;
+        replace = ":bolt";
+        with = "\\U26a1\\Ufe0f  ";
+    },
+        {
+        on = 1;
+        replace = tb;
+        with = "tambi\\U00e9n";
+    },
+        {
+        on = 1;
+        replace = ":star";
+        with = "\\U2b50\\Ufe0f ";
+    },
+        {
+        on = 1;
+        replace = ":bus";
+        with = "\\Ud83d\\Ude8c";
+    },
+        {
+        on = 1;
+        replace = ":hola";
+        with = "\\Ud83d\\Udc4b ";
+    },
+        {
+        on = 1;
+        replace = ":greetings";
+        with = "\\Ud83d\\Udc4b";
+    },
+        {
+        on = 1;
+        replace = ":saludo";
+        with = "\\Ud83d\\Udc4b";
+    },
+        {
+        on = 1;
+        replace = ":-/";
+        with = "\\Ud83e\\Udee4 ";
+    },
+        {
+        on = 1;
+        replace = ":/";
+        with = "\\Ud83e\\Udee4";
+    },
+        {
+        on = 1;
+        replace = ":theta";
+        with = "\\Ud835\\Udf03";
+    },
+        {
+        on = 1;
+        replace = ":pi";
+        with = "\\U03c0";
+    },
+        {
+        on = 1;
+        replace = ":biberon";
+        with = "\\Ud83c\\Udf7c ";
+    },
+        {
+        on = 1;
+        replace = ":biber\\U00f3n";
+        with = "\\Ud83c\\Udf7c";
+    },
+        {
+        on = 1;
+        replace = ":beb\\U00e9";
+        with = "\\Ud83d\\Udc76";
+    },
+        {
+        on = 1;
+        replace = ":baby";
+        with = "\\Ud83d\\Udc76";
+    },
+        {
+        on = 1;
+        replace = ":o";
+        with = "\\Ud83d\\Ude2e";
+    },
+        {
+        on = 1;
+        replace = ":network";
+        with = "\\Ud83c\\Udf10";
+    },
+        {
+        on = 1;
+        replace = ";-)";
+        with = "\\Ud83d\\Ude09";
+    },
+        {
+        on = 1;
+        replace = ":ok";
+        with = "\\Ud83d\\Udc4d";
+    },
+        {
+        on = 1;
+        replace = ":checked";
+        with = "\\U2705  ";
+    },
+        {
+        on = 1;
+        replace = ":-)";
+        with = "\\Ud83d\\Ude42";
+    },
+        {
+        on = 1;
+        replace = ":pulgar";
+        with = "\\Ud83d\\Udc4d";
+    },
+        {
+        on = 1;
+        replace = ":design";
+        with = "\\Ud83d\\Udcd0";
+    },
+        {
+        on = 1;
+        replace = ":lulz";
+        with = "\\Ud83e\\Udd23";
+    },
+        {
+        on = 1;
+        replace = ":lol";
+        with = "\\Ud83e\\Udd23";
+    },
+        {
+        on = 1;
+        replace = ":clarity";
+        with = "\\Ud83d\\Udca7";
+    },
+        {
+        on = 1;
+        replace = ":faith";
+        with = "\\Ud83d\\Ude4f";
+    },
+        {
+        on = 1;
+        replace = ":oeil";
+        with = "\\Ud83d\\Udc41\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":yeux";
+        with = "\\Ud83d\\Udc40";
+    },
+        {
+        on = 1;
+        replace = ":eyes";
+        with = "\\Ud83d\\Udc40 ";
+    },
+        {
+        on = 1;
+        replace = ":ojo";
+        with = "\\Ud83d\\Udc41\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":pentagrama";
+        with = "\\Ud83c\\Udfbc";
+    },
+        {
+        on = 1;
+        replace = ":music";
+        with = "\\Ud83c\\Udfb5";
+    },
+        {
+        on = 1;
+        replace = ":panda";
+        with = "\\Ud83d\\Udc3c";
+    },
+        {
+        on = 1;
+        replace = ":bear";
+        with = "\\Ud83d\\Udc3b\\U200d\\U2744\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":basura";
+        with = "\\Ud83d\\Uddd1\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":trash";
+        with = "\\Ud83d\\Uddd1\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":papelera";
+        with = "\\Ud83d\\Uddd1\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":diamond";
+        with = "\\Ud83d\\Udc8e";
+    },
+        {
+        on = 1;
+        replace = ":diamante";
+        with = "\\Ud83d\\Udc8e";
+    },
+        {
+        on = 1;
+        replace = ":adn";
+        with = "\\Ud83e\\Uddec";
+    },
+        {
+        on = 1;
+        replace = ":auth";
+        with = "\\Ud83d\\Udc64";
+    },
+        {
+        on = 1;
+        replace = ":user";
+        with = "\\Ud83d\\Udc64";
+    },
+        {
+        on = 1;
+        replace = ":maps";
+        with = "\\Ud83c\\Udf0e";
+    },
+        {
+        on = 1;
+        replace = ":globe";
+        with = "\\Ud83c\\Udf0e";
+    },
+        {
+        on = 1;
+        replace = ":mundo";
+        with = "\\Ud83c\\Udf0e";
+    },
+        {
+        on = 1;
+        replace = ":malet\\U00edn";
+        with = "\\Ud83d\\Udcbc";
+    },
+        {
+        on = 1;
+        replace = ":portapapeles";
+        with = "\\Ud83d\\Udccb";
+    },
+        {
+        on = 1;
+        replace = ":deporte";
+        with = "\\Ud83c\\Udfcb\\Ufe0f\\U200d\\U2642\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":ejercicio";
+        with = "\\Ud83c\\Udfcb\\Ufe0f\\U200d\\U2642\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":haltero";
+        with = "\\Ud83c\\Udfcb\\Ufe0f\\U200d\\U2642\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":halterofilia";
+        with = "\\Ud83c\\Udfcb\\Ufe0f\\U200d\\U2642\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":pesas";
+        with = "\\Ud83c\\Udfcb\\Ufe0f\\U200d\\U2642\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":health";
+        with = "\\Ud83c\\Udfcb\\Ufe0f\\U200d\\U2642\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":sport";
+        with = "\\Ud83c\\Udfcb\\Ufe0f\\U200d\\U2642\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":concurrency";
+        with = "\\Ud83d\\Udd00";
+    },
+        {
+        on = 1;
+        replace = ":concurrencia";
+        with = "\\Ud83d\\Udd00";
+    },
+        {
+        on = 1;
+        replace = ":poc";
+        with = "\\Ud83d\\Udc68\\U200d\\Ud83d\\Udd2c";
+    },
+        {
+        on = 1;
+        replace = "\\U2014>";
+        with = "\\U2192";
+    },
+        {
+        on = 1;
+        replace = ":duda";
+        with = "\\Ud83e\\Udd14";
+    },
+        {
+        on = 1;
+        replace = ":corredor";
+        with = "\\Ud83c\\Udfc3\\U200d\\U2642\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":bug";
+        with = "\\Ud83d\\Udc1e";
+    },
+        {
+        on = 1;
+        replace = ":oruga";
+        with = "\\Ud83d\\Udc1b";
+    },
+        {
+        on = 1;
+        replace = ":cake";
+        with = "\\Ud83c\\Udf82 ";
+    },
+        {
+        on = 1;
+        replace = ":tarta";
+        with = "\\Ud83c\\Udf82";
+    },
+        {
+        on = 1;
+        replace = ":success";
+        with = "\\Ud83c\\Udf89";
+    },
+        {
+        on = 1;
+        replace = ":notas";
+        with = "\\Ud83d\\Uddd2\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":medalla";
+        with = "\\Ud83c\\Udf96\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":facepalm";
+        with = "\\Ud83e\\Udd26\\U200d\\U2642\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":palmera";
+        with = "\\Ud83c\\Udf34";
+    },
+        {
+        on = 1;
+        replace = ":\\U00e1rbol";
+        with = "\\Ud83c\\Udf33";
+    },
+        {
+        on = 1;
+        replace = ":clock";
+        with = "\\U23f0 ";
+    },
+        {
+        on = 1;
+        replace = ":reloj";
+        with = "\\U23f0";
+    },
+        {
+        on = 1;
+        replace = ":gi";
+        with = "\\Ud83e\\Udd4b ";
+    },
+        {
+        on = 1;
+        replace = ":web";
+        with = "\\Ud83d\\Udd78\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":iphone";
+        with = "\\Ud83d\\Udcf1";
+    },
+        {
+        on = 1;
+        replace = ":referencia";
+        with = "\\Ud83d\\Udd17";
+    },
+        {
+        on = 1;
+        replace = ":enlace";
+        with = "\\Ud83d\\Udd17";
+    },
+        {
+        on = 1;
+        replace = ":link";
+        with = "\\Ud83d\\Udd17";
+    },
+        {
+        on = 1;
+        replace = ":networking";
+        with = "\\Ud83c\\Udf10";
+    },
+        {
+        on = 1;
+        replace = ":thunder";
+        with = "\\U26a1\\Ufe0f  ";
+    },
+        {
+        on = 1;
+        replace = ":rayo";
+        with = "\\U26a1\\Ufe0f ";
+    },
+        {
+        on = 1;
+        replace = ":reactivity";
+        with = "\\U26a1\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":persistency";
+        with = "\\Ud83d\\Udcbe";
+    },
+        {
+        on = 1;
+        replace = ":robot";
+        with = "\\Ud83e\\Udd16";
+    },
+        {
+        on = 1;
+        replace = ":manzana";
+        with = "\\Ud83c\\Udf4e";
+    },
+        {
+        on = 1;
+        replace = ":apple";
+        with = "\\Ud83c\\Udf4e";
+    },
+        {
+        on = 1;
+        replace = ":carrete";
+        with = "\\Ud83c\\Udf9e\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":videos";
+        with = "\\Ud83c\\Udf9e\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":pol\\U00edtica";
+        with = "\\Ud83c\\Udfdb\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":politica";
+        with = "\\Ud83c\\Udfdb\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":politics";
+        with = "\\Ud83c\\Udfdb\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":cerebro";
+        with = "\\Ud83e\\Udde0";
+    },
+        {
+        on = 1;
+        replace = ":brain";
+        with = "\\Ud83e\\Udde0";
+    },
+        {
+        on = 1;
+        replace = ":dev";
+        with = "\\Ud83d\\Udcbb";
+    },
+        {
+        on = 1;
+        replace = ":books";
+        with = "\\Ud83d\\Udcda";
+    },
+        {
+        on = 1;
+        replace = ":salad";
+        with = "\\Ud83e\\Udd57";
+    },
+        {
+        on = 1;
+        replace = ":ensalada";
+        with = "\\Ud83e\\Udd57";
+    },
+        {
+        on = 1;
+        replace = ":ordenador";
+        with = "\\Ud83d\\Udcbb";
+    },
+        {
+        on = 1;
+        replace = ":judo";
+        with = "\\Ud83e\\Udd4b";
+    },
+        {
+        on = 1;
+        replace = ":regla";
+        with = "\\Ud83d\\Udcd0";
+    },
+        {
+        on = 1;
+        replace = ":violin";
+        with = "\\Ud83c\\Udfbb";
+    },
+        {
+        on = 1;
+        replace = ":com";
+        with = "\\Ud83d\\Udde3\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":speak";
+        with = "\\Ud83d\\Udde3\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":strong";
+        with = "\\Ud83d\\Udcaa";
+    },
+        {
+        on = 1;
+        replace = ":arm";
+        with = "\\Ud83d\\Udcaa";
+    },
+        {
+        on = 1;
+        replace = ":teacher";
+        with = "\\Ud83d\\Udc68\\U200d\\Ud83c\\Udfeb";
+    },
+        {
+        on = 1;
+        replace = "@fullname";
+        with = "Cristian Felipe Pati\\U00f1o Rojas ";
+    },
+        {
+        on = 1;
+        replace = "@nombre";
+        with = "Cristian Felipe Pati\\U00f1o Rojas";
+    },
+        {
+        on = 1;
+        replace = ":heart";
+        with = "\\U2764\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":love";
+        with = "\\U2764\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":coraz\\U00f3n";
+        with = "\\U2764\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":amor";
+        with = "\\U2764\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":arte";
+        with = "\\Ud83c\\Udfa8";
+    },
+        {
+        on = 1;
+        replace = ":paleta";
+        with = "\\Ud83c\\Udfa8";
+    },
+        {
+        on = 1;
+        replace = ":dibujo";
+        with = "\\Ud83c\\Udfa8";
+    },
+        {
+        on = 1;
+        replace = ":bolsa";
+        with = "\\Ud83d\\Udcb0";
+    },
+        {
+        on = 1;
+        replace = ":inbox";
+        with = "\\Ud83d\\Udce5";
+    },
+        {
+        on = 1;
+        replace = ":bandeja";
+        with = "\\Ud83d\\Udce5";
+    },
+        {
+        on = 1;
+        replace = ":idea";
+        with = "\\Ud83d\\Udca1";
+    },
+        {
+        on = 1;
+        replace = ":bombilla";
+        with = "\\Ud83d\\Udca1";
+    },
+        {
+        on = 1;
+        replace = ":nope";
+        with = "\\U274c";
+    },
+        {
+        on = 1;
+        replace = ":computador";
+        with = "\\Ud83d\\Udcbb";
+    },
+        {
+        on = 1;
+        replace = ":oral";
+        with = "\\Ud83d\\Udde3\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":hablar";
+        with = "\\Ud83d\\Udde3\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":pluma";
+        with = "\\Ud83d\\Udd8b\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":gorila";
+        with = "\\Ud83e\\Udd8d";
+    },
+        {
+        on = 1;
+        replace = ":gorrino";
+        with = "\\Ud83d\\Udc37";
+    },
+        {
+        on = 1;
+        replace = ":cerdo";
+        with = "\\Ud83d\\Udc37";
+    },
+        {
+        on = 1;
+        replace = ":archivo";
+        with = "\\Ud83d\\Uddc4\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":proyectos";
+        with = "\\Ud83d\\Udee0\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":profesor";
+        with = "\\Ud83d\\Udc68\\U200d\\Ud83c\\Udfeb";
+    },
+        {
+        on = 1;
+        replace = ":formaci\\U00f3n";
+        with = "\\Ud83d\\Udc68\\U200d\\Ud83c\\Udfeb";
+    },
+        {
+        on = 1;
+        replace = ":curso";
+        with = "\\Ud83d\\Udc68\\U200d\\Ud83c\\Udfeb";
+    },
+        {
+        on = 1;
+        replace = ":rezar";
+        with = "\\Ud83d\\Ude4f";
+    },
+        {
+        on = 1;
+        replace = ":gota";
+        with = "\\Ud83d\\Udca7";
+    },
+        {
+        on = 1;
+        replace = ":paloma";
+        with = "\\Ud83d\\Udd4a\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":h\\U00e1bitos";
+        with = "\\Ud83d\\Udcc6";
+    },
+        {
+        on = 1;
+        replace = ":diana";
+        with = "\\Ud83c\\Udfaf";
+    },
+        {
+        on = 1;
+        replace = ":calendario";
+        with = "\\Ud83d\\Udcc6";
+    },
+        {
+        on = 1;
+        replace = ":llave";
+        with = "\\Ud83d\\Udd27";
+    },
+        {
+        on = 1;
+        replace = ":estrella";
+        with = "\\U2b50\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":favoritos";
+        with = "\\U2b50\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = ":bienestar";
+        with = "\\Ud83d\\Ude42";
+    },
+        {
+        on = 1;
+        replace = ":disciplina";
+        with = "\\Ud83e\\Ude96";
+    },
+        {
+        on = 1;
+        replace = ":m\\U00fasica";
+        with = "\\Ud83c\\Udfb5";
+    },
+        {
+        on = 1;
+        replace = ":libros";
+        with = "\\Ud83d\\Udcda";
+    },
+        {
+        on = 1;
+        replace = ":cursos";
+        with = "\\Ud83d\\Udc68\\U200d\\Ud83c\\Udfeb";
+    },
+        {
+        on = 1;
+        replace = ":espiritualidad";
+        with = "\\Ud83d\\Ude4f";
+    },
+        {
+        on = 1;
+        replace = ":desarrollo";
+        with = "\\Ud83d\\Udcbb";
+    },
+        {
+        on = 1;
+        replace = ":claridad";
+        with = "\\Ud83d\\Udca7";
+    },
+        {
+        on = 1;
+        replace = ":dinero";
+        with = "\\Ud83d\\Udcb0";
+    },
+        {
+        on = 1;
+        replace = ":objetivo";
+        with = "\\Ud83c\\Udfaf";
+    },
+        {
+        on = 1;
+        replace = ":proyecto";
+        with = "\\Ud83d\\Udee0\\Ufe0f";
+    },
+        {
+        on = 1;
+        replace = "|-";
+        with = "\\U251c";
+    },
+        {
+        on = 1;
+        replace = "@rib";
+        with = "FR76 1870 7006 4231 7194 7411 133";
+    },
+        {
+        on = 1;
+        replace = "@email";
+        with = "cristian.rojas@live.fr";
+    },
+        {
+        on = 1;
+        replace = "@dni";
+        with = 50349483E;
+    },
+        {
+        on = 1;
+        replace = "@idpe";
+        with = 6875285L;
+    },
+        {
+        on = 1;
+        replace = "@ia";
+        with = "ia-writer://open?path=/Locations/iCloud/referencias/";
+    },
+        {
+        on = 1;
+        replace = "@ss";
+        with = 192049941903120;
+    },
+        {
+        on = 1;
+        replace = "-->";
+        with = "\\U2192";
+    },
+        {
+        on = 1;
+        replace = pq;
+        with = porque;
+    }
+)
