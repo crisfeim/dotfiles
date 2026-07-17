@@ -58,3 +58,10 @@ iterm_link
 
 link "$DOTFILES_DIR/configs/.gitignore_global" "$HOME/.gitignore_global"
 git config --global core.excludesFile "$HOME/.gitignore_global"
+
+# Keyboard / text input settings
+
+defaults write -g NSAutomaticQuoteSubstitutionEnabled -bool false
+defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false
+defaults write -g WebAutomaticSpellingCorrectionEnabled -bool
+defaults write -g NSAutomaticDashSubstitutionEnabled -bool false
