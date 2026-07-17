@@ -66,7 +66,7 @@ defaults write -g NSAutomaticDashSubstitutionEnabled -bool false
 
 
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
-  RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --keep-zshrc --unattended
 fi
 
 link "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"

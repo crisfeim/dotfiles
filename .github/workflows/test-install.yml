@@ -15,7 +15,14 @@ jobs:
       - name: Install dotfiles
         run: |
           curl -fsSL https://raw.githubusercontent.com/crisfeim/dotfiles/${{ github.sha }}/install.sh | bash
-
+      - name: Debug .zshrc state
+        run: |
+          echo "--- ls -la $HOME ---"
+          ls -la "$HOME" | grep zshrc
+          echo "--- oh-my-zsh dir ---"
+          ls -la "$HOME/.oh-my-zsh" 2>&1 | head -5
+          echo "--- file type ---"
+          file "$HOME/.zshrc" 2>&1
       - name: Setup test helpers
         run: |
           cat > /tmp/test-helpers.sh <<'EOF'
