@@ -86,7 +86,9 @@ gregorian() { iina ~/"Music/Music/Media.localized/Music/Benedictine Monks/Unknow
 @() { t @ }
 
 export_replacements() {
-	defaults read -g NSUserDictionaryReplacementItems > ~/dotfiles/configs/replacements.plist
+	defaults export -g /tmp/globalprefs.plist
+	plutil -extract NSUserDictionaryReplacementItems xml1 -o ~/dotfiles/configs/replacements.plist /tmp/globalprefs.plist
+	rm /tmp/globalprefs.plist
 }
 
 import_replacements() {
